@@ -1,6 +1,7 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 import { useTemplateContext } from "../context.js";
 import { colorToHex, resolveVariables } from "../utils.js";
+import { executeAction } from "../executeAction.js";
 export function TextNode({ node, dataContext }) {
     const { theme } = useTemplateContext();
     const baseStyle = {
@@ -37,13 +38,15 @@ export function TextNode({ node, dataContext }) {
         else
             fontWeightStr = "normal";
     }
-    return (_jsx("span", { style: {
-            fontSize,
-            lineHeight: "1.4",
-            fontWeight: fontWeightStr,
-            color: colorToHex(theme, node.color) || "#111827",
-            textAlign: node.textAlign || undefined,
-            ...baseStyle,
-        }, children: resolveVariables(node.value || "", dataContext) }));
+    const style = {
+        fontSize,
+        lineHeight: "1.4",
+        fontWeight: fontWeightStr,
+        color: colorToHex(theme, node.color) || "#111827",
+        textAlign: node.textAlign || undefined,
+        cursor: node.action ? "pointer" : undefined,
+        ...baseStyle,
+    };
+    return (_jsx("span", { style: style, onClick: node.action ? () => executeAction(node.action, dataContext) : undefined, children: resolveVariables(node.value || "", dataContext) }));
 }
 //# sourceMappingURL=TextNode.js.map

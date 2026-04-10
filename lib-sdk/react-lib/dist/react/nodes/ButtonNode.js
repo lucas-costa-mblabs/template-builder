@@ -1,6 +1,7 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 import { useTemplateContext } from "../context.js";
 import { colorToHex, getRadius, resolveVariables } from "../utils.js";
+import { executeAction } from "../executeAction.js";
 export function ButtonNode({ node, dataContext }) {
     const { theme, tracker } = useTemplateContext();
     const post = dataContext?.post;
@@ -37,9 +38,14 @@ export function ButtonNode({ node, dataContext }) {
     };
     const padding = (node.size ? sizes[String(node.size)] : undefined) || sizes.md;
     const handleClick = () => {
+        // Prioridade: usar ComponentAction se definido
+        if (node.action) {
+            executeAction(node.action, dataContext);
+            return;
+        }
+        // Fallback: comportamento legado
         if (post) {
-            const action = node.action || "click-button";
-            tracker.trackEvent(action, {
+            tracker.trackEvent("click-button", {
                 contentId: post.contentId,
                 campaignId: post.campaignId,
                 label: node.label,

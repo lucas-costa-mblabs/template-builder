@@ -1,6 +1,17 @@
 export type SpacingToken = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
 export type BorderRadiusToken = "sm" | "md" | "lg" | "full";
 export type TypographyToken = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
+export type ActionType = "OPEN_URL" | "DEEPLINK" | "UI_ACTION" | "NAVIGATE";
+export interface ActionPayload {
+    url?: string;
+    deeplink?: string;
+    actionName?: string;
+    target?: string;
+}
+export interface ComponentAction {
+    type: ActionType;
+    payload: ActionPayload;
+}
 export interface Theme {
     colors: Record<string, string>;
     spacing: Record<SpacingToken, string>;
@@ -38,7 +49,7 @@ export interface Post {
     template?: string;
     [key: string]: unknown;
 }
-export type ComponentType = "container" | "text" | "media" | "divider" | "button" | "price" | "icon" | "post_interactions" | "html";
+export type ComponentType = "container" | "text" | "media" | "divider" | "button" | "price" | "icon" | "post_interactions" | "html" | "avatar" | "header";
 export interface ComponentNode {
     id: string;
     type: ComponentType;
@@ -83,9 +94,22 @@ export interface ComponentNode {
     showLike?: boolean;
     showSave?: boolean;
     showShare?: boolean;
+    onLike?: ComponentAction;
+    onSave?: ComponentAction;
+    onShare?: ComponentAction;
     icon?: string;
     padding?: string;
     thickness?: "thin" | "medium" | "thick" | string;
+    action?: ComponentAction;
+    imageUrl?: string;
+    title?: string;
+    onProfilePress?: ComponentAction;
+    menuItems?: Array<{
+        icon: string;
+        text: string;
+        action: ComponentAction;
+    }>;
+    html?: string;
     [key: string]: unknown;
 }
 export interface DirectoAiTemplate {

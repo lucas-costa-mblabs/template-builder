@@ -2,6 +2,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState } from "react";
 import { useTemplateContext } from "../context.js";
 import { tokenToPx } from "../utils.js";
+import { executeAction } from "../executeAction.js";
 import { Heart, Bookmark, Share2 } from "lucide-react";
 export function PostInteractionsNode({ node, dataContext, }) {
     const { theme, tracker } = useTemplateContext();
@@ -16,6 +17,12 @@ export function PostInteractionsNode({ node, dataContext, }) {
     const iconSize = 24;
     const iconStrokeWidth = 1.5;
     const handleLike = async () => {
+        if (node.onLike) {
+            executeAction(node.onLike, dataContext);
+            setIsLiked(!isLiked);
+            return;
+        }
+        // Fallback: tracker
         if (!post)
             return;
         const newLiked = !isLiked;
@@ -23,6 +30,12 @@ export function PostInteractionsNode({ node, dataContext, }) {
         await tracker.toggleLike(post.contentId, post.campaignId);
     };
     const handleFavorite = async () => {
+        if (node.onSave) {
+            executeAction(node.onSave, dataContext);
+            setIsFavorited(!isFavorited);
+            return;
+        }
+        // Fallback: tracker
         if (!post)
             return;
         const newFavorited = !isFavorited;
@@ -30,6 +43,11 @@ export function PostInteractionsNode({ node, dataContext, }) {
         await tracker.toggleFavorite(post.contentId, post.campaignId, isFavorited);
     };
     const handleShare = async () => {
+        if (node.onShare) {
+            executeAction(node.onShare, dataContext);
+            return;
+        }
+        // Fallback: tracker
         if (!post)
             return;
         await tracker.shareContent(post.contentId, post.campaignId, post.title);

@@ -1,5 +1,6 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 import { resolveVariables } from "../utils.js";
+import { executeAction } from "../executeAction.js";
 export function MediaNode({ node, dataContext }) {
     const url = resolveVariables(node.url, dataContext)?.trim();
     if (!url)
@@ -13,8 +14,9 @@ export function MediaNode({ node, dataContext }) {
             height: node.height || "auto",
             display: "flex",
             overflow: "hidden",
+            cursor: node.action ? "pointer" : undefined,
             ...baseStyle,
-        }, children: _jsx("img", { src: url, alt: resolveVariables(node.alt || "image", dataContext), style: {
+        }, onClick: node.action ? () => executeAction(node.action, dataContext) : undefined, children: _jsx("img", { src: url, alt: resolveVariables(node.alt || "image", dataContext), style: {
                 width: "100%",
                 height: "100%",
                 objectFit: node.objectFit || "cover",

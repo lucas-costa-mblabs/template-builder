@@ -1,8 +1,9 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 import { useTemplateContext } from "../context.js";
 import { tokenToPx, getRadius, colorToHex } from "../utils.js";
+import { executeAction } from "../executeAction.js";
 import { ShoppingBag, Sparkles } from "lucide-react";
-export function IconNode({ node }) {
+export function IconNode({ node, dataContext }) {
     const { theme } = useTemplateContext();
     const baseStyle = {
         flex: node.flex || undefined,
@@ -18,7 +19,8 @@ export function IconNode({ node }) {
             backgroundColor: colorToHex(theme, node.backgroundColor) || "transparent",
             padding: p,
             borderRadius: getRadius(theme, node.borderRadius) || "0",
+            cursor: node.action ? "pointer" : undefined,
             ...baseStyle,
-        }, children: _jsx(IconComponent, { size: size, color: color, strokeWidth: 1.5 }) }));
+        }, onClick: node.action ? () => executeAction(node.action, dataContext) : undefined, children: _jsx(IconComponent, { size: size, color: color, strokeWidth: 1.5 }) }));
 }
 //# sourceMappingURL=IconNode.js.map

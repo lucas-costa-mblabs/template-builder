@@ -1,6 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useTemplateContext } from "../context.js";
 import { tokenToPx, resolveVariables } from "../utils.js";
+import { executeAction } from "../executeAction.js";
 export function PriceNode({ node, dataContext }) {
     const { theme } = useTemplateContext();
     const baseStyle = {
@@ -13,8 +14,9 @@ export function PriceNode({ node, dataContext }) {
             flexDirection: "column",
             gap: "2px",
             padding: `${py} ${px}`,
+            cursor: node.action ? "pointer" : undefined,
             ...baseStyle,
-        }, children: [_jsxs("div", { style: { display: "flex", alignItems: "center", gap: "6px" }, children: [node.showOriginalPrice !== false && node.originalPrice && (_jsx("span", { style: {
+        }, onClick: node.action ? () => executeAction(node.action, dataContext) : undefined, children: [_jsxs("div", { style: { display: "flex", alignItems: "center", gap: "6px" }, children: [node.showOriginalPrice !== false && node.originalPrice && (_jsx("span", { style: {
                             fontSize: "12px",
                             color: "#94a3b8",
                             textDecoration: "line-through",

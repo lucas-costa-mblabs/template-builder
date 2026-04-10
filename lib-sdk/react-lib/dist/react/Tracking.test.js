@@ -18,6 +18,7 @@ const mockConfig = {
 };
 const mockPost = {
     id: "post_1",
+    contentId: "post_1",
     templateId: "tpl_1",
     title: "Test Post",
     campaignId: "camp_1",
@@ -25,7 +26,12 @@ const mockPost = {
 const mockTemplate = {
     id: "tpl_1",
     template: [
-        { id: "b1", type: "button", label: "Buy Now", action: "click-buy" },
+        {
+            id: "b1",
+            type: "button",
+            label: "Buy Now",
+            deeplink: "https://example.com",
+        },
         { id: "i1", type: "post_interactions", showLike: true },
     ],
 };
@@ -51,7 +57,7 @@ describe("Tracking & Observability", () => {
             }, children: _jsx(ButtonNode, { node: mockTemplate.template[0], dataContext: { post: mockPost } }) }));
         const button = screen.getByText("Buy Now");
         fireEvent.click(button);
-        expect(mockTracker.trackEvent).toHaveBeenCalledWith("click-buy", expect.objectContaining({
+        expect(mockTracker.trackEvent).toHaveBeenCalledWith("click-button", expect.objectContaining({
             contentId: "post_1",
             campaignId: "camp_1",
         }));
