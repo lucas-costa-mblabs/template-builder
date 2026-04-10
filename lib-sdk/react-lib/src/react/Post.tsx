@@ -110,12 +110,14 @@ export function Post({ post }: PostProps) {
   }
 
   const blocks = template.data as ComponentNode[];
+  const customVars = (post as any).customVariables || {};
   const dataContext: Record<string, unknown> = {
     post: {
       ...post,
+      profile: (post as any).profile || customVars.profile || {},
       shop: post.shop || {
-        name: post.profile?.accountName || "",
-        avatar: post.profile?.iconUrl || "",
+        name: customVars.profile?.accountName || "",
+        avatar: customVars.profile?.iconUrl || "",
       },
     },
   };

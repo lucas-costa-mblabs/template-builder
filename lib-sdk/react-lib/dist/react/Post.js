@@ -77,12 +77,14 @@ export function Post({ post }) {
             }, children: ["Template n\u00E3o encontrado: ", post.templateId || "ID ausente"] }));
     }
     const blocks = template.data;
+    const customVars = post.customVariables || {};
     const dataContext = {
         post: {
             ...post,
+            profile: post.profile || customVars.profile || {},
             shop: post.shop || {
-                name: post.profile?.accountName || "",
-                avatar: post.profile?.iconUrl || "",
+                name: customVars.profile?.accountName || "",
+                avatar: customVars.profile?.iconUrl || "",
             },
         },
     };

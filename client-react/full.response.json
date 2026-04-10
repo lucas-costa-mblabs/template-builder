@@ -3,30 +3,30 @@
     {
       "clientId": "EC278A38901287B2771A13739520384D43E4B078F78AFFE702DEF108774CCE24",
       "ean": "",
-      "title": "Danone Garrafão Edição Especial Sabor Morango",
-      "legend": "Apresentando o novo garrafão de Danone Edição Especial sabor morango! Uma escolha deliciosa e consciente para você e o planeta, reforçando a filosofia 'One Planet. One Health'. Deslize para saber mais sobre essa novidade.",
-      "url": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/01f602d5-ee3d-406f-81a1-2b9c48bfad4b.jpeg",
-      "destinationUrl": "",
-      "contentType": "image",
-      "campaignId": "c9a5a8f1-3f97-4e92-b5c0-3c21cf51abbb",
-      "contentId": "87f6f098-c07c-4de9-b5d2-cf2ddb66dc98",
-      "templateId": "b202bb77-274e-4ba4-a113-c8e50dff2ab5",
+      "title": "Novo Veja Desinfetante Power Action Multissuperfícies",
+      "legend": "O Novo Veja Desinfetante Power Action oferece limpeza imbatível e poderosa desinfecção em um só produto, eliminando 99,9% das bactérias, vírus e fungos, incluindo o vírus da Covid-19. Ideal para uso em diversas superfícies da casa, como tecidos, pisos, paredes, utensílios e objetos.",
+      "url": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/d60d595d-3a35-4287-85cf-245337e77478.jpg",
+      "destinationUrl": "tete",
+      "contentType": "d2c-image",
+      "campaignId": "0926efa3-791d-4087-b216-80a9bb17143c",
+      "contentId": "00bc6443-d807-4b9a-b5c4-507c7c8df44e",
+      "templateId": "ea83c9e0-abe4-422c-95d8-270e1a59d233",
       "textOne": "",
       "textTwo": "",
-      "category": "BEBIDAS_BEBIDAS NÃO ALCOÓLICAS_BEBIDAS LÁCTEAS",
-      "brand": "Danone",
+      "category": "LIMPEZA DA CASA_DESINFETANTES_LIMPADORES DE USO GERAL",
+      "brand": "Veja",
       "sponsored": true,
       "originalPrice": null,
       "proportion": null,
       "price": null,
       "discount": null,
-      "finalScore": -36.69469888252329,
+      "finalScore": -28.06951571756391,
       "randomScore": 0,
       "liked": false,
       "favorite": false,
       "isFollower": false,
       "qualifiers": null,
-      "template": "<div\n  class=\"w-[358px] bg-white relative overflow-hidden rounded-lg shadow-sm\"\n>\n  {{ $height := \"h-[358px]\" }} {{ if eq .CustomVariables.proportion \"1:1\" }} {{\n  $height = \"h-[358px]\" }} {{ else if eq .CustomVariables.proportion \"3:4\" }} {{\n  $height = \"h-[477px]\" }} {{ else if eq .CustomVariables.proportion \"9:16\" }}\n  {{ $height = \"h-[636px]\" }} {{ else if eq .CustomVariables.proportion \"21:9\"\n  }} {{ $height = \"h-[153px]\" }} {{ else }} {{ $height = \"max-h-[636px]\" }} {{ end }}\n\n  <div class=\"card-header flex justify-between items-center px-4 py-2\">\n    <div class=\"flex items-center gap-2\" onclick=\"observerOpenAbout(event)\">\n      <div\n        class=\"w-[36px] h-[36px] bg-[#F5F5F7] rounded-full flex items-center justify-center border border-gray-100\" >\n        <img\n          src=\"{{.CustomVariables.profile.iconUrl}}\"\n          class=\"w-full h-full rounded-full object-cover\" alt=\"logo\"\n          onerror=\"this.style.display='none'; this.nextElementSibling.style.display='flex';\"\n        />\n        <div\n          class=\"w-full h-full rounded-full bg-gray-200 flex items-center justify-center\"\n          style=\"display: none\"\n        >\n          <span class=\"text-gray-700 font-bold text-lg\"\n            >{{ safeSlice .CustomVariables.profile.accountName 0 1 }}\n          </span>\n        </div>\n      </div>\n      <div class=\"flex flex-col\">\n        <p class=\"font-semibold text-md\">\n          {{.CustomVariables.profile.accountName}}\n        </p>\n        {{if .Sponsored}}\n        <small class=\"text-xs text-gray-400 italic\">Patrocinado</small>\n        {{end}}\n      </div>\n    </div>\n     <div class=\"flex items-center gap-2\">\n      <span class=\"follower-icon\">\n        {{if .CustomVariables.isFollower}}\n        <i class=\"ph ph-user-circle-check text-zinc-500 text-xl\"></i>\n        {{end}}\n      </span>\n      <div\n        class=\"header-options\"\n        role=\"button\"\n        aria-haspopup=\"menu\"\n        aria-label=\"Abrir opções\"\n        data-header-options\n        onclick=\"observerHeaderOptions(event)\"\n      >\n        <i class=\"ph ph-dots-three-vertical text-zinc-500 text-2xl font-bold\"></i>\n      </div>\n    </div>\n  </div>\n\n  <div\n    class=\"flex flex-col w-full relative {{ $height }} overflow-hidden border-t border-b border-[#F5F5F7]\"\n    onclick=\"onClickCard()\"\n  >\n    <img \n      src=\"{{.ImageURL}}\" \n      alt=\"\" \n      class=\"w-full h-auto bg-no-repeat bg-center bg-cover object-contain\" \n      style=\"max-height: 636px;\" \n    />\n  </div>\n\n  <div class=\"card-footer flex flex-col w-full min-h-[101px] p-2 gap-3\">\n    <div class=\"flex justify-between items-center\">\n      <div class=\"flex items-center gap-2\">\n        <div class=\"flex items-center gap-1\">\n          {{if .Liked}}\n          <i\n            class=\"ph-fill ph-heart text-red-500 text-2xl cursor-pointer like-icon is-liked\"\n            onclick=\"observerClickLike()\"\n          ></i>\n          {{else}}\n          <i\n            class=\"ph ph-heart text-zinc-500 text-2xl cursor-pointer like-icon\"\n            onclick=\"observerClickLike()\"\n          ></i>\n          {{end}} {{if .LikeCount}}\n          <span class=\"text-zinc-500 text-sm like-count\">{{.LikeCount}}</span>\n          {{end}}\n        </div>\n        <div class=\"flex items-center gap-1\">\n          {{if .Favorite}}\n          <i\n            class=\"ph-fill ph-bookmark-simple text-gray-700 text-2xl cursor-pointer favorite-icon is-favorited\"\n            onclick=\"observerClickFavorite()\"\n          ></i>\n          {{else}}\n          <i\n            class=\"ph ph-bookmark-simple text-zinc-500 text-2xl cursor-pointer favorite-icon\"\n            onclick=\"observerClickFavorite()\"\n          ></i>\n          {{end}}\n        </div>\n      </div>\n      <div>\n        <i\n          class=\"ph ph-share-network text-zinc-500 text-2xl cursor-pointer share-icon\"\n          onclick=\"observerClickShare()\"\n        ></i>\n      </div>\n    </div>\n\n    <div class=\"font-legend\">\n      <p class=\"text-left font-bold text-[16px]\">{{.Title}}</p>\n      {{ if .Caption }}\n      <span id=\"less-info\" class=\"text-left text-[14px]\">\n        {{ if gt (len .Caption) 100 }} {{ slice .Caption 0 100 }}...\n        <a onclick=\"observerSeeMoreClick()\" class=\"font-bold\"> Ver mais </a> {{\n        else }} {{ .Caption }} {{ end }}\n      </span>\n      <span id=\"more-info\" class=\"text-left text-[14px]\" style=\"display: none\">\n        {{ .Caption }}\n        <a onclick=\"observerSeeLessClick()\" class=\"font-bold\"> Ver menos </a>\n      </span>\n      {{ end }}\n    </div>\n  </div>\n</div>",
+      "template": "<div class=\"w-[358px] bg-white relative overflow-hidden rounded-lg shadow-sm\">\n     \n\n  <div class=\"card-header flex justify-between items-center px-4 py-2\">\n    <div class=\"flex items-center gap-2\" onclick=\"observerOpenAbout(event)\">\n      <div\n        class=\"w-[36px] h-[36px] bg-[#F5F5F7] rounded-full flex items-center justify-center border border-gray-100\"\n      >\n        <img\n          src=\"https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/2d3f8429-0099-4427-91f7-a2c8373784d0.jpg\"\n          class=\"w-full h-full rounded-full object-cover\"\n          alt=\"logo\"\n          onerror=\"this.style.display='none'; this.nextElementSibling.style.display='flex';\"\n        />\n        <div\n          class=\"w-full h-full rounded-full bg-gray-200 flex items-center justify-center\"\n          style=\"display: none\"\n        >\n          <span class=\"text-gray-700 font-bold text-lg\"\n            >S</span\n          >\n        </div>\n      </div>\n      <div class=\"flex flex-col\">\n        <p class=\"font-semibold text-md\">\n          Super Zeus\n        </p>\n        \n        <small class=\"text-xs text-gray-400 italic\">Patrocinado</small>\n        \n      </div>\n    </div>\n    <div class=\"flex items-center gap-2\">\n      <span class=\"follower-icon\">\n        \n      </span>\n      <div\n        class=\"header-options\"\n        role=\"button\"\n        aria-haspopup=\"menu\"\n        aria-label=\"Abrir opções\"\n        data-header-options\n        onclick=\"observerHeaderOptions(event)\"\n      >\n        <i\n          class=\"ph ph-dots-three-vertical text-zinc-500 text-2xl font-bold\"\n        ></i>\n      </div>\n    </div>\n  </div>\n  <div\n    class=\"flex flex-col w-full relative max-h-[636px] overflow-hidden border-t  border-[#F5F5F7]\"\n  >\n    <img\n      src=\"https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/d60d595d-3a35-4287-85cf-245337e77478.jpg\"\n      alt=\"\"\n      class=\"w-full h-auto bg-no-repeat bg-center bg-cover object-contain\"\n      style=\"max-height: 636px\"\n      onclick=\"observerRedirect()\"\n    />\n  </div>\n  <div\n    class=\"w-full bg-black bg-opacity-70 text-white text-center py-2\"\n    style=\"cursor: pointer\"\n    onclick=\"observerRedirect() \"\n  >\n    <span class=\"text-sm font-bold\">Saiba Mais</span>\n  </div>\n  <div\n    class=\"card-footer flex-col w-full min-h-[101px] p-2 gap-3\"\n    onclick=\"onClickCard() \"\n  >\n    <div class=\"flex justify-between items-center\">\n      <div class=\"flex items-center gap-2\">\n        <div class=\"flex items-center gap-1\">\n          \n          <i\n            class=\"ph ph-heart text-zinc-500 text-2xl cursor-pointer like-icon\"\n            onclick=\"observerClickLike()\"\n          ></i>\n           \n        </div>\n        <div class=\"flex items-center gap-1\">\n          \n          <i\n            class=\"ph ph-bookmark-simple text-zinc-500 text-2xl cursor-pointer favorite-icon\"\n            onclick=\"observerClickFavorite()\"\n          ></i>\n          \n        </div>\n      </div>\n      <div>\n        <i\n          class=\"ph ph-share-network text-zinc-500 text-2xl cursor-pointer share-icon\"\n          onclick=\"observerClickShare()\"\n        ></i>\n      </div>\n    </div>\n    <div class=\"font-legend\">\n      <p class=\"text-left font-bold text-[16px]\">Novo Veja Desinfetante Power Action Multissuperfícies</p>\n      \n      <span id=\"less-info\" class=\"text-left text-[14px]\">\n         O Novo Veja Desinfetante Power Action oferece limpeza imbatível e poderosa desinfecção em um só ...\n        <a onclick=\"observerSeeMoreClick()\" class=\"font-bold\"> Ver mais </a> \n      </span>\n      <span id=\"more-info\" class=\"text-left text-[14px]\" style=\"display: none\">\n        O Novo Veja Desinfetante Power Action oferece limpeza imbatível e poderosa desinfecção em um só produto, eliminando 99,9% das bactérias, vírus e fungos, incluindo o vírus da Covid-19. Ideal para uso em diversas superfícies da casa, como tecidos, pisos, paredes, utensílios e objetos.\n        <a onclick=\"observerSeeLessClick()\" class=\"font-bold\"> Ver menos </a>\n      </span>\n      \n    </div>\n  </div>\n</div>\n ",
       "scores": {
         "popularity": 0,
         "recency": 0,
@@ -34,18 +34,19 @@
       },
       "customVariables": {
         "isFollower": false,
+        "originalScore": -34.65372310810359,
         "profile": {
           "accountName": "Super Zeus",
           "description": "Super Zeus",
-          "iconUrl": ""
+          "iconUrl": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/2d3f8429-0099-4427-91f7-a2c8373784d0.jpg"
         },
         "proportion": "",
         "scores": {
-          "Bid": 5,
+          "Bid": 58.5,
           "Frequency": 100,
           "Popularity": 0,
-          "Random": 64.63207023191525,
-          "Recency": 83.70477406336674,
+          "Random": 66.25079979732665,
+          "Recency": 0,
           "Relevance": 0
         }
       },
@@ -56,169 +57,18 @@
     {
       "clientId": "EC278A38901287B2771A13739520384D43E4B078F78AFFE702DEF108774CCE24",
       "ean": "",
-      "title": "Desinfetante Veja Power Action",
-      "legend": "Novo desinfetante Veja Power Action oferece limpeza imbatível com poderosa desinfecção em um só produto, eliminando 99,9% das bactérias, vírus e fungos, incluindo o vírus da COVID-19. Ideal para uso em toda a casa e diversas superfícies como tecidos, pisos, paredes, utensílios e objetos.",
-      "url": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/4fb4f4df-72d7-445c-a3f1-01cbc40be630.jpg",
+      "title": "Kit Luva de Boxe Venum",
+      "legend": "Kit completo da marca Venum, ideal para praticantes de boxe e muay thai, incluindo luvas, bandagens e protetor bucal em preto.",
+      "url": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/04/079dc362-0192-49c7-97b3-3c950c56c260.jpg",
       "destinationUrl": "",
       "contentType": "image",
       "campaignId": "",
-      "contentId": "75787d8a-9082-4c8b-9a17-f2c10508377e",
-      "templateId": "b202bb77-274e-4ba4-a113-c8e50dff2ab5",
+      "contentId": "76f15fa1-4269-4688-82a4-e8ab42bfa856",
+      "templateId": "579a144f-936f-4d93-a937-5c04fccf7d63",
       "textOne": "",
       "textTwo": "",
-      "category": "LIMPEZA_LIMPEZA DA CASA_DESINFETANTES_LIMPADORES DE USO GERAL_UTENSÍLIOS PARA LIMPEZA DA CASA",
-      "brand": "VEJA",
-      "sponsored": false,
-      "originalPrice": null,
-      "proportion": null,
-      "price": null,
-      "discount": null,
-      "finalScore": 0,
-      "randomScore": 0,
-      "liked": false,
-      "favorite": false,
-      "isFollower": false,
-      "qualifiers": null,
-      "template": "<div\n  class=\"w-[358px] bg-white relative overflow-hidden rounded-lg shadow-sm\"\n>\n  {{ $height := \"h-[358px]\" }} {{ if eq .CustomVariables.proportion \"1:1\" }} {{\n  $height = \"h-[358px]\" }} {{ else if eq .CustomVariables.proportion \"3:4\" }} {{\n  $height = \"h-[477px]\" }} {{ else if eq .CustomVariables.proportion \"9:16\" }}\n  {{ $height = \"h-[636px]\" }} {{ else if eq .CustomVariables.proportion \"21:9\"\n  }} {{ $height = \"h-[153px]\" }} {{ else }} {{ $height = \"max-h-[636px]\" }} {{ end }}\n\n  <div class=\"card-header flex justify-between items-center px-4 py-2\">\n    <div class=\"flex items-center gap-2\" onclick=\"observerOpenAbout(event)\">\n      <div\n        class=\"w-[36px] h-[36px] bg-[#F5F5F7] rounded-full flex items-center justify-center border border-gray-100\" >\n        <img\n          src=\"{{.CustomVariables.profile.iconUrl}}\"\n          class=\"w-full h-full rounded-full object-cover\" alt=\"logo\"\n          onerror=\"this.style.display='none'; this.nextElementSibling.style.display='flex';\"\n        />\n        <div\n          class=\"w-full h-full rounded-full bg-gray-200 flex items-center justify-center\"\n          style=\"display: none\"\n        >\n          <span class=\"text-gray-700 font-bold text-lg\"\n            >{{ safeSlice .CustomVariables.profile.accountName 0 1 }}\n          </span>\n        </div>\n      </div>\n      <div class=\"flex flex-col\">\n        <p class=\"font-semibold text-md\">\n          {{.CustomVariables.profile.accountName}}\n        </p>\n        {{if .Sponsored}}\n        <small class=\"text-xs text-gray-400 italic\">Patrocinado</small>\n        {{end}}\n      </div>\n    </div>\n     <div class=\"flex items-center gap-2\">\n      <span class=\"follower-icon\">\n        {{if .CustomVariables.isFollower}}\n        <i class=\"ph ph-user-circle-check text-zinc-500 text-xl\"></i>\n        {{end}}\n      </span>\n      <div\n        class=\"header-options\"\n        role=\"button\"\n        aria-haspopup=\"menu\"\n        aria-label=\"Abrir opções\"\n        data-header-options\n        onclick=\"observerHeaderOptions(event)\"\n      >\n        <i class=\"ph ph-dots-three-vertical text-zinc-500 text-2xl font-bold\"></i>\n      </div>\n    </div>\n  </div>\n\n  <div\n    class=\"flex flex-col w-full relative {{ $height }} overflow-hidden border-t border-b border-[#F5F5F7]\"\n    onclick=\"onClickCard()\"\n  >\n    <img \n      src=\"{{.ImageURL}}\" \n      alt=\"\" \n      class=\"w-full h-auto bg-no-repeat bg-center bg-cover object-contain\" \n      style=\"max-height: 636px;\" \n    />\n  </div>\n\n  <div class=\"card-footer flex flex-col w-full min-h-[101px] p-2 gap-3\">\n    <div class=\"flex justify-between items-center\">\n      <div class=\"flex items-center gap-2\">\n        <div class=\"flex items-center gap-1\">\n          {{if .Liked}}\n          <i\n            class=\"ph-fill ph-heart text-red-500 text-2xl cursor-pointer like-icon is-liked\"\n            onclick=\"observerClickLike()\"\n          ></i>\n          {{else}}\n          <i\n            class=\"ph ph-heart text-zinc-500 text-2xl cursor-pointer like-icon\"\n            onclick=\"observerClickLike()\"\n          ></i>\n          {{end}} {{if .LikeCount}}\n          <span class=\"text-zinc-500 text-sm like-count\">{{.LikeCount}}</span>\n          {{end}}\n        </div>\n        <div class=\"flex items-center gap-1\">\n          {{if .Favorite}}\n          <i\n            class=\"ph-fill ph-bookmark-simple text-gray-700 text-2xl cursor-pointer favorite-icon is-favorited\"\n            onclick=\"observerClickFavorite()\"\n          ></i>\n          {{else}}\n          <i\n            class=\"ph ph-bookmark-simple text-zinc-500 text-2xl cursor-pointer favorite-icon\"\n            onclick=\"observerClickFavorite()\"\n          ></i>\n          {{end}}\n        </div>\n      </div>\n      <div>\n        <i\n          class=\"ph ph-share-network text-zinc-500 text-2xl cursor-pointer share-icon\"\n          onclick=\"observerClickShare()\"\n        ></i>\n      </div>\n    </div>\n\n    <div class=\"font-legend\">\n      <p class=\"text-left font-bold text-[16px]\">{{.Title}}</p>\n      {{ if .Caption }}\n      <span id=\"less-info\" class=\"text-left text-[14px]\">\n        {{ if gt (len .Caption) 100 }} {{ slice .Caption 0 100 }}...\n        <a onclick=\"observerSeeMoreClick()\" class=\"font-bold\"> Ver mais </a> {{\n        else }} {{ .Caption }} {{ end }}\n      </span>\n      <span id=\"more-info\" class=\"text-left text-[14px]\" style=\"display: none\">\n        {{ .Caption }}\n        <a onclick=\"observerSeeLessClick()\" class=\"font-bold\"> Ver menos </a>\n      </span>\n      {{ end }}\n    </div>\n  </div>\n</div>",
-      "scores": {
-        "popularity": 0,
-        "recency": 0,
-        "relevance": 0
-      },
-      "customVariables": {
-        "isFollower": false,
-        "profile": {
-          "accountName": "Super Zeus",
-          "description": "Super Zeus",
-          "iconUrl": ""
-        },
-        "proportion": ""
-      },
-      "likeCount": 0,
-      "accountId": "0b455c19-e389-4a7f-b83c-ef0cf7286ecb",
-      "contentStatus": "FEED_ACTIVE"
-    },
-    {
-      "clientId": "EC278A38901287B2771A13739520384D43E4B078F78AFFE702DEF108774CCE24",
-      "ean": "7898024396529",
-      "title": "Nutella",
-      "legend": "",
-      "url": "https://zeus.crescevendas.com/system/discount_images/files/000/046/098/thumb/discount_image_4fd6e0d79ec4c417.jpeg",
-      "destinationUrl": "",
-      "contentType": "offer",
-      "campaignId": "",
-      "contentId": "66471",
-      "templateId": "1e75f4f6-2629-4be0-ab4b-d2f2aa2eba7d",
-      "textOne": "",
-      "textTwo": "",
-      "category": "",
+      "category": "ARTIGOS ESPORTIVOS_ESPORTE E LAZER",
       "brand": "",
-      "sponsored": false,
-      "originalPrice": null,
-      "proportion": null,
-      "price": "41,00",
-      "discount": null,
-      "finalScore": 0,
-      "randomScore": 0,
-      "liked": false,
-      "favorite": false,
-      "isFollower": false,
-      "qualifiers": null,
-      "template": "",
-      "scores": {
-        "popularity": 0,
-        "recency": 0,
-        "relevance": 0
-      },
-      "customVariables": {
-        "actionUrl": "",
-        "html": "<div style=\"font-family:Arial,sans-serif;max-width:400px;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.15);background:#fff;margin:8px;\">\n  <div style=\"position:relative;\">\n    <img src=\"https://zeus.crescevendas.com/system/discount_images/files/000/046/098/thumb/discount_image_4fd6e0d79ec4c417.jpeg\" style=\"width:100%;height:180px;object-fit:cover;\" />\n    \n  </div>\n  <div style=\"padding:16px;\">\n    <p style=\"margin:0 0 10px;font-size:16px;font-weight:bold;color:#333;\">Nutella</p>\n    <div>\n  <span style='font-size:13px;color:#999;text-decoration:line-through;'>R$ 49.99</span>\n  <span style='font-size:20px;font-weight:bold;color:#e74c3c;margin-left:4px;'>R$ 41.94</span>\n  \n</div>\n\n    <p style=\"margin:12px 0 0;font-size:11px;color:#999;\">\n      06/03/2026 até 06/04/2026\n    </p>\n  </div>\n</div>\n",
-        "isFollower": false,
-        "price": {
-          "discount_percentage": "16,10",
-          "price": "41,00",
-          "price_suggested": "49,99"
-        },
-        "profile": {
-          "iconUrl": "",
-          "accountName": "Super Zeus",
-          "description": "Super Zeus"
-        },
-        "showActionButton": false,
-        "slug": "cvd:content_type=1:discount_type=1:promotion_type=4:checkin=false"
-      },
-      "likeCount": 0,
-      "accountId": "0b455c19-e389-4a7f-b83c-ef0cf7286ecb",
-      "contentStatus": ""
-    },
-    {
-      "clientId": "EC278A38901287B2771A13739520384D43E4B078F78AFFE702DEF108774CCE24",
-      "ean": "",
-      "title": "Desinfetante Veja Power Action",
-      "legend": "Novo desinfetante Veja Power Action oferece limpeza imbatível com poderosa desinfecção em um só produto, eliminando 99,9% das bactérias, vírus e fungos, incluindo o vírus da COVID-19. Ideal para uso em toda a casa e diversas superfícies como tecidos, pisos, paredes, utensílios e objetos.",
-      "url": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/4fb4f4df-72d7-445c-a3f1-01cbc40be630.jpg",
-      "destinationUrl": "",
-      "contentType": "image",
-      "campaignId": "cb724a73-67b3-46c7-9e09-a78ed5d858f1",
-      "contentId": "75787d8a-9082-4c8b-9a17-f2c10508377e",
-      "templateId": "b202bb77-274e-4ba4-a113-c8e50dff2ab5",
-      "textOne": "",
-      "textTwo": "",
-      "category": "LIMPEZA_LIMPEZA DA CASA_DESINFETANTES_LIMPADORES DE USO GERAL_UTENSÍLIOS PARA LIMPEZA DA CASA",
-      "brand": "VEJA",
-      "sponsored": true,
-      "originalPrice": null,
-      "proportion": null,
-      "price": null,
-      "discount": null,
-      "finalScore": -38.355206142680245,
-      "randomScore": 0,
-      "liked": false,
-      "favorite": false,
-      "isFollower": false,
-      "qualifiers": null,
-      "template": "<div\n  class=\"w-[358px] bg-white relative overflow-hidden rounded-lg shadow-sm\"\n>\n  {{ $height := \"h-[358px]\" }} {{ if eq .CustomVariables.proportion \"1:1\" }} {{\n  $height = \"h-[358px]\" }} {{ else if eq .CustomVariables.proportion \"3:4\" }} {{\n  $height = \"h-[477px]\" }} {{ else if eq .CustomVariables.proportion \"9:16\" }}\n  {{ $height = \"h-[636px]\" }} {{ else if eq .CustomVariables.proportion \"21:9\"\n  }} {{ $height = \"h-[153px]\" }} {{ else }} {{ $height = \"max-h-[636px]\" }} {{ end }}\n\n  <div class=\"card-header flex justify-between items-center px-4 py-2\">\n    <div class=\"flex items-center gap-2\" onclick=\"observerOpenAbout(event)\">\n      <div\n        class=\"w-[36px] h-[36px] bg-[#F5F5F7] rounded-full flex items-center justify-center border border-gray-100\" >\n        <img\n          src=\"{{.CustomVariables.profile.iconUrl}}\"\n          class=\"w-full h-full rounded-full object-cover\" alt=\"logo\"\n          onerror=\"this.style.display='none'; this.nextElementSibling.style.display='flex';\"\n        />\n        <div\n          class=\"w-full h-full rounded-full bg-gray-200 flex items-center justify-center\"\n          style=\"display: none\"\n        >\n          <span class=\"text-gray-700 font-bold text-lg\"\n            >{{ safeSlice .CustomVariables.profile.accountName 0 1 }}\n          </span>\n        </div>\n      </div>\n      <div class=\"flex flex-col\">\n        <p class=\"font-semibold text-md\">\n          {{.CustomVariables.profile.accountName}}\n        </p>\n        {{if .Sponsored}}\n        <small class=\"text-xs text-gray-400 italic\">Patrocinado</small>\n        {{end}}\n      </div>\n    </div>\n     <div class=\"flex items-center gap-2\">\n      <span class=\"follower-icon\">\n        {{if .CustomVariables.isFollower}}\n        <i class=\"ph ph-user-circle-check text-zinc-500 text-xl\"></i>\n        {{end}}\n      </span>\n      <div\n        class=\"header-options\"\n        role=\"button\"\n        aria-haspopup=\"menu\"\n        aria-label=\"Abrir opções\"\n        data-header-options\n        onclick=\"observerHeaderOptions(event)\"\n      >\n        <i class=\"ph ph-dots-three-vertical text-zinc-500 text-2xl font-bold\"></i>\n      </div>\n    </div>\n  </div>\n\n  <div\n    class=\"flex flex-col w-full relative {{ $height }} overflow-hidden border-t border-b border-[#F5F5F7]\"\n    onclick=\"onClickCard()\"\n  >\n    <img \n      src=\"{{.ImageURL}}\" \n      alt=\"\" \n      class=\"w-full h-auto bg-no-repeat bg-center bg-cover object-contain\" \n      style=\"max-height: 636px;\" \n    />\n  </div>\n\n  <div class=\"card-footer flex flex-col w-full min-h-[101px] p-2 gap-3\">\n    <div class=\"flex justify-between items-center\">\n      <div class=\"flex items-center gap-2\">\n        <div class=\"flex items-center gap-1\">\n          {{if .Liked}}\n          <i\n            class=\"ph-fill ph-heart text-red-500 text-2xl cursor-pointer like-icon is-liked\"\n            onclick=\"observerClickLike()\"\n          ></i>\n          {{else}}\n          <i\n            class=\"ph ph-heart text-zinc-500 text-2xl cursor-pointer like-icon\"\n            onclick=\"observerClickLike()\"\n          ></i>\n          {{end}} {{if .LikeCount}}\n          <span class=\"text-zinc-500 text-sm like-count\">{{.LikeCount}}</span>\n          {{end}}\n        </div>\n        <div class=\"flex items-center gap-1\">\n          {{if .Favorite}}\n          <i\n            class=\"ph-fill ph-bookmark-simple text-gray-700 text-2xl cursor-pointer favorite-icon is-favorited\"\n            onclick=\"observerClickFavorite()\"\n          ></i>\n          {{else}}\n          <i\n            class=\"ph ph-bookmark-simple text-zinc-500 text-2xl cursor-pointer favorite-icon\"\n            onclick=\"observerClickFavorite()\"\n          ></i>\n          {{end}}\n        </div>\n      </div>\n      <div>\n        <i\n          class=\"ph ph-share-network text-zinc-500 text-2xl cursor-pointer share-icon\"\n          onclick=\"observerClickShare()\"\n        ></i>\n      </div>\n    </div>\n\n    <div class=\"font-legend\">\n      <p class=\"text-left font-bold text-[16px]\">{{.Title}}</p>\n      {{ if .Caption }}\n      <span id=\"less-info\" class=\"text-left text-[14px]\">\n        {{ if gt (len .Caption) 100 }} {{ slice .Caption 0 100 }}...\n        <a onclick=\"observerSeeMoreClick()\" class=\"font-bold\"> Ver mais </a> {{\n        else }} {{ .Caption }} {{ end }}\n      </span>\n      <span id=\"more-info\" class=\"text-left text-[14px]\" style=\"display: none\">\n        {{ .Caption }}\n        <a onclick=\"observerSeeLessClick()\" class=\"font-bold\"> Ver menos </a>\n      </span>\n      {{ end }}\n    </div>\n  </div>\n</div>",
-      "scores": {
-        "popularity": 0,
-        "recency": 0,
-        "relevance": 0
-      },
-      "customVariables": {
-        "isFollower": false,
-        "profile": {
-          "accountName": "Super Zeus",
-          "description": "Super Zeus",
-          "iconUrl": ""
-        },
-        "proportion": "",
-        "scores": {
-          "Bid": 5,
-          "Frequency": 100,
-          "Popularity": 0,
-          "Random": 46.53326372512932,
-          "Recency": 98.31579269489815,
-          "Relevance": 0
-        }
-      },
-      "likeCount": 0,
-      "accountId": "0b455c19-e389-4a7f-b83c-ef0cf7286ecb",
-      "contentStatus": "FEED_ACTIVE"
-    },
-    {
-      "clientId": "EC278A38901287B2771A13739520384D43E4B078F78AFFE702DEF108774CCE24",
-      "ean": "",
-      "title": "Danone Garrafão Edição Especial Sabor Morango",
-      "legend": "Apresentando o novo garrafão de Danone Edição Especial sabor morango! Uma escolha deliciosa e consciente para você e o planeta, reforçando a filosofia 'One Planet. One Health'. Deslize para saber mais sobre essa novidade.",
-      "url": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/01f602d5-ee3d-406f-81a1-2b9c48bfad4b.jpeg",
-      "destinationUrl": "",
-      "contentType": "image",
-      "campaignId": "",
-      "contentId": "87f6f098-c07c-4de9-b5d2-cf2ddb66dc98",
-      "templateId": "b202bb77-274e-4ba4-a113-c8e50dff2ab5",
-      "textOne": "",
-      "textTwo": "",
-      "category": "BEBIDAS_BEBIDAS NÃO ALCOÓLICAS_BEBIDAS LÁCTEAS",
-      "brand": "Danone",
       "sponsored": false,
       "originalPrice": null,
       "proportion": null,
@@ -230,7 +80,7 @@
       "favorite": true,
       "isFollower": false,
       "qualifiers": null,
-      "template": "<div\n  class=\"w-[358px] bg-white relative overflow-hidden rounded-lg shadow-sm\"\n>\n  {{ $height := \"h-[358px]\" }} {{ if eq .CustomVariables.proportion \"1:1\" }} {{\n  $height = \"h-[358px]\" }} {{ else if eq .CustomVariables.proportion \"3:4\" }} {{\n  $height = \"h-[477px]\" }} {{ else if eq .CustomVariables.proportion \"9:16\" }}\n  {{ $height = \"h-[636px]\" }} {{ else if eq .CustomVariables.proportion \"21:9\"\n  }} {{ $height = \"h-[153px]\" }} {{ else }} {{ $height = \"max-h-[636px]\" }} {{ end }}\n\n  <div class=\"card-header flex justify-between items-center px-4 py-2\">\n    <div class=\"flex items-center gap-2\" onclick=\"observerOpenAbout(event)\">\n      <div\n        class=\"w-[36px] h-[36px] bg-[#F5F5F7] rounded-full flex items-center justify-center border border-gray-100\" >\n        <img\n          src=\"{{.CustomVariables.profile.iconUrl}}\"\n          class=\"w-full h-full rounded-full object-cover\" alt=\"logo\"\n          onerror=\"this.style.display='none'; this.nextElementSibling.style.display='flex';\"\n        />\n        <div\n          class=\"w-full h-full rounded-full bg-gray-200 flex items-center justify-center\"\n          style=\"display: none\"\n        >\n          <span class=\"text-gray-700 font-bold text-lg\"\n            >{{ safeSlice .CustomVariables.profile.accountName 0 1 }}\n          </span>\n        </div>\n      </div>\n      <div class=\"flex flex-col\">\n        <p class=\"font-semibold text-md\">\n          {{.CustomVariables.profile.accountName}}\n        </p>\n        {{if .Sponsored}}\n        <small class=\"text-xs text-gray-400 italic\">Patrocinado</small>\n        {{end}}\n      </div>\n    </div>\n     <div class=\"flex items-center gap-2\">\n      <span class=\"follower-icon\">\n        {{if .CustomVariables.isFollower}}\n        <i class=\"ph ph-user-circle-check text-zinc-500 text-xl\"></i>\n        {{end}}\n      </span>\n      <div\n        class=\"header-options\"\n        role=\"button\"\n        aria-haspopup=\"menu\"\n        aria-label=\"Abrir opções\"\n        data-header-options\n        onclick=\"observerHeaderOptions(event)\"\n      >\n        <i class=\"ph ph-dots-three-vertical text-zinc-500 text-2xl font-bold\"></i>\n      </div>\n    </div>\n  </div>\n\n  <div\n    class=\"flex flex-col w-full relative {{ $height }} overflow-hidden border-t border-b border-[#F5F5F7]\"\n    onclick=\"onClickCard()\"\n  >\n    <img \n      src=\"{{.ImageURL}}\" \n      alt=\"\" \n      class=\"w-full h-auto bg-no-repeat bg-center bg-cover object-contain\" \n      style=\"max-height: 636px;\" \n    />\n  </div>\n\n  <div class=\"card-footer flex flex-col w-full min-h-[101px] p-2 gap-3\">\n    <div class=\"flex justify-between items-center\">\n      <div class=\"flex items-center gap-2\">\n        <div class=\"flex items-center gap-1\">\n          {{if .Liked}}\n          <i\n            class=\"ph-fill ph-heart text-red-500 text-2xl cursor-pointer like-icon is-liked\"\n            onclick=\"observerClickLike()\"\n          ></i>\n          {{else}}\n          <i\n            class=\"ph ph-heart text-zinc-500 text-2xl cursor-pointer like-icon\"\n            onclick=\"observerClickLike()\"\n          ></i>\n          {{end}} {{if .LikeCount}}\n          <span class=\"text-zinc-500 text-sm like-count\">{{.LikeCount}}</span>\n          {{end}}\n        </div>\n        <div class=\"flex items-center gap-1\">\n          {{if .Favorite}}\n          <i\n            class=\"ph-fill ph-bookmark-simple text-gray-700 text-2xl cursor-pointer favorite-icon is-favorited\"\n            onclick=\"observerClickFavorite()\"\n          ></i>\n          {{else}}\n          <i\n            class=\"ph ph-bookmark-simple text-zinc-500 text-2xl cursor-pointer favorite-icon\"\n            onclick=\"observerClickFavorite()\"\n          ></i>\n          {{end}}\n        </div>\n      </div>\n      <div>\n        <i\n          class=\"ph ph-share-network text-zinc-500 text-2xl cursor-pointer share-icon\"\n          onclick=\"observerClickShare()\"\n        ></i>\n      </div>\n    </div>\n\n    <div class=\"font-legend\">\n      <p class=\"text-left font-bold text-[16px]\">{{.Title}}</p>\n      {{ if .Caption }}\n      <span id=\"less-info\" class=\"text-left text-[14px]\">\n        {{ if gt (len .Caption) 100 }} {{ slice .Caption 0 100 }}...\n        <a onclick=\"observerSeeMoreClick()\" class=\"font-bold\"> Ver mais </a> {{\n        else }} {{ .Caption }} {{ end }}\n      </span>\n      <span id=\"more-info\" class=\"text-left text-[14px]\" style=\"display: none\">\n        {{ .Caption }}\n        <a onclick=\"observerSeeLessClick()\" class=\"font-bold\"> Ver menos </a>\n      </span>\n      {{ end }}\n    </div>\n  </div>\n</div>",
+      "template": "",
       "scores": {
         "popularity": 0,
         "recency": 0,
@@ -241,7 +91,7 @@
         "profile": {
           "accountName": "Super Zeus",
           "description": "Super Zeus",
-          "iconUrl": ""
+          "iconUrl": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/2d3f8429-0099-4427-91f7-a2c8373784d0.jpg"
         },
         "proportion": ""
       },
@@ -251,76 +101,77 @@
     },
     {
       "clientId": "EC278A38901287B2771A13739520384D43E4B078F78AFFE702DEF108774CCE24",
-      "ean": "7897077837317",
-      "title": "Cobertura Top Gotas 1,01kg Branco",
-      "legend": "",
-      "url": "https://zeus.crescevendas.com/system/discount_images/files/000/046/142/thumb/discount_image_2b73922f7ca2c4c0.png",
+      "ean": "",
+      "title": "Barilla apresenta: Lasanha Barilla - Um convite para estar junto.",
+      "legend": "Barilla Lasanha: um convite para estar junto.",
+      "url": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/hls/2026/03/cd478639-c164-4117-88bf-1925e4d0d34c/cd478639-c164-4117-88bf-1925e4d0d34c.m3u8",
       "destinationUrl": "",
-      "contentType": "offer",
-      "campaignId": "",
-      "contentId": "66517",
-      "templateId": "1e75f4f6-2629-4be0-ab4b-d2f2aa2eba7d",
+      "contentType": "video",
+      "campaignId": "0926efa3-791d-4087-b216-80a9bb17143c",
+      "contentId": "317945cf-2e15-4bcc-89e6-7cce38acd15e",
+      "templateId": "221e96a8-edbc-46a0-b203-53514ba7f64c",
       "textOne": "",
       "textTwo": "",
-      "category": "",
-      "brand": "",
-      "sponsored": false,
+      "category": "MERCEARIA SECA_MERCEARIA SECA SALGADA_MASSAS_MASSAS COM OVOS",
+      "brand": "Barilla",
+      "sponsored": true,
       "originalPrice": null,
       "proportion": null,
-      "price": "39,00",
+      "price": null,
       "discount": null,
-      "finalScore": 0,
+      "finalScore": -31.086238991546477,
       "randomScore": 0,
       "liked": false,
       "favorite": false,
       "isFollower": false,
       "qualifiers": null,
-      "template": "",
+      "template": "<div class=\"w-[358px] bg-white relative overflow-hidden rounded-lg shadow-sm\">\n     \n\n  <div class=\"card-header flex justify-between items-center px-4 py-2\">\n    <div class=\"flex items-center gap-2\" onclick=\"observerOpenAbout(event)\">\n      <div\n        class=\"w-[36px] h-[36px] bg-[#F5F5F7] rounded-full flex items-center justify-center border border-gray-100\"\n      >\n        <img\n          src=\"https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/2d3f8429-0099-4427-91f7-a2c8373784d0.jpg\"\n          class=\"w-full h-full rounded-full object-cover\"\n          alt=\"logo\"\n          onerror=\"this.style.display='none'; this.nextElementSibling.style.display='flex';\"\n        />\n        <div\n          class=\"w-full h-full rounded-full bg-gray-200 flex items-center justify-center\"\n          style=\"display: none\"\n        >\n          <span class=\"text-gray-700 font-bold text-lg\"\n            >S\n          </span>\n        </div>\n      </div>\n      <div class=\"flex flex-col\">\n        <div class=\"flex items-center gap-3\">\n          <p class=\"font-semibold text-md\">\n            Super Zeus\n          </p>\n        </div>\n        \n        <small class=\"text-xs text-gray-400 italic\">Patrocinado</small>\n        \n      </div>\n    </div>\n     <div class=\"flex items-center gap-2\">\n      <span class=\"follower-icon\">\n        \n      </span>\n      <div\n        class=\"header-options\"\n        role=\"button\"\n        aria-haspopup=\"menu\"\n        aria-label=\"Abrir opções\"\n        data-header-options\n        onclick=\"observerHeaderOptions(event)\"\n      >\n        <i class=\"ph ph-dots-three-vertical text-zinc-500 text-2xl font-bold\"></i>\n      </div>\n    </div>\n  </div>\n\n  <div\n    class=\"flex flex-col w-full relative bg-black video-card h-[636px] overflow-hidden border-t border-b border-[#F5F5F7]\"\n    data-action=\"card-click\"\n  >\n    <video\n      class=\"video-player video-js vjs-default-skin w-full h-auto object-cover\"\n      preload=\"metadata\"\n      data-video-url=\"https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/hls/2026/03/cd478639-c164-4117-88bf-1925e4d0d34c/cd478639-c164-4117-88bf-1925e4d0d34c.m3u8\"\n      data-content-type=\"video\"\n      playsinline\n      muted\n      style=\"max-height: 636px\"\n    ></video>\n\n    <div\n      class=\"video-overlay-container absolute inset-0 flex items-center justify-center pointer-events-none\"\n    >\n      <div class=\"video-overlay-controls flex gap-4 pointer-events-auto\">\n        <div\n          class=\"overlay-button play-pause-btn bg-black bg-opacity-50 text-white p-3 rounded-full cursor-pointer\"\n        >\n          <i class=\"ph ph-play text-xl\"></i>\n          <i class=\"ph ph-pause text-xl\"></i>\n        </div>\n        <div\n          class=\"overlay-button mute-btn bg-black bg-opacity-50 text-white p-3 rounded-full cursor-pointer\"\n          data-action=\"mute-toggle\"\n        >\n          <i class=\"ph ph-speaker-high text-xl\"></i>\n          <i class=\"ph ph-speaker-slash text-xl\"></i>\n        </div>\n      </div>\n    </div>\n  </div>\n  \n  <div class=\"card-footer flex flex-col w-full min-h-[101px] p-2 gap-3\">\n    <div class=\"flex justify-between items-center\">\n      <div class=\"flex items-center gap-2\">\n        <div class=\"flex items-center gap-1\">\n          \n          <i\n            class=\"ph ph-heart text-zinc-500 text-2xl cursor-pointer like-icon\"\n            onclick=\"observerClickLike()\"\n          ></i>\n          \n        </div>\n        <div class=\"flex items-center gap-1\">\n          \n          <i\n            class=\"ph ph-bookmark-simple text-zinc-500 text-2xl cursor-pointer favorite-icon\"\n            onclick=\"observerClickFavorite()\"\n          ></i>\n          \n        </div>\n      </div>\n      <div>\n        <i\n          class=\"ph ph-share-network text-zinc-500 text-2xl cursor-pointer share-icon\"\n          onclick=\"observerClickShare()\"\n        ></i>\n      </div>\n    </div>\n    <div class=\"font-legend\">\n      <p class=\"text-left font-bold text-[16px]\">Barilla apresenta: Lasanha Barilla - Um convite para estar junto.</p>\n      \n      <span id=\"less-info\" class=\"text-left text-[14px]\">\n         Barilla Lasanha: um convite para estar junto. \n      </span>\n      <span id=\"more-info\" class=\"text-left text-[14px]\" style=\"display: none\">\n        Barilla Lasanha: um convite para estar junto.\n        <a onclick=\"observerSeeLessClick()\" class=\"font-bold\"> Ver menos </a>\n      </span>\n      \n    </div>\n  </div>\n</div>",
       "scores": {
         "popularity": 0,
         "recency": 0,
         "relevance": 0
       },
       "customVariables": {
-        "actionUrl": "",
-        "html": "<div style=\"font-family:Arial,sans-serif;max-width:400px;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.15);background:#fff;margin:8px;\">\n  <div style=\"position:relative;\">\n    <img src=\"https://zeus.crescevendas.com/system/discount_images/files/000/046/142/thumb/discount_image_2b73922f7ca2c4c0.png\" style=\"width:100%;height:180px;object-fit:cover;\" />\n    \n  </div>\n  <div style=\"padding:16px;\">\n    <p style=\"margin:0 0 10px;font-size:16px;font-weight:bold;color:#333;\">Cobertura Top Gotas 1,01kg Branco</p>\n    <div>\n  <span style='font-size:13px;color:#999;text-decoration:line-through;'>R$ 40.49</span>\n  <span style='font-size:20px;font-weight:bold;color:#e74c3c;margin-left:4px;'>R$ 39.05</span>\n  \n</div>\n\n    <p style=\"margin:12px 0 0;font-size:11px;color:#999;\">\n      03/03/2026 até 06/04/2026\n    </p>\n  </div>\n</div>\n",
         "isFollower": false,
-        "price": {
-          "discount_percentage": "3,56",
-          "price": "39,00",
-          "price_suggested": "40,49"
-        },
+        "originalScore": -34.54026554616275,
         "profile": {
-          "iconUrl": "",
           "accountName": "Super Zeus",
-          "description": "Super Zeus"
+          "description": "Super Zeus",
+          "iconUrl": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/2d3f8429-0099-4427-91f7-a2c8373784d0.jpg"
         },
-        "showActionButton": false,
-        "slug": "cvd:content_type=1:discount_type=1:promotion_type=4:checkin=false"
+        "proportion": "",
+        "scores": {
+          "Bid": 58.5,
+          "Frequency": 100,
+          "Popularity": 0,
+          "Random": 66.98827394994213,
+          "Recency": 0,
+          "Relevance": 0
+        }
       },
       "likeCount": 0,
       "accountId": "0b455c19-e389-4a7f-b83c-ef0cf7286ecb",
-      "contentStatus": ""
+      "contentStatus": "FEED_ACTIVE"
     },
     {
       "clientId": "EC278A38901287B2771A13739520384D43E4B078F78AFFE702DEF108774CCE24",
-      "ean": "7891030300306",
-      "title": "Mistura Creme Culinario 200gr",
-      "legend": "",
-      "url": "https://zeus.crescevendas.com/system/discount_images/files/000/046/154/thumb/RackMultipart20260303-6958-1pkzr9h.PNG",
+      "ean": "",
+      "title": "Raquete de Tênis Babolat Pure Aero",
+      "legend": "Raquete de tênis Babolat Pure Aero, conhecida por sua combinação de potência e spin, com um design marcante em preto, amarelo neon e detalhes em branco, ideal para jogadores que buscam desempenho e controle.",
+      "url": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/04/2345d04e-6224-4b1a-9663-265bc7fe3bb1.jpg",
       "destinationUrl": "",
-      "contentType": "offer",
+      "contentType": "image",
       "campaignId": "",
-      "contentId": "66529",
-      "templateId": "6fcab32d-6af1-4054-b4fd-89f5b59113b8",
+      "contentId": "d41e9c18-9935-4d1b-b11b-bda651e2de15",
+      "templateId": "template-1774286543810",
       "textOne": "",
       "textTwo": "",
-      "category": "",
-      "brand": "",
+      "category": "ARTIGOS ESPORTIVOS_ESPORTE E LAZER",
+      "brand": "Babolat",
       "sponsored": false,
       "originalPrice": null,
       "proportion": null,
-      "price": "2,00",
+      "price": null,
       "discount": null,
       "finalScore": 0,
       "randomScore": 0,
@@ -328,105 +179,97 @@
       "favorite": false,
       "isFollower": false,
       "qualifiers": null,
-      "template": "",
+      "template": "<div\n  class=\"w-[358px] bg-white relative overflow-hidden rounded-lg shadow-sm\"\n>\n     \n\n  <div class=\"card-header flex justify-between items-center px-4 py-2\">\n    <div class=\"flex items-center gap-2\" onclick=\"observerOpenAbout(event)\">\n      <div\n        class=\"w-[36px] h-[36px] bg-[#F5F5F7] rounded-full flex items-center justify-center border border-gray-100\" >\n        <img\n          src=\"https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/2d3f8429-0099-4427-91f7-a2c8373784d0.jpg\"\n          class=\"w-full h-full rounded-full object-cover\" alt=\"logo\"\n          onerror=\"this.style.display='none'; this.nextElementSibling.style.display='flex';\"\n        />\n        <div\n          class=\"w-full h-full rounded-full bg-gray-200 flex items-center justify-center\"\n          style=\"display: none\"\n        >\n          <span class=\"text-gray-700 font-bold text-lg\"\n            >S\n          </span>\n        </div>\n      </div>\n      <div class=\"flex flex-col\">\n        <p class=\"font-semibold text-md\">\n          Super Zeus\n        </p>\n        \n      </div>\n    </div>\n     <div class=\"flex items-center gap-2\">\n      <span class=\"follower-icon\">\n        \n      </span>\n      <div\n        class=\"header-options\"\n        role=\"button\"\n        aria-haspopup=\"menu\"\n        aria-label=\"Abrir opções\"\n        data-header-options\n        onclick=\"observerHeaderOptions(event)\"\n      >\n        <i class=\"ph ph-dots-three-vertical text-zinc-500 text-2xl font-bold\"></i>\n      </div>\n    </div>\n  </div>\n\n  <div\n    class=\"flex flex-col w-full relative max-h-[636px] overflow-hidden border-t border-b border-[#F5F5F7]\"\n    onclick=\"onClickCard()\"\n  >\n    <img \n      src=\"https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/04/2345d04e-6224-4b1a-9663-265bc7fe3bb1.jpg\" \n      alt=\"\" \n      class=\"w-full h-auto bg-no-repeat bg-center bg-cover object-contain\" \n      style=\"max-height: 636px;\" \n    />\n  </div>\n\n  <div class=\"card-footer flex flex-col w-full min-h-[101px] p-2 gap-3\">\n    <div class=\"flex justify-between items-center\">\n      <div class=\"flex items-center gap-2\">\n        <div class=\"flex items-center gap-1\">\n          \n          <i\n            class=\"ph ph-heart text-zinc-500 text-2xl cursor-pointer like-icon\"\n            onclick=\"observerClickLike()\"\n          ></i>\n           \n        </div>\n        <div class=\"flex items-center gap-1\">\n          \n          <i\n            class=\"ph ph-bookmark-simple text-zinc-500 text-2xl cursor-pointer favorite-icon\"\n            onclick=\"observerClickFavorite()\"\n          ></i>\n          \n        </div>\n      </div>\n      <div>\n        <i\n          class=\"ph ph-share-network text-zinc-500 text-2xl cursor-pointer share-icon\"\n          onclick=\"observerClickShare()\"\n        ></i>\n      </div>\n    </div>\n\n    <div class=\"font-legend\">\n      <p class=\"text-left font-bold text-[16px]\">Raquete de Tênis Babolat Pure Aero</p>\n      \n      <span id=\"less-info\" class=\"text-left text-[14px]\">\n         Raquete de tênis Babolat Pure Aero, conhecida por sua combinação de potência e spin, com um desi...\n        <a onclick=\"observerSeeMoreClick()\" class=\"font-bold\"> Ver mais </a> \n      </span>\n      <span id=\"more-info\" class=\"text-left text-[14px]\" style=\"display: none\">\n        Raquete de tênis Babolat Pure Aero, conhecida por sua combinação de potência e spin, com um design marcante em preto, amarelo neon e detalhes em branco, ideal para jogadores que buscam desempenho e controle.\n        <a onclick=\"observerSeeLessClick()\" class=\"font-bold\"> Ver menos </a>\n      </span>\n      \n    </div>\n  </div>\n</div>",
       "scores": {
         "popularity": 0,
         "recency": 0,
         "relevance": 0
       },
       "customVariables": {
-        "actionUrl": "",
-        "html": "<div style=\"font-family:Arial,sans-serif;max-width:400px;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.15);background:#fff;margin:8px;\">\n  <div style=\"position:relative;\">\n    <img src=\"https://zeus.crescevendas.com/system/discount_images/files/000/046/154/thumb/RackMultipart20260303-6958-1pkzr9h.PNG\" style=\"width:100%;height:180px;object-fit:cover;\" />\n    \n  </div>\n  <div style=\"padding:16px;\">\n    <p style=\"margin:0 0 10px;font-size:16px;font-weight:bold;color:#333;\">Mistura Creme Culinario 200gr</p>\n    <div>\n  <span style='font-size:13px;color:#999;text-decoration:line-through;'>R$ 2.49</span>\n  <span style='font-size:20px;font-weight:bold;color:#e74c3c;margin-left:4px;'>R$ 2.29</span>\n  \n</div>\n\n    <p style=\"margin:12px 0 0;font-size:11px;color:#999;\">\n      27/02/2026 até 06/04/2026\n    </p>\n  </div>\n</div>\n",
         "isFollower": false,
-        "price": {
-          "discount_percentage": "8,03",
-          "price": "2,00",
-          "price_suggested": "2,49"
-        },
         "profile": {
-          "iconUrl": "",
           "accountName": "Super Zeus",
-          "description": "Super Zeus"
+          "description": "Super Zeus",
+          "iconUrl": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/2d3f8429-0099-4427-91f7-a2c8373784d0.jpg"
         },
-        "showActionButton": false,
-        "slug": "cvd:content_type=1:discount_type=1:promotion_type=1:checkin=false"
+        "proportion": ""
       },
       "likeCount": 0,
       "accountId": "0b455c19-e389-4a7f-b83c-ef0cf7286ecb",
-      "contentStatus": ""
+      "contentStatus": "FEED_ACTIVE"
     },
     {
       "clientId": "EC278A38901287B2771A13739520384D43E4B078F78AFFE702DEF108774CCE24",
-      "ean": "7898603985571",
-      "title": "Kit Pote Com Tampa Retangular 500ml 10un",
-      "legend": "",
-      "url": "https://zeus.crescevendas.com/system/discount_images/files/000/046/155/thumb/RackMultipart20260303-6958-18dbdaz.PNG",
+      "ean": "",
+      "title": "Desinfetante Veja Power Action",
+      "legend": "Novo desinfetante Veja Power Action oferece limpeza imbatível com poderosa desinfecção em um só produto, eliminando 99,9% das bactérias, vírus e fungos, incluindo o vírus da COVID-19. Ideal para uso em toda a casa e diversas superfícies como tecidos, pisos, paredes, utensílios e objetos.",
+      "url": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/4fb4f4df-72d7-445c-a3f1-01cbc40be630.jpg",
       "destinationUrl": "",
-      "contentType": "offer",
-      "campaignId": "",
-      "contentId": "66530",
-      "templateId": "6fcab32d-6af1-4054-b4fd-89f5b59113b8",
+      "contentType": "image",
+      "campaignId": "0926efa3-791d-4087-b216-80a9bb17143c",
+      "contentId": "75787d8a-9082-4c8b-9a17-f2c10508377e",
+      "templateId": "b202bb77-274e-4ba4-a113-c8e50dff2ab5",
       "textOne": "",
       "textTwo": "",
-      "category": "",
-      "brand": "",
-      "sponsored": false,
+      "category": "LIMPEZA_LIMPEZA DA CASA_DESINFETANTES_LIMPADORES DE USO GERAL_UTENSÍLIOS PARA LIMPEZA DA CASA",
+      "brand": "VEJA",
+      "sponsored": true,
       "originalPrice": null,
       "proportion": null,
-      "price": "6,00",
+      "price": null,
       "discount": null,
-      "finalScore": 0,
+      "finalScore": -32.74620262266677,
       "randomScore": 0,
       "liked": false,
       "favorite": false,
       "isFollower": false,
       "qualifiers": null,
-      "template": "",
+      "template": "<div\n  class=\"w-[358px] bg-white relative overflow-hidden rounded-lg shadow-sm\"\n>\n     \n\n  <div class=\"card-header flex justify-between items-center px-4 py-2\">\n    <div class=\"flex items-center gap-2\" onclick=\"observerOpenAbout(event)\">\n      <div\n        class=\"w-[36px] h-[36px] bg-[#F5F5F7] rounded-full flex items-center justify-center border border-gray-100\" >\n        <img\n          src=\"https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/2d3f8429-0099-4427-91f7-a2c8373784d0.jpg\"\n          class=\"w-full h-full rounded-full object-cover\" alt=\"logo\"\n          onerror=\"this.style.display='none'; this.nextElementSibling.style.display='flex';\"\n        />\n        <div\n          class=\"w-full h-full rounded-full bg-gray-200 flex items-center justify-center\"\n          style=\"display: none\"\n        >\n          <span class=\"text-gray-700 font-bold text-lg\"\n            >S\n          </span>\n        </div>\n      </div>\n      <div class=\"flex flex-col\">\n        <p class=\"font-semibold text-md\">\n          Super Zeus\n        </p>\n        \n        <small class=\"text-xs text-gray-400 italic\">Patrocinado</small>\n        \n      </div>\n    </div>\n     <div class=\"flex items-center gap-2\">\n      <span class=\"follower-icon\">\n        \n      </span>\n      <div\n        class=\"header-options\"\n        role=\"button\"\n        aria-haspopup=\"menu\"\n        aria-label=\"Abrir opções\"\n        data-header-options\n        onclick=\"observerHeaderOptions(event)\"\n      >\n        <i class=\"ph ph-dots-three-vertical text-zinc-500 text-2xl font-bold\"></i>\n      </div>\n    </div>\n  </div>\n\n  <div\n    class=\"flex flex-col w-full relative max-h-[636px] overflow-hidden border-t border-b border-[#F5F5F7]\"\n    onclick=\"onClickCard()\"\n  >\n    <img \n      src=\"https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/4fb4f4df-72d7-445c-a3f1-01cbc40be630.jpg\" \n      alt=\"\" \n      class=\"w-full h-auto bg-no-repeat bg-center bg-cover object-contain\" \n      style=\"max-height: 636px;\" \n    />\n  </div>\n\n  <div class=\"card-footer flex flex-col w-full min-h-[101px] p-2 gap-3\">\n    <div class=\"flex justify-between items-center\">\n      <div class=\"flex items-center gap-2\">\n        <div class=\"flex items-center gap-1\">\n          \n          <i\n            class=\"ph ph-heart text-zinc-500 text-2xl cursor-pointer like-icon\"\n            onclick=\"observerClickLike()\"\n          ></i>\n           \n        </div>\n        <div class=\"flex items-center gap-1\">\n          \n          <i\n            class=\"ph ph-bookmark-simple text-zinc-500 text-2xl cursor-pointer favorite-icon\"\n            onclick=\"observerClickFavorite()\"\n          ></i>\n          \n        </div>\n      </div>\n      <div>\n        <i\n          class=\"ph ph-share-network text-zinc-500 text-2xl cursor-pointer share-icon\"\n          onclick=\"observerClickShare()\"\n        ></i>\n      </div>\n    </div>\n\n    <div class=\"font-legend\">\n      <p class=\"text-left font-bold text-[16px]\">Desinfetante Veja Power Action</p>\n      \n      <span id=\"less-info\" class=\"text-left text-[14px]\">\n         \n          Novo desinfetante Veja Power Action oferece limpeza imbatível com poderosa desinfecção em um só ...<a onclick=\"observerSeeMoreClick()\" class=\"font-bold\"> Ver mais </a> \n        \n      </span>\n      \n    </div>\n  </div>\n</div>",
       "scores": {
         "popularity": 0,
         "recency": 0,
         "relevance": 0
       },
       "customVariables": {
-        "actionUrl": "",
-        "html": "<div style=\"font-family:Arial,sans-serif;max-width:400px;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.15);background:#fff;margin:8px;\">\n  <div style=\"position:relative;\">\n    <img src=\"https://zeus.crescevendas.com/system/discount_images/files/000/046/155/thumb/RackMultipart20260303-6958-18dbdaz.PNG\" style=\"width:100%;height:180px;object-fit:cover;\" />\n    \n  </div>\n  <div style=\"padding:16px;\">\n    <p style=\"margin:0 0 10px;font-size:16px;font-weight:bold;color:#333;\">Kit Pote Com Tampa Retangular 500ml 10un</p>\n    <div>\n  <span style='font-size:13px;color:#999;text-decoration:line-through;'>R$ 7.39</span>\n  <span style='font-size:20px;font-weight:bold;color:#e74c3c;margin-left:4px;'>R$ 6.79</span>\n  \n</div>\n\n    <p style=\"margin:12px 0 0;font-size:11px;color:#999;\">\n      27/02/2026 até 06/04/2026\n    </p>\n  </div>\n</div>\n",
         "isFollower": false,
-        "price": {
-          "discount_percentage": "8,12",
-          "price": "6,00",
-          "price_suggested": "7,39"
-        },
         "profile": {
-          "iconUrl": "",
           "accountName": "Super Zeus",
-          "description": "Super Zeus"
+          "description": "Super Zeus",
+          "iconUrl": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/2d3f8429-0099-4427-91f7-a2c8373784d0.jpg"
         },
-        "showActionButton": false,
-        "slug": "cvd:content_type=1:discount_type=1:promotion_type=1:checkin=false"
+        "proportion": "",
+        "scores": {
+          "Bid": 58.5,
+          "Frequency": 100,
+          "Popularity": 0,
+          "Random": 78.64968295266598,
+          "Recency": 0,
+          "Relevance": 0
+        }
       },
       "likeCount": 0,
       "accountId": "0b455c19-e389-4a7f-b83c-ef0cf7286ecb",
-      "contentStatus": ""
+      "contentStatus": "FEED_ACTIVE"
     },
     {
       "clientId": "EC278A38901287B2771A13739520384D43E4B078F78AFFE702DEF108774CCE24",
-      "ean": "7898603984307",
-      "title": "Copo Long Drink Verde Neon 360ml 01un",
-      "legend": "",
-      "url": "https://zeus.crescevendas.com/system/discount_images/files/000/046/156/thumb/RackMultipart20260303-6958-hns1ep.PNG",
+      "ean": "",
+      "title": "Tênis de Corrida Nike Road Racing",
+      "legend": "O Tênis Nike Road Racing é um calçado de alta performance projetado para corredores, combinando leveza e tecnologias avançadas para otimizar a velocidade e o conforto. Apresenta um design vibrante em tons neon, ideal para quem busca se destacar nas pistas e estradas.",
+      "url": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/04/1b5ef613-966b-4ba0-a662-09710746d9b8.jpg",
       "destinationUrl": "",
-      "contentType": "offer",
+      "contentType": "image",
       "campaignId": "",
-      "contentId": "66531",
-      "templateId": "6fcab32d-6af1-4054-b4fd-89f5b59113b8",
+      "contentId": "6339e0c3-1470-40b3-9ae9-a698b8ccdcf9",
+      "templateId": "template-1774286543810",
       "textOne": "",
       "textTwo": "",
-      "category": "",
-      "brand": "",
+      "category": "CALCADOS ESPORTIVOS (TENIS)_ARTIGOS ESPORTIVOS_ESPORTE E LAZER_MODA ESPORTIVA",
+      "brand": "Nike",
       "sponsored": false,
       "originalPrice": null,
       "proportion": null,
-      "price": "1,00",
+      "price": null,
       "discount": null,
       "finalScore": 0,
       "randomScore": 0,
@@ -434,124 +277,281 @@
       "favorite": false,
       "isFollower": false,
       "qualifiers": null,
-      "template": "",
+      "template": "<div\n  class=\"w-[358px] bg-white relative overflow-hidden rounded-lg shadow-sm\"\n>\n     \n\n  <div class=\"card-header flex justify-between items-center px-4 py-2\">\n    <div class=\"flex items-center gap-2\" onclick=\"observerOpenAbout(event)\">\n      <div\n        class=\"w-[36px] h-[36px] bg-[#F5F5F7] rounded-full flex items-center justify-center border border-gray-100\" >\n        <img\n          src=\"https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/2d3f8429-0099-4427-91f7-a2c8373784d0.jpg\"\n          class=\"w-full h-full rounded-full object-cover\" alt=\"logo\"\n          onerror=\"this.style.display='none'; this.nextElementSibling.style.display='flex';\"\n        />\n        <div\n          class=\"w-full h-full rounded-full bg-gray-200 flex items-center justify-center\"\n          style=\"display: none\"\n        >\n          <span class=\"text-gray-700 font-bold text-lg\"\n            >S\n          </span>\n        </div>\n      </div>\n      <div class=\"flex flex-col\">\n        <p class=\"font-semibold text-md\">\n          Super Zeus\n        </p>\n        \n      </div>\n    </div>\n     <div class=\"flex items-center gap-2\">\n      <span class=\"follower-icon\">\n        \n      </span>\n      <div\n        class=\"header-options\"\n        role=\"button\"\n        aria-haspopup=\"menu\"\n        aria-label=\"Abrir opções\"\n        data-header-options\n        onclick=\"observerHeaderOptions(event)\"\n      >\n        <i class=\"ph ph-dots-three-vertical text-zinc-500 text-2xl font-bold\"></i>\n      </div>\n    </div>\n  </div>\n\n  <div\n    class=\"flex flex-col w-full relative max-h-[636px] overflow-hidden border-t border-b border-[#F5F5F7]\"\n    onclick=\"onClickCard()\"\n  >\n    <img \n      src=\"https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/04/1b5ef613-966b-4ba0-a662-09710746d9b8.jpg\" \n      alt=\"\" \n      class=\"w-full h-auto bg-no-repeat bg-center bg-cover object-contain\" \n      style=\"max-height: 636px;\" \n    />\n  </div>\n\n  <div class=\"card-footer flex flex-col w-full min-h-[101px] p-2 gap-3\">\n    <div class=\"flex justify-between items-center\">\n      <div class=\"flex items-center gap-2\">\n        <div class=\"flex items-center gap-1\">\n          \n          <i\n            class=\"ph ph-heart text-zinc-500 text-2xl cursor-pointer like-icon\"\n            onclick=\"observerClickLike()\"\n          ></i>\n           \n        </div>\n        <div class=\"flex items-center gap-1\">\n          \n          <i\n            class=\"ph ph-bookmark-simple text-zinc-500 text-2xl cursor-pointer favorite-icon\"\n            onclick=\"observerClickFavorite()\"\n          ></i>\n          \n        </div>\n      </div>\n      <div>\n        <i\n          class=\"ph ph-share-network text-zinc-500 text-2xl cursor-pointer share-icon\"\n          onclick=\"observerClickShare()\"\n        ></i>\n      </div>\n    </div>\n\n    <div class=\"font-legend\">\n      <p class=\"text-left font-bold text-[16px]\">Tênis de Corrida Nike Road Racing</p>\n      \n      <span id=\"less-info\" class=\"text-left text-[14px]\">\n         O Tênis Nike Road Racing é um calçado de alta performance projetado para corredores, combinando l...\n        <a onclick=\"observerSeeMoreClick()\" class=\"font-bold\"> Ver mais </a> \n      </span>\n      <span id=\"more-info\" class=\"text-left text-[14px]\" style=\"display: none\">\n        O Tênis Nike Road Racing é um calçado de alta performance projetado para corredores, combinando leveza e tecnologias avançadas para otimizar a velocidade e o conforto. Apresenta um design vibrante em tons neon, ideal para quem busca se destacar nas pistas e estradas.\n        <a onclick=\"observerSeeLessClick()\" class=\"font-bold\"> Ver menos </a>\n      </span>\n      \n    </div>\n  </div>\n</div>",
       "scores": {
         "popularity": 0,
         "recency": 0,
         "relevance": 0
       },
       "customVariables": {
-        "actionUrl": "",
-        "html": "<div style=\"font-family:Arial,sans-serif;max-width:400px;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.15);background:#fff;margin:8px;\">\n  <div style=\"position:relative;\">\n    <img src=\"https://zeus.crescevendas.com/system/discount_images/files/000/046/156/thumb/RackMultipart20260303-6958-hns1ep.PNG\" style=\"width:100%;height:180px;object-fit:cover;\" />\n    \n  </div>\n  <div style=\"padding:16px;\">\n    <p style=\"margin:0 0 10px;font-size:16px;font-weight:bold;color:#333;\">Copo Long Drink Verde Neon 360ml 01un</p>\n    <div>\n  <span style='font-size:13px;color:#999;text-decoration:line-through;'>R$ 2.19</span>\n  <span style='font-size:20px;font-weight:bold;color:#e74c3c;margin-left:4px;'>R$ 1.69</span>\n  \n</div>\n\n    <p style=\"margin:12px 0 0;font-size:11px;color:#999;\">\n      27/02/2026 até 06/04/2026\n    </p>\n  </div>\n</div>\n",
         "isFollower": false,
-        "price": {
-          "discount_percentage": "22,83",
-          "price": "1,00",
-          "price_suggested": "2,19"
-        },
         "profile": {
-          "iconUrl": "",
           "accountName": "Super Zeus",
-          "description": "Super Zeus"
+          "description": "Super Zeus",
+          "iconUrl": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/2d3f8429-0099-4427-91f7-a2c8373784d0.jpg"
         },
-        "showActionButton": false,
-        "slug": "cvd:content_type=1:discount_type=1:promotion_type=1:checkin=false"
+        "proportion": ""
       },
       "likeCount": 0,
       "accountId": "0b455c19-e389-4a7f-b83c-ef0cf7286ecb",
-      "contentStatus": ""
+      "contentStatus": "FEED_ACTIVE"
     },
     {
       "clientId": "EC278A38901287B2771A13739520384D43E4B078F78AFFE702DEF108774CCE24",
-      "ean": "7898603984239",
-      "title": "Copo Long Drink Amarelo Neon 360ml 1un",
-      "legend": "",
-      "url": "https://zeus.crescevendas.com/system/discount_images/files/000/046/157/thumb/discount_image_d86a1ecf870aa537.jpeg",
+      "ean": "",
+      "title": "Danone Garrafão Edição Especial Sabor Morango",
+      "legend": "Apresentando o novo garrafão de Danone Edição Especial sabor morango! Uma escolha deliciosa e consciente para você e o planeta, reforçando a filosofia 'One Planet. One Health'. Deslize para saber mais sobre essa novidade.",
+      "url": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/01f602d5-ee3d-406f-81a1-2b9c48bfad4b.jpeg",
       "destinationUrl": "",
-      "contentType": "offer",
-      "campaignId": "",
-      "contentId": "66532",
-      "templateId": "6fcab32d-6af1-4054-b4fd-89f5b59113b8",
+      "contentType": "image",
+      "campaignId": "0926efa3-791d-4087-b216-80a9bb17143c",
+      "contentId": "87f6f098-c07c-4de9-b5d2-cf2ddb66dc98",
+      "templateId": "b202bb77-274e-4ba4-a113-c8e50dff2ab5",
       "textOne": "",
       "textTwo": "",
-      "category": "",
+      "category": "BEBIDAS_BEBIDAS NÃO ALCOÓLICAS_BEBIDAS LÁCTEAS",
       "brand": "",
-      "sponsored": false,
+      "sponsored": true,
       "originalPrice": null,
       "proportion": null,
-      "price": "1,00",
+      "price": null,
       "discount": null,
-      "finalScore": 0,
+      "finalScore": -35.9420957952375,
       "randomScore": 0,
       "liked": false,
       "favorite": false,
       "isFollower": false,
       "qualifiers": null,
-      "template": "",
+      "template": "<div\n  class=\"w-[358px] bg-white relative overflow-hidden rounded-lg shadow-sm\"\n>\n     \n\n  <div class=\"card-header flex justify-between items-center px-4 py-2\">\n    <div class=\"flex items-center gap-2\" onclick=\"observerOpenAbout(event)\">\n      <div\n        class=\"w-[36px] h-[36px] bg-[#F5F5F7] rounded-full flex items-center justify-center border border-gray-100\" >\n        <img\n          src=\"https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/2d3f8429-0099-4427-91f7-a2c8373784d0.jpg\"\n          class=\"w-full h-full rounded-full object-cover\" alt=\"logo\"\n          onerror=\"this.style.display='none'; this.nextElementSibling.style.display='flex';\"\n        />\n        <div\n          class=\"w-full h-full rounded-full bg-gray-200 flex items-center justify-center\"\n          style=\"display: none\"\n        >\n          <span class=\"text-gray-700 font-bold text-lg\"\n            >S\n          </span>\n        </div>\n      </div>\n      <div class=\"flex flex-col\">\n        <p class=\"font-semibold text-md\">\n          Super Zeus\n        </p>\n        \n        <small class=\"text-xs text-gray-400 italic\">Patrocinado</small>\n        \n      </div>\n    </div>\n     <div class=\"flex items-center gap-2\">\n      <span class=\"follower-icon\">\n        \n      </span>\n      <div\n        class=\"header-options\"\n        role=\"button\"\n        aria-haspopup=\"menu\"\n        aria-label=\"Abrir opções\"\n        data-header-options\n        onclick=\"observerHeaderOptions(event)\"\n      >\n        <i class=\"ph ph-dots-three-vertical text-zinc-500 text-2xl font-bold\"></i>\n      </div>\n    </div>\n  </div>\n\n  <div\n    class=\"flex flex-col w-full relative max-h-[636px] overflow-hidden border-t border-b border-[#F5F5F7]\"\n    onclick=\"onClickCard()\"\n  >\n    <img \n      src=\"https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/01f602d5-ee3d-406f-81a1-2b9c48bfad4b.jpeg\" \n      alt=\"\" \n      class=\"w-full h-auto bg-no-repeat bg-center bg-cover object-contain\" \n      style=\"max-height: 636px;\" \n    />\n  </div>\n\n  <div class=\"card-footer flex flex-col w-full min-h-[101px] p-2 gap-3\">\n    <div class=\"flex justify-between items-center\">\n      <div class=\"flex items-center gap-2\">\n        <div class=\"flex items-center gap-1\">\n          \n          <i\n            class=\"ph ph-heart text-zinc-500 text-2xl cursor-pointer like-icon\"\n            onclick=\"observerClickLike()\"\n          ></i>\n           \n        </div>\n        <div class=\"flex items-center gap-1\">\n          \n          <i\n            class=\"ph ph-bookmark-simple text-zinc-500 text-2xl cursor-pointer favorite-icon\"\n            onclick=\"observerClickFavorite()\"\n          ></i>\n          \n        </div>\n      </div>\n      <div>\n        <i\n          class=\"ph ph-share-network text-zinc-500 text-2xl cursor-pointer share-icon\"\n          onclick=\"observerClickShare()\"\n        ></i>\n      </div>\n    </div>\n\n    <div class=\"font-legend\">\n      <p class=\"text-left font-bold text-[16px]\">Danone Garrafão Edição Especial Sabor Morango</p>\n      \n      <span id=\"less-info\" class=\"text-left text-[14px]\">\n         \n          Apresentando o novo garrafão de Danone Edição Especial sabor morango! Uma escolha deliciosa e con...<a onclick=\"observerSeeMoreClick()\" class=\"font-bold\"> Ver mais </a> \n        \n      </span>\n      \n    </div>\n  </div>\n</div>",
       "scores": {
         "popularity": 0,
         "recency": 0,
         "relevance": 0
       },
       "customVariables": {
-        "actionUrl": "",
-        "html": "<div style=\"font-family:Arial,sans-serif;max-width:400px;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.15);background:#fff;margin:8px;\">\n  <div style=\"position:relative;\">\n    <img src=\"https://zeus.crescevendas.com/system/discount_images/files/000/046/157/thumb/discount_image_d86a1ecf870aa537.jpeg\" style=\"width:100%;height:180px;object-fit:cover;\" />\n    \n  </div>\n  <div style=\"padding:16px;\">\n    <p style=\"margin:0 0 10px;font-size:16px;font-weight:bold;color:#333;\">Copo Long Drink Amarelo Neon 360ml 1un</p>\n    <div>\n  <span style='font-size:13px;color:#999;text-decoration:line-through;'>R$ 2.19</span>\n  <span style='font-size:20px;font-weight:bold;color:#e74c3c;margin-left:4px;'>R$ 1.69</span>\n  \n</div>\n\n    <p style=\"margin:12px 0 0;font-size:11px;color:#999;\">\n      27/02/2026 até 06/04/2026\n    </p>\n  </div>\n</div>\n",
         "isFollower": false,
-        "price": {
-          "discount_percentage": "22,83",
-          "price": "1,00",
-          "price_suggested": "2,19"
-        },
+        "originalScore": -44.37295777189814,
         "profile": {
-          "iconUrl": "",
           "accountName": "Super Zeus",
-          "description": "Super Zeus"
+          "description": "Super Zeus",
+          "iconUrl": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/2d3f8429-0099-4427-91f7-a2c8373784d0.jpg"
         },
-        "showActionButton": false,
-        "slug": "cvd:content_type=1:discount_type=1:promotion_type=1:checkin=false"
+        "proportion": "",
+        "scores": {
+          "Bid": 58.5,
+          "Frequency": 100,
+          "Popularity": 0,
+          "Random": 3.0757744826620717,
+          "Recency": 0,
+          "Relevance": 0
+        }
       },
       "likeCount": 0,
       "accountId": "0b455c19-e389-4a7f-b83c-ef0cf7286ecb",
-      "contentStatus": ""
+      "contentStatus": "FEED_ACTIVE"
+    },
+    {
+      "clientId": "EC278A38901287B2771A13739520384D43E4B078F78AFFE702DEF108774CCE24",
+      "ean": "",
+      "title": "Sabão Glicerinado Ypê Neutro Original 800g",
+      "legend": "Sabão Glicerinado Ypê Neutro Original em formato anatômico, com espuma multi limpeza, que rende e dura mais. É testado dermatologicamente e contém 5 unidades de 160g, totalizando 800g.",
+      "url": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/605661b9-9f08-4cd6-93b2-0af6daae0621.jpg",
+      "destinationUrl": "",
+      "contentType": "image",
+      "campaignId": "0926efa3-791d-4087-b216-80a9bb17143c",
+      "contentId": "c2c63d31-9b9d-4b0d-a3a4-994ca8696640",
+      "templateId": "b202bb77-274e-4ba4-a113-c8e50dff2ab5",
+      "textOne": "",
+      "textTwo": "",
+      "category": "SABONETES_CUIDADOS COM O CORPO",
+      "brand": "",
+      "sponsored": true,
+      "originalPrice": null,
+      "proportion": null,
+      "price": null,
+      "discount": null,
+      "finalScore": -37.790826944196105,
+      "randomScore": 0,
+      "liked": false,
+      "favorite": false,
+      "isFollower": false,
+      "qualifiers": null,
+      "template": "<div\n  class=\"w-[358px] bg-white relative overflow-hidden rounded-lg shadow-sm\"\n>\n     \n\n  <div class=\"card-header flex justify-between items-center px-4 py-2\">\n    <div class=\"flex items-center gap-2\" onclick=\"observerOpenAbout(event)\">\n      <div\n        class=\"w-[36px] h-[36px] bg-[#F5F5F7] rounded-full flex items-center justify-center border border-gray-100\" >\n        <img\n          src=\"https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/2d3f8429-0099-4427-91f7-a2c8373784d0.jpg\"\n          class=\"w-full h-full rounded-full object-cover\" alt=\"logo\"\n          onerror=\"this.style.display='none'; this.nextElementSibling.style.display='flex';\"\n        />\n        <div\n          class=\"w-full h-full rounded-full bg-gray-200 flex items-center justify-center\"\n          style=\"display: none\"\n        >\n          <span class=\"text-gray-700 font-bold text-lg\"\n            >S\n          </span>\n        </div>\n      </div>\n      <div class=\"flex flex-col\">\n        <p class=\"font-semibold text-md\">\n          Super Zeus\n        </p>\n        \n        <small class=\"text-xs text-gray-400 italic\">Patrocinado</small>\n        \n      </div>\n    </div>\n     <div class=\"flex items-center gap-2\">\n      <span class=\"follower-icon\">\n        \n      </span>\n      <div\n        class=\"header-options\"\n        role=\"button\"\n        aria-haspopup=\"menu\"\n        aria-label=\"Abrir opções\"\n        data-header-options\n        onclick=\"observerHeaderOptions(event)\"\n      >\n        <i class=\"ph ph-dots-three-vertical text-zinc-500 text-2xl font-bold\"></i>\n      </div>\n    </div>\n  </div>\n\n  <div\n    class=\"flex flex-col w-full relative max-h-[636px] overflow-hidden border-t border-b border-[#F5F5F7]\"\n    onclick=\"onClickCard()\"\n  >\n    <img \n      src=\"https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/605661b9-9f08-4cd6-93b2-0af6daae0621.jpg\" \n      alt=\"\" \n      class=\"w-full h-auto bg-no-repeat bg-center bg-cover object-contain\" \n      style=\"max-height: 636px;\" \n    />\n  </div>\n\n  <div class=\"card-footer flex flex-col w-full min-h-[101px] p-2 gap-3\">\n    <div class=\"flex justify-between items-center\">\n      <div class=\"flex items-center gap-2\">\n        <div class=\"flex items-center gap-1\">\n          \n          <i\n            class=\"ph ph-heart text-zinc-500 text-2xl cursor-pointer like-icon\"\n            onclick=\"observerClickLike()\"\n          ></i>\n           \n        </div>\n        <div class=\"flex items-center gap-1\">\n          \n          <i\n            class=\"ph ph-bookmark-simple text-zinc-500 text-2xl cursor-pointer favorite-icon\"\n            onclick=\"observerClickFavorite()\"\n          ></i>\n          \n        </div>\n      </div>\n      <div>\n        <i\n          class=\"ph ph-share-network text-zinc-500 text-2xl cursor-pointer share-icon\"\n          onclick=\"observerClickShare()\"\n        ></i>\n      </div>\n    </div>\n\n    <div class=\"font-legend\">\n      <p class=\"text-left font-bold text-[16px]\">Sabão Glicerinado Ypê Neutro Original 800g</p>\n      \n      <span id=\"less-info\" class=\"text-left text-[14px]\">\n         \n          Sabão Glicerinado Ypê Neutro Original em formato anatômico, com espuma multi limpeza, que rende e...<a onclick=\"observerSeeMoreClick()\" class=\"font-bold\"> Ver mais </a> \n        \n      </span>\n      \n    </div>\n  </div>\n</div>",
+      "scores": {
+        "popularity": 0,
+        "recency": 0,
+        "relevance": 0
+      },
+      "customVariables": {
+        "isFollower": false,
+        "originalScore": -41.98980771577345,
+        "profile": {
+          "accountName": "Super Zeus",
+          "description": "Super Zeus",
+          "iconUrl": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/2d3f8429-0099-4427-91f7-a2c8373784d0.jpg"
+        },
+        "proportion": "",
+        "scores": {
+          "Bid": 58.5,
+          "Frequency": 100,
+          "Popularity": 0,
+          "Random": 18.56624984747255,
+          "Recency": 0,
+          "Relevance": 0
+        }
+      },
+      "likeCount": 0,
+      "accountId": "0b455c19-e389-4a7f-b83c-ef0cf7286ecb",
+      "contentStatus": "FEED_ACTIVE"
+    },
+    {
+      "clientId": "EC278A38901287B2771A13739520384D43E4B078F78AFFE702DEF108774CCE24",
+      "ean": "",
+      "title": "Desinfetante Veja Power Action",
+      "legend": "Novo desinfetante Veja Power Action oferece limpeza imbatível com poderosa desinfecção em um só produto, eliminando 99,9% das bactérias, vírus e fungos, incluindo o vírus da COVID-19. Ideal para uso em toda a casa e diversas superfícies como tecidos, pisos, paredes, utensílios e objetos.",
+      "url": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/4fb4f4df-72d7-445c-a3f1-01cbc40be630.jpg",
+      "destinationUrl": "",
+      "contentType": "image",
+      "campaignId": "f1c32145-9b65-4b48-9ab7-22da17a18d27",
+      "contentId": "75787d8a-9082-4c8b-9a17-f2c10508377e",
+      "templateId": "b202bb77-274e-4ba4-a113-c8e50dff2ab5",
+      "textOne": "",
+      "textTwo": "",
+      "category": "LIMPEZA_LIMPEZA DA CASA_DESINFETANTES_LIMPADORES DE USO GERAL_UTENSÍLIOS PARA LIMPEZA DA CASA",
+      "brand": "VEJA",
+      "sponsored": true,
+      "originalPrice": null,
+      "proportion": null,
+      "price": null,
+      "discount": null,
+      "finalScore": -40.07600670372384,
+      "randomScore": 0,
+      "liked": false,
+      "favorite": false,
+      "isFollower": false,
+      "qualifiers": null,
+      "template": "<div\n  class=\"w-[358px] bg-white relative overflow-hidden rounded-lg shadow-sm\"\n>\n     \n\n  <div class=\"card-header flex justify-between items-center px-4 py-2\">\n    <div class=\"flex items-center gap-2\" onclick=\"observerOpenAbout(event)\">\n      <div\n        class=\"w-[36px] h-[36px] bg-[#F5F5F7] rounded-full flex items-center justify-center border border-gray-100\" >\n        <img\n          src=\"https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/2d3f8429-0099-4427-91f7-a2c8373784d0.jpg\"\n          class=\"w-full h-full rounded-full object-cover\" alt=\"logo\"\n          onerror=\"this.style.display='none'; this.nextElementSibling.style.display='flex';\"\n        />\n        <div\n          class=\"w-full h-full rounded-full bg-gray-200 flex items-center justify-center\"\n          style=\"display: none\"\n        >\n          <span class=\"text-gray-700 font-bold text-lg\"\n            >S\n          </span>\n        </div>\n      </div>\n      <div class=\"flex flex-col\">\n        <p class=\"font-semibold text-md\">\n          Super Zeus\n        </p>\n        \n        <small class=\"text-xs text-gray-400 italic\">Patrocinado</small>\n        \n      </div>\n    </div>\n     <div class=\"flex items-center gap-2\">\n      <span class=\"follower-icon\">\n        \n      </span>\n      <div\n        class=\"header-options\"\n        role=\"button\"\n        aria-haspopup=\"menu\"\n        aria-label=\"Abrir opções\"\n        data-header-options\n        onclick=\"observerHeaderOptions(event)\"\n      >\n        <i class=\"ph ph-dots-three-vertical text-zinc-500 text-2xl font-bold\"></i>\n      </div>\n    </div>\n  </div>\n\n  <div\n    class=\"flex flex-col w-full relative max-h-[636px] overflow-hidden border-t border-b border-[#F5F5F7]\"\n    onclick=\"onClickCard()\"\n  >\n    <img \n      src=\"https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/4fb4f4df-72d7-445c-a3f1-01cbc40be630.jpg\" \n      alt=\"\" \n      class=\"w-full h-auto bg-no-repeat bg-center bg-cover object-contain\" \n      style=\"max-height: 636px;\" \n    />\n  </div>\n\n  <div class=\"card-footer flex flex-col w-full min-h-[101px] p-2 gap-3\">\n    <div class=\"flex justify-between items-center\">\n      <div class=\"flex items-center gap-2\">\n        <div class=\"flex items-center gap-1\">\n          \n          <i\n            class=\"ph ph-heart text-zinc-500 text-2xl cursor-pointer like-icon\"\n            onclick=\"observerClickLike()\"\n          ></i>\n           \n        </div>\n        <div class=\"flex items-center gap-1\">\n          \n          <i\n            class=\"ph ph-bookmark-simple text-zinc-500 text-2xl cursor-pointer favorite-icon\"\n            onclick=\"observerClickFavorite()\"\n          ></i>\n          \n        </div>\n      </div>\n      <div>\n        <i\n          class=\"ph ph-share-network text-zinc-500 text-2xl cursor-pointer share-icon\"\n          onclick=\"observerClickShare()\"\n        ></i>\n      </div>\n    </div>\n\n    <div class=\"font-legend\">\n      <p class=\"text-left font-bold text-[16px]\">Desinfetante Veja Power Action</p>\n      \n      <span id=\"less-info\" class=\"text-left text-[14px]\">\n         \n          Novo desinfetante Veja Power Action oferece limpeza imbatível com poderosa desinfecção em um só ...<a onclick=\"observerSeeMoreClick()\" class=\"font-bold\"> Ver mais </a> \n        \n      </span>\n      \n    </div>\n  </div>\n</div>",
+      "scores": {
+        "popularity": 0,
+        "recency": 0,
+        "relevance": 0
+      },
+      "customVariables": {
+        "isFollower": false,
+        "profile": {
+          "accountName": "Super Zeus",
+          "description": "Super Zeus",
+          "iconUrl": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/2d3f8429-0099-4427-91f7-a2c8373784d0.jpg"
+        },
+        "proportion": "",
+        "scores": {
+          "Bid": 5,
+          "Frequency": 100,
+          "Popularity": 0,
+          "Random": 84.50595642579499,
+          "Recency": 0,
+          "Relevance": 0
+        }
+      },
+      "likeCount": 0,
+      "accountId": "0b455c19-e389-4a7f-b83c-ef0cf7286ecb",
+      "contentStatus": "FEED_ACTIVE"
+    },
+    {
+      "clientId": "EC278A38901287B2771A13739520384D43E4B078F78AFFE702DEF108774CCE24",
+      "ean": "",
+      "title": "NOVO YOPRO ENERGY BOOST ENERGIA E FOCO' NO SEU TREINO",
+      "legend": "Conheça o novo Yopro Energy Boost da Danone, disponível nos sabores Cappuccino e Café Expresso (Ultra Coffee). Cada porção de 250ml oferece 15g de proteínas e 100mg de cafeína (equivalente a um expresso duplo), ideal para energia e foco no seu treino. É um produto sem lactose e sem glúten, que auxilia no aumento do estado de alerta e na melhora da concentração.",
+      "url": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/01/78339a99-d764-410b-b65e-ad582e13c918.jpeg",
+      "destinationUrl": "",
+      "contentType": "image",
+      "campaignId": "0926efa3-791d-4087-b216-80a9bb17143c",
+      "contentId": "9f5404fc-ad29-4399-ab70-689e94352c8b",
+      "templateId": "b202bb77-274e-4ba4-a113-c8e50dff2ab5",
+      "textOne": "",
+      "textTwo": "",
+      "category": "BEBIDAS_BEBIDAS NÃO ALCOÓLICAS_BEBIDAS FUNCIONAIS",
+      "brand": "Danone",
+      "sponsored": true,
+      "originalPrice": null,
+      "proportion": null,
+      "price": null,
+      "discount": null,
+      "finalScore": -40.88756258469187,
+      "randomScore": 0,
+      "liked": false,
+      "favorite": false,
+      "isFollower": false,
+      "qualifiers": null,
+      "template": "<div\n  class=\"w-[358px] bg-white relative overflow-hidden rounded-lg shadow-sm\"\n>\n     \n\n  <div class=\"card-header flex justify-between items-center px-4 py-2\">\n    <div class=\"flex items-center gap-2\" onclick=\"observerOpenAbout(event)\">\n      <div\n        class=\"w-[36px] h-[36px] bg-[#F5F5F7] rounded-full flex items-center justify-center border border-gray-100\" >\n        <img\n          src=\"https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/2d3f8429-0099-4427-91f7-a2c8373784d0.jpg\"\n          class=\"w-full h-full rounded-full object-cover\" alt=\"logo\"\n          onerror=\"this.style.display='none'; this.nextElementSibling.style.display='flex';\"\n        />\n        <div\n          class=\"w-full h-full rounded-full bg-gray-200 flex items-center justify-center\"\n          style=\"display: none\"\n        >\n          <span class=\"text-gray-700 font-bold text-lg\"\n            >S\n          </span>\n        </div>\n      </div>\n      <div class=\"flex flex-col\">\n        <p class=\"font-semibold text-md\">\n          Super Zeus\n        </p>\n        \n        <small class=\"text-xs text-gray-400 italic\">Patrocinado</small>\n        \n      </div>\n    </div>\n     <div class=\"flex items-center gap-2\">\n      <span class=\"follower-icon\">\n        \n      </span>\n      <div\n        class=\"header-options\"\n        role=\"button\"\n        aria-haspopup=\"menu\"\n        aria-label=\"Abrir opções\"\n        data-header-options\n        onclick=\"observerHeaderOptions(event)\"\n      >\n        <i class=\"ph ph-dots-three-vertical text-zinc-500 text-2xl font-bold\"></i>\n      </div>\n    </div>\n  </div>\n\n  <div\n    class=\"flex flex-col w-full relative max-h-[636px] overflow-hidden border-t border-b border-[#F5F5F7]\"\n    onclick=\"onClickCard()\"\n  >\n    <img \n      src=\"https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/01/78339a99-d764-410b-b65e-ad582e13c918.jpeg\" \n      alt=\"\" \n      class=\"w-full h-auto bg-no-repeat bg-center bg-cover object-contain\" \n      style=\"max-height: 636px;\" \n    />\n  </div>\n\n  <div class=\"card-footer flex flex-col w-full min-h-[101px] p-2 gap-3\">\n    <div class=\"flex justify-between items-center\">\n      <div class=\"flex items-center gap-2\">\n        <div class=\"flex items-center gap-1\">\n          \n          <i\n            class=\"ph ph-heart text-zinc-500 text-2xl cursor-pointer like-icon\"\n            onclick=\"observerClickLike()\"\n          ></i>\n           \n        </div>\n        <div class=\"flex items-center gap-1\">\n          \n          <i\n            class=\"ph ph-bookmark-simple text-zinc-500 text-2xl cursor-pointer favorite-icon\"\n            onclick=\"observerClickFavorite()\"\n          ></i>\n          \n        </div>\n      </div>\n      <div>\n        <i\n          class=\"ph ph-share-network text-zinc-500 text-2xl cursor-pointer share-icon\"\n          onclick=\"observerClickShare()\"\n        ></i>\n      </div>\n    </div>\n\n    <div class=\"font-legend\">\n      <p class=\"text-left font-bold text-[16px]\">NOVO YOPRO ENERGY BOOST ENERGIA E FOCO&#39; NO SEU TREINO</p>\n      \n      <span id=\"less-info\" class=\"text-left text-[14px]\">\n         \n          Conheça o novo Yopro Energy Boost da Danone, disponível nos sabores Cappuccino e Café Expresso (U...<a onclick=\"observerSeeMoreClick()\" class=\"font-bold\"> Ver mais </a> \n        \n      </span>\n      \n    </div>\n  </div>\n</div>",
+      "scores": {
+        "popularity": 0,
+        "recency": 0,
+        "relevance": 0
+      },
+      "customVariables": {
+        "isFollower": false,
+        "profile": {
+          "accountName": "Super Zeus",
+          "description": "Super Zeus",
+          "iconUrl": "https://images.dev-directoai.com.br/0b455c19-e389-4a7f-b83c-ef0cf7286ecb/images/2026/03/2d3f8429-0099-4427-91f7-a2c8373784d0.jpg"
+        },
+        "proportion": "",
+        "scores": {
+          "Bid": 58.5,
+          "Frequency": 100,
+          "Popularity": 0,
+          "Random": 25.73084319950287,
+          "Recency": 0,
+          "Relevance": 0
+        }
+      },
+      "likeCount": 0,
+      "accountId": "0b455c19-e389-4a7f-b83c-ef0cf7286ecb",
+      "contentStatus": "FEED_ACTIVE"
     }
   ],
   "templates": [
     {
-      "templateId": "6fcab32d-6af1-4054-b4fd-89f5b59113b8",
-      "name": "HTML Customizado",
+      "templateId": "579a144f-936f-4d93-a937-5c04fccf7d63",
+      "name": "Midia",
       "active": true,
       "accountId": "0b455c19-e389-4a7f-b83c-ef0cf7286ecb",
-      "slug": "cvd:content_type=1:discount_type=1:promotion_type=1:checkin=false",
+      "slug": "cvd:content_type=1:discount_type=1:promotion_type=4:checkin=false-copia-1774559867507",
       "description": "",
       "content": "",
       "data": [
         {
-          "id": "rvnm6q2id",
-          "gap": "sm",
-          "type": "container",
-          "blocks": [
+          "id": "dl575ghgz",
+          "type": "header",
+          "title": "{{post.profile.accountName}}",
+          "imageUrl": "{{post.profile.iconUrl}}",
+          "menuItems": [
             {
-              "id": "r8yfd5q46",
-              "icon": "shoppingbag",
-              "size": 20,
-              "type": "icon",
-              "padding": "sm",
-              "borderRadius": "full",
-              "backgroundColor": "gray-100"
+              "icon": "info",
+              "link": "",
+              "text": "Sobre esta conta"
             },
             {
-              "id": "8ck3l1t4d",
-              "type": "text",
-              "color": "gray-900",
-              "value": "{{post.shop.name}}",
-              "fontWeight": "semiBold",
-              "typography": "heading5"
+              "icon": "user",
+              "link": "",
+              "text": "Seguir"
+            },
+            {
+              "icon": "star",
+              "text": "Denunciar",
+              "action": {
+                "type": "DEEPLINK",
+                "payload": {}
+              }
             }
           ],
-          "paddingX": "md",
-          "paddingY": "sm",
-          "direction": "row",
-          "alignItems": "center"
+          "onProfilePress": {
+            "type": "UI_ACTION",
+            "payload": {
+              "actionName": "open_profile"
+            }
+          }
         },
         {
           "id": "6n1cziyz5",
@@ -563,19 +563,119 @@
           "type": "container",
           "blocks": [
             {
+              "id": "qqhmjaefb",
+              "alt": "Mídia",
+              "url": "{{post.url}}",
+              "type": "media",
+              "width": "100%",
+              "height": "100%",
+              "objectFit": "contain"
+            }
+          ],
+          "height": "100%",
+          "paddingX": "md",
+          "direction": "column",
+          "alignItems": "center",
+          "borderWidth": "",
+          "justifyContent": "center"
+        },
+        {
+          "id": "6sz45x7tl",
+          "type": "divider"
+        },
+        {
+          "id": "7mvrkp9k3",
+          "type": "post_interactions",
+          "onLike": {
+            "type": "UI_ACTION",
+            "payload": {
+              "actionName": "like"
+            }
+          },
+          "onSave": {
+            "type": "UI_ACTION",
+            "payload": {
+              "actionName": "save"
+            }
+          },
+          "onShare": {
+            "type": "UI_ACTION",
+            "payload": {
+              "actionName": "share"
+            }
+          },
+          "paddingX": "md",
+          "paddingY": "xs",
+          "showLike": true,
+          "showSave": true,
+          "showShare": true
+        },
+        {
+          "id": "tljn2usvt",
+          "type": "container",
+          "blocks": [
+            {
+              "id": "jz27jbdtn",
+              "type": "text",
+              "color": "gray-900",
+              "value": "{{post.title}}",
+              "fontWeight": "bold",
+              "typography": "heading5"
+            }
+          ],
+          "paddingX": "md",
+          "paddingY": "xs",
+          "direction": "column"
+        },
+        {
+          "id": "pbwqas01z",
+          "gap": "sm",
+          "type": "container",
+          "blocks": [
+            {
+              "id": "q85bv3yx4",
+              "type": "button",
+              "label": "Clique Aqui",
+              "radius": "md",
+              "variant": "primary"
+            }
+          ],
+          "paddingX": "md",
+          "paddingY": "sm",
+          "direction": "column",
+          "justifyContent": "center"
+        }
+      ],
+      "createdAt": "2026-03-26T21:17:47.755438Z",
+      "createdBy": "",
+      "updatedAt": "2026-03-26T21:17:47.755438Z",
+      "updatedBy": ""
+    },
+    {
+      "templateId": "6fcab32d-6af1-4054-b4fd-89f5b59113b8",
+      "name": "HTML Customizado",
+      "active": true,
+      "accountId": "0b455c19-e389-4a7f-b83c-ef0cf7286ecb",
+      "slug": "cvd:content_type=1:discount_type=1:promotion_type=1:checkin=false",
+      "description": "",
+      "content": "",
+      "data": [
+        {
+          "id": "w0sibv6hq",
+          "type": "container",
+          "blocks": [
+            {
               "id": "4hysr51je",
-              "html": "<h1>Teste 123</h1>",
+              "html": "{{post.customVariables.html}}",
               "type": "html",
               "height": "100%"
             }
           ],
           "height": "100%",
-          "paddingX": "md",
-          "direction": "column"
-        },
-        {
-          "id": "6sz45x7tl",
-          "type": "divider"
+          "paddingX": "lg",
+          "paddingY": "lg",
+          "direction": "column",
+          "backgroundColor": "success"
         },
         {
           "id": "7mvrkp9k3",
@@ -600,7 +700,7 @@
             }
           ],
           "paddingX": "md",
-          "paddingY": "xs",
+          "paddingY": "lg",
           "direction": "column"
         }
       ],
@@ -636,7 +736,7 @@
               "id": "8ck3l1t4d",
               "type": "text",
               "color": "gray-900",
-              "value": "{{post.shop.name}}",
+              "value": "{{post.customVariables.profile.accountName}}",
               "fontWeight": "semiBold",
               "typography": "heading5"
             }
@@ -691,8 +791,24 @@
               "type": "text",
               "color": "gray-900",
               "value": "{{post.title}}",
-              "fontWeight": "normal",
+              "fontWeight": "bold",
               "typography": "heading5"
+            }
+          ],
+          "paddingX": "md",
+          "paddingY": "xs",
+          "direction": "column"
+        },
+        {
+          "id": "7tfz96iv6",
+          "type": "container",
+          "blocks": [
+            {
+              "id": "7stbnua3f",
+              "type": "text",
+              "color": "gray-900",
+              "value": "{{post.legend}}",
+              "typography": "body"
             }
           ],
           "paddingX": "md",
