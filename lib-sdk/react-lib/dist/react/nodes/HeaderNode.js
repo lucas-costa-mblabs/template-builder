@@ -58,11 +58,22 @@ export function HeaderNode({ node, dataContext }) {
                             url: avatarUrl,
                             size: 36,
                             borderRadius: "full",
-                        }, dataContext: dataContext }), _jsx("span", { style: {
-                            fontSize: "14px",
-                            fontWeight: "600",
-                            color: "#111827",
-                        }, children: title })] }), node.menuItems && node.menuItems.length > 0 && (_jsxs("div", { ref: menuRef, style: { position: "relative" }, children: [_jsx("div", { style: {
+                        }, dataContext: dataContext }), _jsxs("div", { style: {
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                        }, children: [_jsx("span", { style: {
+                                    fontSize: "14px",
+                                    fontWeight: "600",
+                                    color: "#111827",
+                                    lineHeight: 1.2,
+                                }, children: title }), Boolean(dataContext?.post?.sponsored) && (_jsx("span", { style: {
+                                    fontSize: "12px",
+                                    fontStyle: "italic",
+                                    color: "#9ca3af",
+                                    lineHeight: 1.2,
+                                    marginTop: "2px",
+                                }, children: "Patrocinado" }))] })] }), node.menuItems && node.menuItems.length > 0 && (_jsxs("div", { ref: menuRef, style: { position: "relative" }, children: [_jsx("div", { style: {
                             display: "inline-flex",
                             alignItems: "center",
                             justifyContent: "center",

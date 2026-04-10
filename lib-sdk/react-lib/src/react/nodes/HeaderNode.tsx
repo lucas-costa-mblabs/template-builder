@@ -93,15 +93,37 @@ export function HeaderNode({ node, dataContext }: HeaderNodeProps) {
           }}
           dataContext={dataContext}
         />
-        <span
+        <div
           style={{
-            fontSize: "14px",
-            fontWeight: "600",
-            color: "#111827",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
           }}
         >
-          {title}
-        </span>
+          <span
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              color: "#111827",
+              lineHeight: 1.2,
+            }}
+          >
+            {title}
+          </span>
+          {Boolean((dataContext?.post as any)?.sponsored) && (
+            <span
+              style={{
+                fontSize: "12px",
+                fontStyle: "italic",
+                color: "#9ca3af",
+                lineHeight: 1.2,
+                marginTop: "2px",
+              }}
+            >
+              Patrocinado
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Right side: Single ⋮ button with dropdown */}
