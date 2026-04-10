@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import '../provider.dart';
 import '../utils.dart';
+import '../action_handler.dart';
 
 class IconNodeWidget extends StatelessWidget {
   final Map<String, dynamic> node;
+  final Map<String, dynamic>? dataContext;
 
-  const IconNodeWidget({super.key, required this.node});
+  const IconNodeWidget({super.key, required this.node, this.dataContext});
 
   @override
   Widget build(BuildContext context) {
+    final sdk = DirectoAiTemplateProvider.of(context);
     final iconName = node['icon']?.toString();
     final p = tokenToPx(context, node['padding']?.toString()) ?? 0.0;
     final size = double.tryParse(node['size']?.toString() ?? '20') ?? 20.0;
@@ -21,7 +24,9 @@ class IconNodeWidget extends StatelessWidget {
     IconData iconData = Icons.shopping_bag_outlined;
     if (iconName == 'sparkles') iconData = Icons.auto_awesome_outlined;
 
-    return Container(
+    final action = getNodeAction(node);
+
+    Widget child = Container(
       padding: EdgeInsets.all(p),
       decoration: BoxDecoration(
         color: bgColor,
@@ -31,6 +36,15 @@ class IconNodeWidget extends StatelessWidget {
       ),
       child: Icon(iconData, size: size, color: color),
     );
+
+    if (action != null) {
+      child = GestureDetector(
+        onTap: () => executeAction(action, context, dataContext, sdk?.onAction),
+        child: child,
+      );
+    }
+
+    return child;
   }
 }
 
@@ -70,6 +84,10 @@ class _PostInteractionsNodeWidgetState
     final px = tokenToPx(context, widget.node['paddingX']?.toString()) ?? 0.0;
     final py = tokenToPx(context, widget.node['paddingY']?.toString()) ?? 12.0;
 
+    final onLikeAction = getNodeAction(widget.node, 'onLike');
+    final onSaveAction = getNodeAction(widget.node, 'onSave');
+    final onShareAction = getNodeAction(widget.node, 'onShare');
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: px, vertical: py),
       child: Row(
@@ -85,6 +103,16 @@ class _PostInteractionsNodeWidgetState
                     color: isLiked ? Colors.red : const Color(0xFF1F2937),
                   ),
                   onPressed: () {
+                    if (onLikeAction != null) {
+                      executeAction(
+                        onLikeAction,
+                        context,
+                        widget.dataContext,
+                        sdk.onAction,
+                      );
+                      setState(() => isLiked = !isLiked);
+                      return;
+                    }
                     if (contentId != null) {
                       setState(() => isLiked = !isLiked);
                       sdk.tracker.toggleLike(contentId, campaignId: campaignId);
@@ -102,6 +130,16 @@ class _PostInteractionsNodeWidgetState
                         : const Color(0xFF1F2937),
                   ),
                   onPressed: () {
+                    if (onSaveAction != null) {
+                      executeAction(
+                        onSaveAction,
+                        context,
+                        widget.dataContext,
+                        sdk.onAction,
+                      );
+                      setState(() => isFavorited = !isFavorited);
+                      return;
+                    }
                     if (contentId != null) {
                       final prev = isFavorited;
                       setState(() => isFavorited = !isFavorited);
@@ -123,6 +161,15 @@ class _PostInteractionsNodeWidgetState
                 color: Color(0xFF1F2937),
               ),
               onPressed: () {
+                if (onShareAction != null) {
+                  executeAction(
+                    onShareAction,
+                    context,
+                    widget.dataContext,
+                    sdk.onAction,
+                  );
+                  return;
+                }
                 if (contentId != null) {
                   sdk.tracker.shareContent(
                     contentId,
@@ -171,6 +218,7 @@ class HtmlNodeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sdk = DirectoAiTemplateProvider.of(context);
     final rawHtml = resolveVariables(
       node['html']?.toString(),
       dataContext as Map<String, dynamic>?,
@@ -180,16 +228,23 @@ class HtmlNodeWidget extends StatelessWidget {
 
     final px = tokenToPx(context, node['paddingX']?.toString()) ?? 0.0;
     final py = tokenToPx(context, node['paddingY']?.toString()) ?? 0.0;
+    final action = getNodeAction(node);
 
-    // Flutter não suporta dangerouslySetInnerHTML.
-    // Renderiza o HTML como texto simples. Para HTML complexo,
-    // considere usar flutter_html ou flutter_widget_from_html.
-    return Padding(
+    Widget child = Padding(
       padding: EdgeInsets.symmetric(horizontal: px, vertical: py),
       child: Text(
         rawHtml.replaceAll(RegExp(r'<[^>]*>'), ''),
         style: const TextStyle(fontSize: 14, color: Colors.black),
       ),
     );
+
+    if (action != null) {
+      child = GestureDetector(
+        onTap: () => executeAction(action, context, dataContext, sdk?.onAction),
+        child: child,
+      );
+    }
+
+    return child;
   }
 }

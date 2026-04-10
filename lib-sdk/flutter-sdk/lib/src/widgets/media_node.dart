@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import '../provider.dart';
 import '../utils.dart';
+import '../action_handler.dart';
 
 class MediaNodeWidget extends StatelessWidget {
   final Map<String, dynamic> node;
@@ -9,6 +11,7 @@ class MediaNodeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sdk = DirectoAiTemplateProvider.of(context);
     final url = resolveVariables(node['url']?.toString(), dataContext).trim();
     final widthStr = node['width']?.toString();
     final heightStr = node['height']?.toString();
@@ -33,7 +36,9 @@ class MediaNodeWidget extends StatelessWidget {
 
     if (url.isEmpty) return const SizedBox.shrink();
 
-    return SizedBox(
+    final action = getNodeAction(node);
+
+    Widget child = SizedBox(
       width: width,
       height: height,
       child: Image.network(
@@ -47,5 +52,14 @@ class MediaNodeWidget extends StatelessWidget {
         ),
       ),
     );
+
+    if (action != null) {
+      child = GestureDetector(
+        onTap: () => executeAction(action, context, dataContext, sdk?.onAction),
+        child: child,
+      );
+    }
+
+    return child;
   }
 }

@@ -3,6 +3,7 @@ import { useState } from "react";
 import type { ComponentNode, Post } from "../../core/types.js";
 import { useTemplateContext } from "../context.js";
 import { tokenToPx } from "../utils.js";
+import { executeAction } from "../executeAction.js";
 import { Heart, Bookmark, Share2 } from "lucide-react";
 
 interface PostInteractionsNodeProps {
@@ -31,6 +32,12 @@ export function PostInteractionsNode({
   const iconStrokeWidth = 1.5;
 
   const handleLike = async () => {
+    if (node.onLike) {
+      executeAction(node.onLike, dataContext);
+      setIsLiked(!isLiked);
+      return;
+    }
+    // Fallback: tracker
     if (!post) return;
     const newLiked = !isLiked;
     setIsLiked(newLiked);
@@ -38,17 +45,28 @@ export function PostInteractionsNode({
   };
 
   const handleFavorite = async () => {
+    if (node.onSave) {
+      executeAction(node.onSave, dataContext);
+      setIsFavorited(!isFavorited);
+      return;
+    }
+    // Fallback: tracker
     if (!post) return;
     const newFavorited = !isFavorited;
     setIsFavorited(newFavorited);
     await tracker.toggleFavorite(
       post.contentId,
       (post as any).campaignId,
-      isFavorited, // Pass previous state to know method
+      isFavorited,
     );
   };
 
   const handleShare = async () => {
+    if (node.onShare) {
+      executeAction(node.onShare, dataContext);
+      return;
+    }
+    // Fallback: tracker
     if (!post) return;
     await tracker.shareContent(
       post.contentId,

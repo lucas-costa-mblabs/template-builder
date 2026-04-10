@@ -2,13 +2,15 @@ import type { CSSProperties } from "react";
 import type { ComponentNode } from "../../core/types.js";
 import { useTemplateContext } from "../context.js";
 import { tokenToPx, getRadius, colorToHex } from "../utils.js";
+import { executeAction } from "../executeAction.js";
 import { ShoppingBag, Sparkles } from "lucide-react";
 
 interface IconNodeProps {
   node: ComponentNode;
+  dataContext?: Record<string, unknown>;
 }
 
-export function IconNode({ node }: IconNodeProps) {
+export function IconNode({ node, dataContext }: IconNodeProps) {
   const { theme } = useTemplateContext();
 
   const baseStyle: CSSProperties = {
@@ -31,8 +33,12 @@ export function IconNode({ node }: IconNodeProps) {
           colorToHex(theme, node.backgroundColor) || "transparent",
         padding: p,
         borderRadius: getRadius(theme, node.borderRadius) || "0",
+        cursor: node.action ? "pointer" : undefined,
         ...baseStyle,
       }}
+      onClick={
+        node.action ? () => executeAction(node.action, dataContext) : undefined
+      }
     >
       <IconComponent size={size} color={color} strokeWidth={1.5} />
     </div>

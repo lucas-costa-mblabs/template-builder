@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import type { ComponentNode } from "../../core/types.js";
 import { useTemplateContext } from "../context.js";
 import { colorToHex, resolveVariables } from "../utils.js";
+import { executeAction } from "../executeAction.js";
 
 interface TextNodeProps {
   node: ComponentNode;
@@ -42,16 +43,22 @@ export function TextNode({ node, dataContext }: TextNodeProps) {
     else fontWeightStr = "normal";
   }
 
+  const style: CSSProperties = {
+    fontSize,
+    lineHeight: "1.4",
+    fontWeight: fontWeightStr,
+    color: colorToHex(theme, node.color) || "#111827",
+    textAlign: (node.textAlign as CSSProperties["textAlign"]) || undefined,
+    cursor: node.action ? "pointer" : undefined,
+    ...baseStyle,
+  };
+
   return (
     <span
-      style={{
-        fontSize,
-        lineHeight: "1.4",
-        fontWeight: fontWeightStr,
-        color: colorToHex(theme, node.color) || "#111827",
-        textAlign: (node.textAlign as CSSProperties["textAlign"]) || undefined,
-        ...baseStyle,
-      }}
+      style={style}
+      onClick={
+        node.action ? () => executeAction(node.action, dataContext) : undefined
+      }
     >
       {resolveVariables(node.value || "", dataContext)}
     </span>

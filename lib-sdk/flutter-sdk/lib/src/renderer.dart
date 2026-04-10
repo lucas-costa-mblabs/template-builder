@@ -5,6 +5,8 @@ import 'widgets/media_node.dart';
 import 'widgets/button_node.dart';
 import 'widgets/price_node.dart';
 import 'widgets/misc_nodes.dart';
+import 'widgets/avatar_node.dart';
+import 'widgets/header_node.dart';
 
 class CVDRenderer extends StatelessWidget {
   final Map<String, dynamic> node;
@@ -24,9 +26,12 @@ class CVDRenderer extends StatelessWidget {
     'divider': (node, data) => DividerNodeWidget(node: node),
     'button': (node, data) => ButtonNodeWidget(node: node, dataContext: data),
     'price': (node, data) => PriceNodeWidget(node: node, dataContext: data),
-    'icon': (node, data) => IconNodeWidget(node: node),
-    'post_interactions': (node, data) => PostInteractionsNodeWidget(node: node),
+    'icon': (node, data) => IconNodeWidget(node: node, dataContext: data),
+    'post_interactions': (node, data) =>
+        PostInteractionsNodeWidget(node: node, dataContext: data),
     'html': (node, data) => HtmlNodeWidget(node: node, dataContext: data),
+    'avatar': (node, data) => AvatarNodeWidget(node: node, dataContext: data),
+    'header': (node, data) => HeaderNodeWidget(node: node, dataContext: data),
   };
 
   @override

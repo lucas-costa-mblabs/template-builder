@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import '../provider.dart';
 import '../utils.dart';
+import '../action_handler.dart';
 
 class TextNodeWidget extends StatelessWidget {
   final Map<String, dynamic> node;
@@ -9,6 +11,7 @@ class TextNodeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sdk = DirectoAiTemplateProvider.of(context);
     final value = resolveVariables(node['value']?.toString(), dataContext);
     final typography = node['typography']?.toString();
     final fontWeight = node['fontWeight']?.toString();
@@ -48,7 +51,9 @@ class TextNodeWidget extends StatelessWidget {
     else if (textAlign == 'right')
       align = TextAlign.right;
 
-    return Text(
+    final action = getNodeAction(node);
+
+    Widget child = Text(
       value,
       textAlign: align,
       style: TextStyle(
@@ -60,5 +65,14 @@ class TextNodeWidget extends StatelessWidget {
         height: 1.4,
       ),
     );
+
+    if (action != null) {
+      child = GestureDetector(
+        onTap: () => executeAction(action, context, dataContext, sdk?.onAction),
+        child: child,
+      );
+    }
+
+    return child;
   }
 }

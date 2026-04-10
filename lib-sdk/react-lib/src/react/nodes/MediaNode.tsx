@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import type { ComponentNode } from "../../core/types.js";
 import { resolveVariables } from "../utils.js";
+import { executeAction } from "../executeAction.js";
 
 interface MediaNodeProps {
   node: ComponentNode;
@@ -23,8 +24,12 @@ export function MediaNode({ node, dataContext }: MediaNodeProps) {
         height: (node.height as string) || "auto",
         display: "flex",
         overflow: "hidden",
+        cursor: node.action ? "pointer" : undefined,
         ...baseStyle,
       }}
+      onClick={
+        node.action ? () => executeAction(node.action, dataContext) : undefined
+      }
     >
       <img
         src={url}

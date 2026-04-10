@@ -3,6 +3,21 @@ export type SpacingToken = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
 export type BorderRadiusToken = "sm" | "md" | "lg" | "full";
 export type TypographyToken = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
 
+// ─── Actions ───
+export type ActionType = "OPEN_URL" | "DEEPLINK" | "UI_ACTION" | "NAVIGATE";
+
+export interface ActionPayload {
+  url?: string;
+  deeplink?: string;
+  actionName?: string;
+  target?: string;
+}
+
+export interface ComponentAction {
+  type: ActionType;
+  payload: ActionPayload;
+}
+
 // ─── Theme ───
 export interface Theme {
   colors: Record<string, string>;
@@ -57,7 +72,9 @@ export type ComponentType =
   | "price"
   | "icon"
   | "post_interactions"
-  | "html";
+  | "html"
+  | "avatar"
+  | "header";
 
 export interface ComponentNode {
   id: string;
@@ -129,6 +146,9 @@ export interface ComponentNode {
   showLike?: boolean;
   showSave?: boolean;
   showShare?: boolean;
+  onLike?: ComponentAction;
+  onSave?: ComponentAction;
+  onShare?: ComponentAction;
 
   // Icon
   icon?: string;
@@ -136,6 +156,22 @@ export interface ComponentNode {
 
   // Divider
   thickness?: "thin" | "medium" | "thick" | string;
+
+  // Action (genérica para qualquer nó interativo)
+  action?: ComponentAction;
+
+  // Header
+  imageUrl?: string;
+  title?: string;
+  onProfilePress?: ComponentAction;
+  menuItems?: Array<{
+    icon: string;
+    text: string;
+    action: ComponentAction;
+  }>;
+
+  // HTML
+  html?: string;
 
   // Extensível
   [key: string]: unknown;

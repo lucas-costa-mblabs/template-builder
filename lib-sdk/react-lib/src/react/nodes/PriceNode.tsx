@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import type { ComponentNode } from "../../core/types.js";
 import { useTemplateContext } from "../context.js";
 import { tokenToPx, resolveVariables } from "../utils.js";
+import { executeAction } from "../executeAction.js";
 
 interface PriceNodeProps {
   node: ComponentNode;
@@ -25,8 +26,12 @@ export function PriceNode({ node, dataContext }: PriceNodeProps) {
         flexDirection: "column",
         gap: "2px",
         padding: `${py} ${px}`,
+        cursor: node.action ? "pointer" : undefined,
         ...baseStyle,
       }}
+      onClick={
+        node.action ? () => executeAction(node.action, dataContext) : undefined
+      }
     >
       <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
         {node.showOriginalPrice !== false && node.originalPrice && (

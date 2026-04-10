@@ -28,9 +28,9 @@ Todo objeto dentro do array `template` (e de seus sub-componentes nas propriedad
 
 ```json
 {
-  "id": "string", // Identificador único do nó
-  "type": "string", // Tipo do componente ('container', 'text', 'button', etc.)
-  "flex": 1 // (Opcional) Peso de distribuição livre para containers flex
+  "id": "string",       // Identificador único do nó
+  "type": "string",     // Tipo do componente ('container', 'text', 'button', etc.)
+  "flex": 1             // (Opcional) Peso de distribuição livre para containers flex
 }
 ```
 
@@ -43,7 +43,6 @@ As propriedades de layout e estilização frequentemente usam tokens predefinido
 ### 3.1 Espaçamentos (`TokenType`)
 
 Utilizado para as propriedades de `padding`, `margin`, `gap` e `size`:
-
 - `xs`: 4px
 - `sm`: 8px
 - `md`: 16px
@@ -54,7 +53,6 @@ Utilizado para as propriedades de `padding`, `margin`, `gap` e `size`:
 ### 3.2 Cores (`ColorToken`)
 
 Utilizado para suportar o design system:
-
 - **Brand/Base:** `primary`, `secondary`, `accent`
 - **Feedback:** `success`, `warning`, `error`, `info`
 - **Neutros/Grayscale:** `white`, `black`, `gray-50` até `gray-950`
@@ -64,7 +62,32 @@ Utilizado para suportar o design system:
 
 ---
 
-## 💡 4. Variáveis Dinâmicas (Data Context)
+## ⚡ 4. Contrato de Ações (`ComponentAction`)
+
+Quase todos os componentes agora suportam uma propriedade `action` (ou variantes específicas como `onLike`, `onProfilePress`). O client deve interpretar este objeto para executar interações.
+
+```json
+{
+  "type": "OPEN_URL" | "DEEPLINK" | "UI_ACTION" | "NAVIGATE",
+  "payload": {
+    "url": "string",            // Usado em OPEN_URL
+    "deeplink": "string",       // Usado em DEEPLINK (Fallback para url)
+    "actionName": "string",     // Usado em UI_ACTION
+    "target": "string"          // Usado em NAVIGATE ('profile', 'cart', etc)
+  }
+}
+```
+
+### Tipos de Ação Disponíveis:
+1. **`OPEN_URL`**: Abre um link no browser externo.
+2. **`DEEPLINK`**: Abre um link interno do app (esquema `directoai://...`).
+3. **`UI_ACTION`**: Ações nativas do SDK. Valores comuns de `actionName`:
+   - `like`, `save`, `share`, `follow`, `report`, `open_profile`.
+4. **`NAVIGATE`**: Navega para telas específicas da plataforma definidas em `target`.
+
+---
+
+## 💡 5. Variáveis Dinâmicas (Data Context)
 
 Muitos valores recebem binding dinâmico. Eles são representados pela sintaxe da linguagem de template Mustache: `{{ variavel }}`.
 
@@ -88,9 +111,7 @@ Exemplo prático: `<Text>{{ post.title }}</Text>` renderizará a string correspo
 ## 📦 5. Dicionário de Componentes e Estruturas
 
 ### 5.1. Container (`"type": "container"`)
-
 _Componente de layout e agrupamento hierárquico._
-
 - `direction`: `"row"` | `"column"` -> Eixo principal
 - `justifyContent`: `"space-between"`, `"space-evenly"`, `"space-around"`, `"center"`, `"flex-start"`, `"flex-end"`
 - `alignItems`: `"center"`, `"flex-start"`, `"flex-end"`
@@ -101,89 +122,91 @@ _Componente de layout e agrupamento hierárquico._
 - `width`, `height`: Medidas fixas/livres (`"100%"`, `"auto"`, etc)
 - `blocks`: Array de componentes filhos do tipo `ComponentNode[]`
 
+> ⚠️ **Nota:** O componente `container` não possui ação de clique própria. Se precisar de uma área clicável, use um `button` ou envolva o conteúdo em um elemento que suporte `action`.
+
 ### 5.2. Texto (`"type": "text"`)
-
 _Visualização de texto simples/variável._
-
 - `value`: Escrita ou binding
+- `action`: `ComponentAction` (Opcional)
 - `typography`: `"caption"` (12px), `"body"` (16px), ou títulos de `"heading5"` (16px) a `"heading1"` (32px).
 - `color`: Token ou Hex.
 - `fontWeight`: `"bold"` | `"semiBold"` | `"normal"`
 - `textAlign`: `"left"` | `"center"` | `"right"`
 
 ### 5.3. Mídia / Imagem (`"type": "media"`)
-
 _Renderiza a imagem que veio do DataContext ou configurada._
-
 - `url`: Endereço (ex: `"{{ post.url }}"`)
 - `alt`: Título alternativo de acessibilidade
+- `action`: `ComponentAction` (Opcional)
 - `aspectRatio`, `width`, `height`
 - `objectFit`: `"cover"` | `"contain"` | `"fill"` | `"none"` | `"scale-down"`
 
 ### 5.4. Botões (`"type": "button"`)
-
 _Calls to action (CTA)._
-
 - `label`: Nome (suporta dynamic binding)
 - `variant`: `"primary"`, `"secondary"`, `"outline"`, `"ghost"`
 - `background`: Cor principal ou fall-back caso outline/ghost.
 - `radius`: Curvatura (`"sm"`, `"md"`, `"lg"`, `"full"`)
+- `action`: `ComponentAction` (Opcional - substitui link manual se presente)
 - `url`: Fallback global em caso de web.
 - `deeplink`: URL do `destinationUrl` para aplicativo. (Muitas vezes amarrado ao `{{ post.destinationUrl }}`)
 - `fullWidth`: `boolean`.
 - `size`: Token de dimensão do box do botão (`xs` a `xxl`)
 
 ### 5.5. Preço do Produto (`"type": "price"`)
-
 _Célula estilizada para preço com variação/desconto._
-
 - `price`: Corresponde usualmente a `{{ post.price }}`
 - `originalPrice`: Valor original `{{ post.originalPrice }}`
 - `discountPercent`: Porcentagem do badge `{{ post.discount }}`
+- `action`: `ComponentAction` (Opcional)
 - `showOriginalPrice`, `showDiscountPercent`: `boolean` de controle.
 - `paddingX`, `paddingY`: Tokens
 
 ### 5.6. Interações de Post (`"type": "post_interactions"`)
-
 _Módulo de prateleira para Feed (Like, Bookmark/Save, Share)._
-
 - `showLike`, `showSave`, `showShare`: `boolean`
+- `onLike`, `onSave`, `onShare`: `ComponentAction` (Pré-configuradas por padrão para ações nativas)
 - `paddingX`, `paddingY`, `gap`: Tokens.
 
 ### 5.7. Ícone Padrão (`"type": "icon"`)
-
 _Símbolos escaláveis usando biblioteca do ecossistema._
-
 - `icon`: string com nome normalizado (ex: `"user"`, `"heart"`, `"bookmark"`, `"share"`, `"shopping"`)
+- `action`: `ComponentAction` (Opcional)
 - `backgroundColor`, `borderRadius`: Estilizações do box de fundo.
 - `size`: `number | string` - Font Size ou tamanho da box.
 - `padding`: Tokens
 
 ### 5.8. Divider (`"type": "divider"`)
-
 _Régua._
-
 - `thickness`: `"thin"` (0.5px ou ligeiro lighter), `"medium"` (1px), `"thick"` (2px).
 
 ### 5.9. HTML Customizado (`"type": "html"`)
-
 _Renderiza HTML arbitrário diretamente no layout. Útil para conteúdo customizado que não se encaixa nos componentes padrão._
-
-- `html`: String HTML para renderizar. Suporta binding com variáveis dinâmicas (ex: `"{{ post.customVariables.html }}"`).
+- `html`: String HTML para renderizar. Suporta binding com variáveis dinâmicas.
+- `action`: `ComponentAction` (Opcional - área de clique total do container HTML)
 - `paddingX`, `paddingY`: Tokens de espaçamento interno.
 - `width`, `height`: Medidas fixas/livres (`"100%"`, `"auto"`, `"300px"`, etc).
 
 > ⚠️ **Atenção:** O conteúdo HTML é renderizado diretamente. No React Web use `dangerouslySetInnerHTML`. No React Native/Flutter, use um componente WebView ou parser de HTML.
 
 ### 5.10. Avatar (`"type": "avatar"`)
-
 _Exibe imagem de perfil/avatar com fallback para ícone._
-
 - `url`: URL da imagem do avatar (suporta binding, ex: `"{{ post.shop.avatar }}"`).
 - `icon`: Nome do ícone de fallback caso a imagem não carregue (ex: `"user"`).
 - `size`: `number | string` - Tamanho do avatar em pixels.
 - `backgroundColor`: Token ou Hex para cor de fundo.
 - `borderRadius`: `"sm"`, `"md"`, `"lg"`, `"full"` (tipicamente `"full"` para avatares circulares).
+- `action`: `ComponentAction` (Opcional)
+
+### 5.11. Cabeçalho de Perfil (`"type": "header"`)
+_Componente composto para o topo do conteúdo, exibindo marca e menu._
+- `imageUrl`: URL do avatar (geralmente `{{ post.shop.avatar }}`)
+- `title`: Nome exibido (geralmente `{{ post.shop.name }}`)
+- `onProfilePress`: `ComponentAction` (Acionado ao clicar no Avatar ou Título)
+- `menuItems`: Array de objetos contendo:
+    - `icon`: Nome do ícone
+    - `text`: Texto do item
+    - `action`: `ComponentAction` específica para este item de menu.
 
 ---
 
@@ -214,18 +237,57 @@ function JSONRenderer({ node, dataContext, theme }) {
   }
 
   if (node.type === "button") {
-    const link = applyDynamicVariables(node.deeplink || node.url, dataContext);
     return (
-      <Button
-        onPress={() => handleAction(link)}
-        style={mapButtonStyles(node, theme)}
-      >
-        {applyDynamicVariables(node.label, dataContext)}
-      </Button>
+       <Button 
+          onPress={() => executeAction(node.action, dataContext)} 
+          style={mapButtonStyles(node, theme)}
+       >
+          {applyDynamicVariables(node.label, dataContext)}
+       </Button>
+    );
+  }
+
+  if (node.type === "post_interactions") {
+    return (
+      <View style={mapInteractionStyles(node, theme)}>
+         {node.showLike && (
+           <IconButton 
+             icon="heart" 
+             onPress={() => executeAction(node.onLike, dataContext)} 
+           />
+         )}
+         {/* ... outros botões ... */}
+      </View>
     );
   }
 
   // Falha de Componente Desconhecido
   return <UnknownComponent />;
+}
+
+/**
+ * Exemplo de executor de ações padronizado
+ */
+function executeAction(action, dataContext) {
+  if (!action) return;
+
+  const { type, payload } = action;
+
+  switch (type) {
+    case "OPEN_URL":
+      const url = applyDynamicVariables(payload.url, dataContext);
+      Linking.openURL(url);
+      break;
+    case "UI_ACTION":
+      // Payload.actionName: 'like', 'save', 'share', etc.
+      DirectoSDK.trigger(payload.actionName, dataContext.postId);
+      break;
+    case "NAVIGATE":
+      // Payload.target: 'profile', 'cart', etc.
+      Navigation.navigate(payload.target, { id: dataContext.shopId });
+      break;
+    default:
+      console.warn("Ação não suportada", type);
+  }
 }
 ```

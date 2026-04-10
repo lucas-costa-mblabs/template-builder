@@ -21,6 +21,32 @@ class CVDTheme {
   }
 }
 
+class PostProfile {
+  final String accountName;
+  final String iconUrl;
+  final String? description;
+
+  PostProfile({
+    required this.accountName,
+    required this.iconUrl,
+    this.description,
+  });
+
+  factory PostProfile.fromJson(Map<String, dynamic> json) {
+    return PostProfile(
+      accountName: json['accountName'] ?? '',
+      iconUrl: json['iconUrl'] ?? '',
+      description: json['description'],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'accountName': accountName,
+    'iconUrl': iconUrl,
+    'description': description,
+  };
+}
+
 class PostShop {
   final String avatar;
   final String name;
@@ -51,6 +77,7 @@ class Post {
   final bool? liked;
   final int? likeCount;
   final bool? favorite;
+  final PostProfile? profile;
 
   Post({
     this.id,
@@ -69,6 +96,7 @@ class Post {
     this.liked,
     this.likeCount,
     this.favorite,
+    this.profile,
   });
 
   factory Post.fromJson(Map<String, dynamic> json) {
@@ -89,6 +117,9 @@ class Post {
       liked: json['liked'],
       likeCount: json['likeCount'],
       favorite: json['favorite'],
+      profile: json['profile'] != null
+          ? PostProfile.fromJson(json['profile'])
+          : null,
     );
   }
 
@@ -169,5 +200,42 @@ class DirectoAiConfig {
       deviceId: json['deviceId'],
       baseUrl: json['baseUrl'],
     );
+  }
+}
+
+class ActionPayload {
+  final String? url;
+  final String? deeplink;
+  final String? actionName;
+  final String? target;
+
+  ActionPayload({this.url, this.deeplink, this.actionName, this.target});
+
+  factory ActionPayload.fromJson(Map<String, dynamic> json) {
+    return ActionPayload(
+      url: json['url'],
+      deeplink: json['deeplink'],
+      actionName: json['actionName'],
+      target: json['target'],
+    );
+  }
+}
+
+class ComponentAction {
+  final String type; // OPEN_URL, DEEPLINK, UI_ACTION, NAVIGATE
+  final ActionPayload payload;
+
+  ComponentAction({required this.type, required this.payload});
+
+  factory ComponentAction.fromJson(Map<String, dynamic> json) {
+    return ComponentAction(
+      type: json['type'] ?? '',
+      payload: ActionPayload.fromJson(json['payload'] ?? {}),
+    );
+  }
+
+  static ComponentAction? fromOptionalJson(dynamic json) {
+    if (json == null || json is! Map<String, dynamic>) return null;
+    return ComponentAction.fromJson(json);
   }
 }

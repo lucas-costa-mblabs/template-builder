@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import type { ComponentNode, Post } from "../../core/types.js";
 import { useTemplateContext } from "../context.js";
 import { colorToHex, getRadius, resolveVariables } from "../utils.js";
+import { executeAction } from "../executeAction.js";
 
 interface ButtonNodeProps {
   node: ComponentNode;
@@ -50,9 +51,15 @@ export function ButtonNode({ node, dataContext }: ButtonNodeProps) {
     (node.size ? sizes[String(node.size)] : undefined) || sizes.md;
 
   const handleClick = () => {
+    // Prioridade: usar ComponentAction se definido
+    if (node.action) {
+      executeAction(node.action, dataContext);
+      return;
+    }
+
+    // Fallback: comportamento legado
     if (post) {
-      const action = (node as any).action || "click-button";
-      tracker.trackEvent(action, {
+      tracker.trackEvent("click-button", {
         contentId: post.contentId,
         campaignId: (post as any).campaignId,
         label: node.label,

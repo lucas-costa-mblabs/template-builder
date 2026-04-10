@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import '../provider.dart';
 import '../utils.dart';
+import '../action_handler.dart';
 
 class PriceNodeWidget extends StatelessWidget {
   final Map<String, dynamic> node;
@@ -9,6 +11,7 @@ class PriceNodeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sdk = DirectoAiTemplateProvider.of(context);
     final price = resolveVariables(node['price']?.toString(), dataContext);
     final originalPrice = resolveVariables(
       node['originalPrice']?.toString(),
@@ -23,8 +26,9 @@ class PriceNodeWidget extends StatelessWidget {
 
     final px = tokenToPx(context, node['paddingX']?.toString()) ?? 0.0;
     final py = tokenToPx(context, node['paddingY']?.toString()) ?? 8.0;
+    final action = getNodeAction(node);
 
-    return Padding(
+    Widget child = Padding(
       padding: EdgeInsets.symmetric(horizontal: px, vertical: py),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,5 +83,14 @@ class PriceNodeWidget extends StatelessWidget {
         ],
       ),
     );
+
+    if (action != null) {
+      child = GestureDetector(
+        onTap: () => executeAction(action, context, dataContext, sdk?.onAction),
+        child: child,
+      );
+    }
+
+    return child;
   }
 }

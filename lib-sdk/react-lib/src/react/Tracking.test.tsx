@@ -22,6 +22,7 @@ const mockConfig = {
 
 const mockPost = {
   id: "post_1",
+  contentId: "post_1",
   templateId: "tpl_1",
   title: "Test Post",
   campaignId: "camp_1",
@@ -30,7 +31,12 @@ const mockPost = {
 const mockTemplate = {
   id: "tpl_1",
   template: [
-    { id: "b1", type: "button", label: "Buy Now", action: "click-buy" },
+    {
+      id: "b1",
+      type: "button",
+      label: "Buy Now",
+      deeplink: "https://example.com",
+    },
     { id: "i1", type: "post_interactions", showLike: true },
   ],
 } as any;
@@ -71,7 +77,7 @@ describe("Tracking & Observability", () => {
     fireEvent.click(button);
 
     expect(mockTracker.trackEvent).toHaveBeenCalledWith(
-      "click-buy",
+      "click-button",
       expect.objectContaining({
         contentId: "post_1",
         campaignId: "camp_1",

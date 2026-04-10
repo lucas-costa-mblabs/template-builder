@@ -9,6 +9,8 @@ import { PriceNode } from "./nodes/PriceNode.js";
 import { IconNode } from "./nodes/IconNode.js";
 import { PostInteractionsNode } from "./nodes/PostInteractionsNode.js";
 import { HtmlNode } from "./nodes/HtmlNode.js";
+import { AvatarNode } from "./nodes/AvatarNode.js";
+import { HeaderNode } from "./nodes/HeaderNode.js";
 
 interface NodeProps {
   node: ComponentNode;
@@ -25,6 +27,8 @@ const nodeTypes: Record<string, FC<NodeProps>> = {
   icon: IconNode,
   post_interactions: PostInteractionsNode,
   html: HtmlNode,
+  avatar: AvatarNode,
+  header: HeaderNode,
 };
 
 export function JSONRenderer({ node, dataContext }: NodeProps) {

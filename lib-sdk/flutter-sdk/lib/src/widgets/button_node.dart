@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import '../provider.dart';
 import '../utils.dart';
+import '../action_handler.dart';
 
 class ButtonNodeWidget extends StatelessWidget {
   final Map<String, dynamic> node;
@@ -9,6 +11,7 @@ class ButtonNodeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sdk = DirectoAiTemplateProvider.of(context);
     final label = resolveVariables(node['label']?.toString(), dataContext);
     final variant = node['variant']?.toString();
     final background = node['background']?.toString();
@@ -48,10 +51,19 @@ class ButtonNodeWidget extends StatelessWidget {
       hPadding = 32;
     }
 
+    final action = getNodeAction(node);
+
     return SizedBox(
       width: fullWidth ? double.infinity : null,
       child: ElevatedButton(
-        onPressed: () {}, // Handled by consumer if needed
+        onPressed: () {
+          // Prioridade: ComponentAction
+          if (action != null) {
+            executeAction(action, context, dataContext, sdk?.onAction);
+            return;
+          }
+          // Fallback: comportamento legado (consumer lida)
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: bgColor,
           foregroundColor: textColor,
