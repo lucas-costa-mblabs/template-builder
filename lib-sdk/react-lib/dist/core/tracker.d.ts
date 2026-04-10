@@ -5,7 +5,7 @@ export interface DirectoAiTracker {
     trackViewTime(contentId: string, seconds: number, data: Record<string, any>): Promise<void>;
     toggleLike(contentId: string, campaignId?: string): Promise<void>;
     toggleFavorite(contentId: string, campaignId: string | undefined, isFavorited: boolean): Promise<void>;
-    shareContent(contentId: string, campaignId?: string, title?: string): Promise<void>;
+    shareContent(contentData: any): Promise<void>;
 }
 export declare class DefaultDirectoAiTracker implements DirectoAiTracker {
     private config;
@@ -17,6 +17,6 @@ export declare class DefaultDirectoAiTracker implements DirectoAiTracker {
     trackViewTime(contentId: string, seconds: number, data: Record<string, any>): Promise<void>;
     toggleLike(contentId: string, campaignId?: string): Promise<void>;
     toggleFavorite(contentId: string, campaignId: string | undefined, isFavorited: boolean): Promise<void>;
-    shareContent(contentId: string, campaignId?: string, title?: string): Promise<void>;
+    shareContent(contentData: any): Promise<void>;
 }
 //# sourceMappingURL=tracker.d.ts.map

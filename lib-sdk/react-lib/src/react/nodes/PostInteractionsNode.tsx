@@ -68,11 +68,7 @@ export function PostInteractionsNode({
     }
     // Fallback: tracker
     if (!post) return;
-    await tracker.shareContent(
-      post.contentId,
-      (post as any).campaignId,
-      post.title,
-    );
+    await tracker.shareContent(post);
   };
 
   return (

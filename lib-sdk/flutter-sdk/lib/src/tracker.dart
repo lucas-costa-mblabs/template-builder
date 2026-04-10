@@ -13,7 +13,7 @@ abstract class DirectoAiTracker {
     String? campaignId,
   });
   Future<void> shareContent(
-    String contentId, {
+    Map<String, dynamic> contentData, {
     String? campaignId,
     String? title,
   });
@@ -131,33 +131,59 @@ class DefaultDirectoAiTracker implements DirectoAiTracker {
 
   @override
   Future<void> shareContent(
-    String contentId, {
+    Map<String, dynamic> contentData, {
     String? campaignId,
     String? title,
   }) async {
     final shareId = _uuid.v4();
-    final publicShareUrl = "https://share.directoai.com.br/share/$shareId";
+    final contentId =
+        contentData['contentId']?.toString() ??
+        contentData['id']?.toString() ??
+        '';
+
+    String? base64Template;
+    if (contentData['template'] != null && contentData['template'] is String) {
+      try {
+        final bytes = utf8.encode(contentData['template']);
+        base64Template = base64Encode(bytes);
+      } catch (_) {}
+    }
 
     try {
+      final payload = {
+        'shareId': shareId,
+        'contentId': contentId,
+        'campaignId': campaignId ?? '',
+        'accountId': config.accountId,
+        'createdBy': config.customerId ?? '',
+        'expiresInHours': 168,
+        'content': {
+          ...contentData,
+          'encryptedSnapshot': base64Template,
+          'template': null,
+        },
+      };
+
       final response = await http.post(
         Uri.parse('$baseUrl/campaign/api/v1/feed/share'),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'share_id': shareId,
-          'content_id': contentId,
-          'campaign_id': campaignId ?? '',
-          'account_id': config.accountId,
-          'created_by': config.customerId,
-          'expires_in_hours': 168,
-          'url': publicShareUrl,
-        }),
+        body: jsonEncode(payload),
       );
 
       if (response.statusCode < 300) {
+        final result = jsonDecode(response.body);
+        final publicShareUrl = result['data']?['url']?.toString();
+
+        if (publicShareUrl == null) {
+          throw Exception('Share API failed: No URL returned');
+        }
+
         await trackEvent('click-share', {
           'contentId': contentId,
           if (campaignId != null) 'campaignId': campaignId,
         });
+      } else {
+        throw Exception('Share API failed with status: ${response.statusCode}');
       }
     } catch (e) {
       print('DirectoAi SDK: Failed to share content: $e');

@@ -34,8 +34,8 @@ function App() {
             maxWidth: "100%",
           }}
         >
-          {fullResponse.posts.map((post, index) => (
-            <Post key={post.id || post.contentId || index} post={post as any} />
+          {fullResponse.posts.map((post: any, index: number) => (
+            <Post key={post?.id || post?.contentId || index} post={post} />
           ))}
         </div>
       </TemplateProvider>

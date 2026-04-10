@@ -172,7 +172,7 @@ class _PostInteractionsNodeWidgetState
                 }
                 if (contentId != null) {
                   sdk.tracker.shareContent(
-                    contentId,
+                    postData ?? {},
                     campaignId: campaignId,
                     title: title,
                   );

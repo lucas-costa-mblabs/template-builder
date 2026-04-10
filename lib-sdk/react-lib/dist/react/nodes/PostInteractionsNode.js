@@ -50,7 +50,7 @@ export function PostInteractionsNode({ node, dataContext, }) {
         // Fallback: tracker
         if (!post)
             return;
-        await tracker.shareContent(post.contentId, post.campaignId, post.title);
+        await tracker.shareContent(post);
     };
     return (_jsxs("div", { style: {
             display: "flex",

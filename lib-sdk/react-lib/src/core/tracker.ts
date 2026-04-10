@@ -14,11 +14,7 @@ export interface DirectoAiTracker {
     campaignId: string | undefined,
     isFavorited: boolean,
   ): Promise<void>;
-  shareContent(
-    contentId: string,
-    campaignId?: string,
-    title?: string,
-  ): Promise<void>;
+  shareContent(contentData: any): Promise<void>;
 }
 
 export class DefaultDirectoAiTracker implements DirectoAiTracker {
@@ -143,11 +139,42 @@ export class DefaultDirectoAiTracker implements DirectoAiTracker {
     }
   }
 
-  async shareContent(contentId: string, campaignId?: string, title?: string) {
+  async shareContent(contentData: any) {
     const shareId = crypto.randomUUID();
-    const publicShareUrl = `${window.location.origin}/share/${shareId}`;
+    const contentId = contentData?.contentId || contentData?.id || "";
+    const campaignId = contentData?.campaignId || "";
+
+    const base64Encode = (str: string) => {
+      try {
+        if (typeof window !== "undefined") {
+          return window.btoa(unescape(encodeURIComponent(str)));
+        } else if (typeof globalThis !== "undefined" && globalThis.btoa) {
+          return globalThis.btoa(unescape(encodeURIComponent(str)));
+        } else {
+          return (globalThis as any).Buffer.from(str).toString("base64");
+        }
+      } catch (e) {
+        return "";
+      }
+    };
 
     try {
+      const payload = {
+        shareId: shareId,
+        contentId: contentId,
+        campaignId: campaignId,
+        accountId: this.config.accountId,
+        createdBy: this.config.customerId,
+        expiresInHours: 168,
+        content: {
+          ...contentData,
+          encryptedSnapshot: contentData?.template
+            ? base64Encode(contentData.template)
+            : null,
+          template: null,
+        },
+      };
+
       const response = await fetch(
         `${this.baseUrl}/campaign/api/v1/feed/share`,
         {
@@ -155,28 +182,27 @@ export class DefaultDirectoAiTracker implements DirectoAiTracker {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            share_id: shareId,
-            content_id: contentId,
-            campaign_id: campaignId || "",
-            account_id: this.config.accountId,
-            created_by: this.config.customerId,
-            expires_in_hours: 168,
-            url: publicShareUrl,
-          }),
+          body: JSON.stringify(payload),
         },
       );
 
       if (response.ok) {
+        const result = await response.json();
+        const publicShareUrl = result.data?.url;
+
+        if (!publicShareUrl) {
+          throw new Error("Share API failed: No URL returned");
+        }
+
         await this.trackEvent("click-share", {
           contentId,
           campaignId,
         });
 
         const shareData = {
-          title: title || "Compartilhar",
+          title: contentData?.title || "Compartilhar",
           url: publicShareUrl,
-          text: title || "",
+          text: contentData?.title || "",
         };
 
         if ((window as any).flutter_inappwebview?.callHandler) {
@@ -193,6 +219,10 @@ export class DefaultDirectoAiTracker implements DirectoAiTracker {
         } else {
           await navigator.clipboard.writeText(publicShareUrl);
         }
+      } else {
+        throw new Error(
+          `Share API failed: ${response.status} ${response.statusText}`,
+        );
       }
     } catch (error) {
       console.error("DirectoAi SDK: Failed to share content:", error);

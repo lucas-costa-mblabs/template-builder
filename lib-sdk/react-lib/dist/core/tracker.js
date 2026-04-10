@@ -99,34 +99,63 @@ export class DefaultDirectoAiTracker {
             console.error("DirectoAi SDK: Failed to toggle favorite:", error);
         }
     }
-    async shareContent(contentId, campaignId, title) {
+    async shareContent(contentData) {
         const shareId = crypto.randomUUID();
-        const publicShareUrl = `${window.location.origin}/share/${shareId}`;
+        const contentId = contentData?.contentId || contentData?.id || "";
+        const campaignId = contentData?.campaignId || "";
+        const base64Encode = (str) => {
+            try {
+                if (typeof window !== "undefined") {
+                    return window.btoa(unescape(encodeURIComponent(str)));
+                }
+                else if (typeof globalThis !== "undefined" && globalThis.btoa) {
+                    return globalThis.btoa(unescape(encodeURIComponent(str)));
+                }
+                else {
+                    return globalThis.Buffer.from(str).toString("base64");
+                }
+            }
+            catch (e) {
+                return "";
+            }
+        };
         try {
+            const payload = {
+                shareId: shareId,
+                contentId: contentId,
+                campaignId: campaignId,
+                accountId: this.config.accountId,
+                createdBy: this.config.customerId,
+                expiresInHours: 168,
+                content: {
+                    ...contentData,
+                    encryptedSnapshot: contentData?.template
+                        ? base64Encode(contentData.template)
+                        : null,
+                    template: null,
+                },
+            };
             const response = await fetch(`${this.baseUrl}/campaign/api/v1/feed/share`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    share_id: shareId,
-                    content_id: contentId,
-                    campaign_id: campaignId || "",
-                    account_id: this.config.accountId,
-                    created_by: this.config.customerId,
-                    expires_in_hours: 168,
-                    url: publicShareUrl,
-                }),
+                body: JSON.stringify(payload),
             });
             if (response.ok) {
+                const result = await response.json();
+                const publicShareUrl = result.data?.url;
+                if (!publicShareUrl) {
+                    throw new Error("Share API failed: No URL returned");
+                }
                 await this.trackEvent("click-share", {
                     contentId,
                     campaignId,
                 });
                 const shareData = {
-                    title: title || "Compartilhar",
+                    title: contentData?.title || "Compartilhar",
                     url: publicShareUrl,
-                    text: title || "",
+                    text: contentData?.title || "",
                 };
                 if (window.flutter_inappwebview?.callHandler) {
                     window.flutter_inappwebview.callHandler("shareLink", publicShareUrl);
@@ -139,6 +168,9 @@ export class DefaultDirectoAiTracker {
                 else {
                     await navigator.clipboard.writeText(publicShareUrl);
                 }
+            }
+            else {
+                throw new Error(`Share API failed: ${response.status} ${response.statusText}`);
             }
         }
         catch (error) {
