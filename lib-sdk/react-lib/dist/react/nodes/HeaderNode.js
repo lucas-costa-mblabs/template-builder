@@ -44,7 +44,7 @@ export function HeaderNode({ node, dataContext }) {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "8px 0",
+        padding: "12px 16px",
         flex: node.flex || undefined,
     };
     return (_jsxs("div", { style: baseStyle, children: [_jsxs("div", { style: {

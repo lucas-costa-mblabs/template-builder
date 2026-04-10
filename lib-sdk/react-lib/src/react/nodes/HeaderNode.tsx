@@ -67,7 +67,7 @@ export function HeaderNode({ node, dataContext }: HeaderNodeProps) {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: "8px 0",
+    padding: "12px 16px",
     flex: node.flex || undefined,
   };
 
