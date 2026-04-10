@@ -26,6 +26,7 @@ export function AvatarNode({ node, dataContext }) {
         overflow: "hidden",
         cursor: node.action ? "pointer" : undefined,
         flex: node.flex || undefined,
+        border: "1px solid rgba(0,0,0,0.08)",
     };
     const handleClick = node.action
         ? () => executeAction(node.action, dataContext)
