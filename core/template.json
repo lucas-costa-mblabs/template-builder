@@ -17,19 +17,33 @@
           {
             "icon": "info",
             "link": "",
-            "text": "Sobre esta conta"
+            "text": "Sobre esta conta",
+            "action": {
+              "type": "UI_ACTION",
+              "payload": {
+                "actionName": "open_profile"
+              }
+            }
           },
           {
             "icon": "user",
             "link": "",
-            "text": "Seguir"
+            "text": "Seguir",
+            "action": {
+              "type": "UI_ACTION",
+              "payload": {
+                "actionName": "follow"
+              }
+            }
           },
           {
             "icon": "star",
             "text": "Denunciar",
             "action": {
-              "type": "DEEPLINK",
-              "payload": {}
+              "type": "UI_ACTION",
+              "payload": {
+                "actionName": "report"
+              }
             }
           }
         ],
@@ -108,29 +122,41 @@
             "value": "{{post.title}}",
             "fontWeight": "bold",
             "typography": "heading5"
+          },
+          {
+            "id": "jc9g8heal",
+            "type": "container",
+            "blocks": [
+              {
+                "id": "y57jcqo4l",
+                "type": "text",
+                "color": "gray-900",
+                "value": "Conheça o novo Yopro Energy Boost da Danone, disponível nos sabores Cappuccino e Café Expresso.",
+                "typography": "body"
+              }
+            ],
+            "paddingY": "xs",
+            "direction": "column"
+          },
+          {
+            "id": "79td16o62",
+            "type": "container",
+            "blocks": [
+              {
+                "id": "6dxmv1pq5",
+                "type": "button",
+                "label": "Clique Aqui",
+                "radius": "md",
+                "variant": "primary"
+              }
+            ],
+            "paddingY": "md",
+            "direction": "column"
           }
         ],
         "paddingX": "md",
         "paddingY": "xs",
         "direction": "column"
-      },
-      {
-        "id": "pbwqas01z",
-        "gap": "sm",
-        "type": "container",
-        "blocks": [
-          {
-            "id": "q85bv3yx4",
-            "type": "button",
-            "label": "Clique Aqui",
-            "radius": "md",
-            "variant": "primary"
-          }
-        ],
-        "paddingX": "md",
-        "paddingY": "sm",
-        "direction": "column",
-        "justifyContent": "center"
       }
     ],
     "createdAt": "2026-03-26T21:17:47.755438Z",
