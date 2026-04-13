@@ -31,7 +31,7 @@ export function executeAction(
     case "UI_ACTION": {
       window.dispatchEvent(
         new CustomEvent("directo:ui-action", {
-          detail: { actionName: payload.actionName, dataContext },
+          detail: { actionName: payload.actionName, dataContext, action },
         }),
       );
       break;

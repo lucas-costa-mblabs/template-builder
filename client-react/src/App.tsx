@@ -2,11 +2,29 @@ import { TemplateProvider, Post } from "@directo/template-builder/react";
 import "./App.css";
 
 // ─── Mock: simulando dados vindos de endpoints ───
-import fullResponse from "../full.response.json";
+import themeResponse from "../response/theme.response.json";
+import templateResponse from "../response/template.response.json";
+import feedResponse from "../response/feed.response.json";
 
 // ─── App ───
 
 function App() {
+  const templates = (templateResponse.data || []) as any[];
+  const posts = ((feedResponse.data?.feeds || []) as any[]).map((post) => {
+    const hasStructuredTemplate = templates.some(
+      (template) => template.templateId === post.templateId,
+    );
+
+    // No cenário novo com contextos separados, preferimos o template JSON
+    // vindo de `template.response.json` quando houver correspondência.
+    if (hasStructuredTemplate) {
+      const { template, ...rest } = post;
+      return rest;
+    }
+
+    return post;
+  });
+
   return (
     <div
       style={{
@@ -16,11 +34,13 @@ function App() {
       }}
     >
       <TemplateProvider
-        theme={fullResponse.theme as any}
-        templates={fullResponse.templates as any}
+        theme={themeResponse.data as any}
+        templates={templates as any}
         config={{
           accountId: "0b455c19-e389-4a7f-b83c-ef0cf7286ecb",
           apiKey: "mock-api-key",
+          customerId: "mock-customer-123",
+          baseUrl: "https://api.dev-directoai.com.br",
         }}
       >
         <div
@@ -34,7 +54,7 @@ function App() {
             maxWidth: "100%",
           }}
         >
-          {fullResponse.posts.map((post: any, index: number) => (
+          {posts.map((post: any, index: number) => (
             <Post key={post?.id || post?.contentId || index} post={post} />
           ))}
         </div>

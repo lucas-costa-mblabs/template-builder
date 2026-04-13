@@ -17,6 +17,7 @@ export type {
   SpacingToken,
   BorderRadiusToken,
   TypographyToken,
+  ReportSubmission,
 } from "../core/types.js";
 
 export type { TemplateProviderProps } from "./TemplateProvider.js";

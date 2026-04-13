@@ -6,6 +6,16 @@ export class DefaultDirectoAiTracker {
     get baseUrl() {
         return this.config.baseUrl || "https://api.directoai.com.br";
     }
+    async sendToGA(eventName, eventParams) {
+        if (this.config.googleAnalyticsHandler) {
+            try {
+                this.config.googleAnalyticsHandler(eventName, eventParams);
+            }
+            catch (e) {
+                console.error("DirectoAi SDK: Error in GA handler", e);
+            }
+        }
+    }
     async sendMessageQueue(payload) {
         try {
             const response = await fetch(`${this.baseUrl}/metric-queue`, {
@@ -72,12 +82,11 @@ export class DefaultDirectoAiTracker {
             campaignId,
         });
     }
-    async toggleFavorite(contentId, campaignId, isFavorited) {
-        const method = isFavorited ? "DELETE" : "POST";
+    async addFavorite(contentId, campaignId) {
         const url = `${this.baseUrl}/campaign/api/v1/feed/favorites`;
         try {
             const response = await fetch(url, {
-                method,
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -88,19 +97,104 @@ export class DefaultDirectoAiTracker {
                     campaignId,
                 }),
             });
-            if (response.ok) {
+            // Se sucesso ou conflito (já favoritado), logamos as métricas
+            if (response.ok || response.status === 409) {
                 await this.trackEvent("click-favorite", {
                     contentId,
                     campaignId,
                 });
+                await this.sendToGA("click_card", {
+                    content_id: contentId,
+                    account_id: this.config.accountId,
+                    customer_id: this.config.customerId,
+                    event_type: "click-favorite",
+                });
+            }
+            if (!response.ok && response.status !== 409) {
+                throw new Error(`Add favorite failed: ${response.status}`);
             }
         }
         catch (error) {
-            console.error("DirectoAi SDK: Failed to toggle favorite:", error);
+            console.error("DirectoAi SDK: Failed to add favorite:", error);
+            throw error;
+        }
+    }
+    async removeFavorite(contentId) {
+        const url = `${this.baseUrl}/campaign/api/v1/feed/favorites`;
+        try {
+            const response = await fetch(url, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    accountId: this.config.accountId,
+                    customerId: this.config.customerId,
+                    contentId,
+                }),
+            });
+            if (!response.ok) {
+                throw new Error(`Remove favorite failed: ${response.status}`);
+            }
+        }
+        catch (error) {
+            console.error("DirectoAi SDK: Failed to remove favorite:", error);
+            throw error;
+        }
+    }
+    async toggleFavorite(contentId, campaignId, isFavorited) {
+        if (isFavorited) {
+            return this.removeFavorite(contentId);
+        }
+        else {
+            return this.addFavorite(contentId, campaignId);
+        }
+    }
+    async reportContent(contentId, reportType, description) {
+        const url = `${this.baseUrl}/api/v1/contents/${contentId}/report`;
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    reportType,
+                    reporterCustomerId: this.config.customerId,
+                    ...(description ? { description } : {}),
+                }),
+            });
+            if (!response.ok) {
+                throw new Error(`Report content failed: ${response.status}`);
+            }
+            await this.trackEvent("click-report", {
+                contentId,
+                reportType,
+            });
+        }
+        catch (error) {
+            console.error("DirectoAi SDK: Failed to report content:", error);
+            throw error;
         }
     }
     async shareContent(contentData) {
-        const shareId = crypto.randomUUID();
+        const generateUUID = () => {
+            try {
+                if (typeof crypto !== "undefined" && crypto.randomUUID) {
+                    return crypto.randomUUID();
+                }
+                // Fallback for non-secure contexts or older environments
+                return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+                    const r = (Math.random() * 16) | 0;
+                    const v = c === "x" ? r : (r & 0x3) | 0x8;
+                    return v.toString(16);
+                });
+            }
+            catch (e) {
+                return Date.now().toString(36) + Math.random().toString(36).substr(2);
+            }
+        };
+        const shareId = generateUUID();
         const contentId = contentData?.contentId || contentData?.id || "";
         const campaignId = contentData?.campaignId || "";
         const base64Encode = (str) => {
@@ -125,7 +219,7 @@ export class DefaultDirectoAiTracker {
                 contentId: contentId,
                 campaignId: campaignId,
                 accountId: this.config.accountId,
-                createdBy: this.config.customerId,
+                createdBy: this.config.customerId || "",
                 expiresInHours: 168,
                 content: {
                     ...contentData,
@@ -135,6 +229,10 @@ export class DefaultDirectoAiTracker {
                     template: null,
                 },
             };
+            console.log("DirectoAi SDK: Creating share link...", {
+                url: `${this.baseUrl}/campaign/api/v1/feed/share`,
+                payload,
+            });
             const response = await fetch(`${this.baseUrl}/campaign/api/v1/feed/share`, {
                 method: "POST",
                 headers: {
@@ -148,6 +246,7 @@ export class DefaultDirectoAiTracker {
                 if (!publicShareUrl) {
                     throw new Error("Share API failed: No URL returned");
                 }
+                console.log("DirectoAi SDK: Share created successfully:", result);
                 await this.trackEvent("click-share", {
                     contentId,
                     campaignId,
@@ -170,12 +269,84 @@ export class DefaultDirectoAiTracker {
                 }
             }
             else {
-                throw new Error(`Share API failed: ${response.status} ${response.statusText}`);
+                const errorText = await response.text();
+                throw new Error(`Share API failed: ${response.status} ${response.statusText} - ${errorText}`);
             }
         }
         catch (error) {
-            console.error("DirectoAi SDK: Failed to share content:", error);
+            console.error("DirectoAi SDK: Error creating share link:", error);
         }
+    }
+}
+/**
+ * Standalone utility to create a share link, matching the pattern provided by the user.
+ */
+export async function createShareLink(config, content, campaignId = "") {
+    const generateUUID = () => {
+        try {
+            if (typeof crypto !== "undefined" && crypto.randomUUID) {
+                return crypto.randomUUID();
+            }
+            return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+                const r = (Math.random() * 16) | 0;
+                const v = c === "x" ? r : (r & 0x3) | 0x8;
+                return v.toString(16);
+            });
+        }
+        catch (e) {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+    };
+    const base64Encode = (str) => {
+        try {
+            if (typeof window !== "undefined") {
+                return window.btoa(unescape(encodeURIComponent(str)));
+            }
+            else if (typeof globalThis !== "undefined" && globalThis.btoa) {
+                return globalThis.btoa(unescape(encodeURIComponent(str)));
+            }
+            else {
+                return globalThis.Buffer.from(str).toString("base64");
+            }
+        }
+        catch (e) {
+            return "";
+        }
+    };
+    try {
+        const shareId = generateUUID();
+        const payload = {
+            shareId,
+            contentId: content.contentId || content.id || "",
+            campaignId: campaignId || "",
+            accountId: config.accountId,
+            createdBy: config.customerId || "",
+            expiresInHours: 168,
+            content: {
+                ...content,
+                encryptedSnapshot: content.template
+                    ? base64Encode(content.template)
+                    : null,
+                template: null,
+            },
+        };
+        const baseUrl = config.baseUrl || "https://api.directoai.com.br";
+        const response = await fetch(`${baseUrl}/campaign/api/v1/feed/share`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        });
+        if (!response.ok) {
+            throw new Error(`Share API failed: ${response.status} ${response.statusText}`);
+        }
+        const result = await response.json();
+        return result.data?.url || null;
+    }
+    catch (error) {
+        console.error("Error creating share link:", error);
+        return null;
     }
 }
 //# sourceMappingURL=tracker.js.map

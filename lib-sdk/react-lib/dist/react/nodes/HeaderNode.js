@@ -73,7 +73,7 @@ export function HeaderNode({ node, dataContext }) {
                                     color: "#9ca3af",
                                     lineHeight: 1.2,
                                     marginTop: "2px",
-                                }, children: "Patrocinado" }))] })] }), node.menuItems && node.menuItems.length > 0 && (_jsxs("div", { ref: menuRef, style: { position: "relative" }, children: [_jsx("div", { style: {
+                                }, children: "Patrocinado" }))] })] }), node.menuItems && node.menuItems.length > 0 && (_jsxs("div", { ref: menuRef, style: { position: "relative" }, children: [_jsx("div", { role: "button", "aria-label": "Abrir op\u00E7\u00F5es", style: {
                             display: "inline-flex",
                             alignItems: "center",
                             justifyContent: "center",

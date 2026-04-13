@@ -130,6 +130,8 @@ export function HeaderNode({ node, dataContext }: HeaderNodeProps) {
       {node.menuItems && node.menuItems.length > 0 && (
         <div ref={menuRef} style={{ position: "relative" }}>
           <div
+            role="button"
+            aria-label="Abrir opções"
             style={{
               display: "inline-flex",
               alignItems: "center",

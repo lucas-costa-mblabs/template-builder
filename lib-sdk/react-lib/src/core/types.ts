@@ -18,6 +18,16 @@ export interface ComponentAction {
   payload: ActionPayload;
 }
 
+export interface ReportSubmission {
+  reasonId: string;
+  reasonLabel: string;
+  details: string;
+  contentId?: string;
+  campaignId?: string;
+  title?: string;
+  createdAt: string;
+}
+
 // ─── Theme ───
 export interface Theme {
   colors: Record<string, string>;
@@ -44,6 +54,7 @@ export interface DirectoAiConfig {
   customerId?: string;
   deviceId?: string;
   baseUrl?: string;
+  googleAnalyticsHandler?: (eventName: string, eventParams: Record<string, any>) => void;
 }
 
 export interface Post {

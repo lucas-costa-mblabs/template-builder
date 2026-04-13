@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { PostInteractionsNode } from "./PostInteractionsNode.js";
 import { TemplateContext } from "../context.js";
 import React from "react";
@@ -17,6 +17,8 @@ describe("PostInteractionsNode", () => {
     trackImpression: async () => {},
     trackViewTime: async () => {},
     toggleLike: async () => {},
+    addFavorite: vi.fn(async () => {}),
+    removeFavorite: vi.fn(async () => {}),
     toggleFavorite: async () => {},
     shareContent: async () => {},
   };
@@ -65,5 +67,78 @@ describe("PostInteractionsNode", () => {
     );
     // Just verify it renders something
     expect(container).toBeInTheDocument();
+  });
+
+  it("should call addFavorite when post is not favorited", () => {
+    const node = {
+      id: "pi1",
+      type: "post_interactions",
+      showSave: true,
+    };
+
+    renderWithContext(
+      <PostInteractionsNode
+        node={node as any}
+        dataContext={{
+          post: { contentId: "content_1", campaignId: "campaign_1", favorite: false },
+        }}
+      />,
+    );
+
+    fireEvent.click(screen.getByTestId("bookmark-icon"));
+
+    expect(mockTracker.addFavorite).toHaveBeenCalledWith(
+      "content_1",
+      "campaign_1",
+    );
+  });
+
+  it("should call addFavorite when onSave is a UI_ACTION save", () => {
+    const node = {
+      id: "pi1",
+      type: "post_interactions",
+      showSave: true,
+      onSave: {
+        type: "UI_ACTION",
+        payload: { actionName: "save" },
+      },
+    };
+
+    renderWithContext(
+      <PostInteractionsNode
+        node={node as any}
+        dataContext={{
+          post: { contentId: "content_1", campaignId: "campaign_1", favorite: false },
+        }}
+      />,
+    );
+
+    fireEvent.click(screen.getByTestId("bookmark-icon"));
+
+    expect(mockTracker.addFavorite).toHaveBeenCalledWith(
+      "content_1",
+      "campaign_1",
+    );
+  });
+
+  it("should call removeFavorite when post is already favorited", () => {
+    const node = {
+      id: "pi1",
+      type: "post_interactions",
+      showSave: true,
+    };
+
+    renderWithContext(
+      <PostInteractionsNode
+        node={node as any}
+        dataContext={{
+          post: { contentId: "content_1", campaignId: "campaign_1", favorite: true },
+        }}
+      />,
+    );
+
+    fireEvent.click(screen.getByTestId("bookmark-icon"));
+
+    expect(mockTracker.removeFavorite).toHaveBeenCalledWith("content_1");
   });
 });

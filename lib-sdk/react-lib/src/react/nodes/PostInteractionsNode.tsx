@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ComponentNode, Post } from "../../core/types.js";
 import { useTemplateContext } from "../context.js";
 import { tokenToPx } from "../utils.js";
@@ -21,6 +21,11 @@ export function PostInteractionsNode({
   const [isLiked, setIsLiked] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
 
+  useEffect(() => {
+    setIsLiked(Boolean((post as any)?.liked));
+    setIsFavorited(Boolean((post as any)?.favorite));
+  }, [post]);
+
   const baseStyle: CSSProperties = {
     flex: node.flex || undefined,
   };
@@ -30,45 +35,57 @@ export function PostInteractionsNode({
 
   const iconSize = 24;
   const iconStrokeWidth = 1.5;
+  const shouldRunNativeAction = (
+    action: ComponentNode["onLike"] | ComponentNode["onSave"] | ComponentNode["onShare"],
+    actionName: string,
+  ) => {
+    if (!action) return true;
+    return (
+      action.type === "UI_ACTION" && action.payload?.actionName === actionName
+    );
+  };
 
   const handleLike = async () => {
     if (node.onLike) {
       executeAction(node.onLike, dataContext);
-      setIsLiked(!isLiked);
-      return;
     }
-    // Fallback: tracker
+
     if (!post) return;
     const newLiked = !isLiked;
     setIsLiked(newLiked);
-    await tracker.toggleLike(post.contentId, (post as any).campaignId);
+
+    if (shouldRunNativeAction(node.onLike, "like")) {
+      await tracker.toggleLike(post.contentId, (post as any).campaignId);
+    }
   };
 
   const handleFavorite = async () => {
     if (node.onSave) {
       executeAction(node.onSave, dataContext);
-      setIsFavorited(!isFavorited);
-      return;
     }
-    // Fallback: tracker
+
     if (!post) return;
-    const newFavorited = !isFavorited;
-    setIsFavorited(newFavorited);
-    await tracker.toggleFavorite(
-      post.contentId,
-      (post as any).campaignId,
-      isFavorited,
-    );
+    const wasFavorited = isFavorited;
+    setIsFavorited(!wasFavorited);
+
+    if (shouldRunNativeAction(node.onSave, "save")) {
+      if (wasFavorited) {
+        await tracker.removeFavorite(post.contentId);
+      } else {
+        await tracker.addFavorite(post.contentId, (post as any).campaignId);
+      }
+    }
   };
 
   const handleShare = async () => {
     if (node.onShare) {
       executeAction(node.onShare, dataContext);
-      return;
     }
-    // Fallback: tracker
+
     if (!post) return;
-    await tracker.shareContent(post);
+    if (shouldRunNativeAction(node.onShare, "share")) {
+      await tracker.shareContent(post);
+    }
   };
 
   return (

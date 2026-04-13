@@ -50,6 +50,8 @@ describe("Tracking & Observability", () => {
       trackImpression: vi.fn().mockResolvedValue(undefined),
       trackViewTime: vi.fn().mockResolvedValue(undefined),
       toggleLike: vi.fn().mockResolvedValue(undefined),
+      addFavorite: vi.fn().mockResolvedValue(undefined),
+      removeFavorite: vi.fn().mockResolvedValue(undefined),
       toggleFavorite: vi.fn().mockResolvedValue(undefined),
       shareContent: vi.fn().mockResolvedValue(undefined),
     };
@@ -111,11 +113,7 @@ describe("Tracking & Observability", () => {
     expect(mockTracker.toggleLike).toHaveBeenCalledWith("post_1", "camp_1");
 
     fireEvent.click(bookmarkIcon);
-    expect(mockTracker.toggleFavorite).toHaveBeenCalledWith(
-      "post_1",
-      "camp_1",
-      false, // initial isFavorited state
-    );
+    expect(mockTracker.addFavorite).toHaveBeenCalledWith("post_1", "camp_1");
 
     fireEvent.click(shareIcon);
     expect(mockTracker.shareContent).toHaveBeenCalledWith(
