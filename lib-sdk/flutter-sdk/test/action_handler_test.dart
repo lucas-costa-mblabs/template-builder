@@ -1,7 +1,83 @@
 import 'package:directo_template_builder/directo_template_builder.dart';
 import 'package:directo_template_builder/src/action_handler.dart';
+import 'package:directo_template_builder/src/tracker.dart';
+import 'package:directo_template_builder/src/widgets/header_node.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+class FakeTracker implements DirectoAiTracker {
+  String? lastFollowAccountId;
+  bool? lastFollowWasFollowing;
+  String? lastProfileFeedAccountId;
+  List<Post> profileFeedPosts = const [];
+
+  @override
+  Future<void> addFavorite(String contentId, {String? campaignId}) async {}
+
+  @override
+  Future<List<Post>> fetchProfileFeed(String profileAccountId) async {
+    lastProfileFeedAccountId = profileAccountId;
+    return profileFeedPosts;
+  }
+
+  @override
+  Future<void> followAccount(String profileAccountId) async {}
+
+  @override
+  Future<void> removeFavorite(String contentId) async {}
+
+  @override
+  Future<void> reportContent(
+    String contentId, {
+    required String reportType,
+    String? description,
+  }) async {}
+
+  @override
+  Future<void> shareContent(
+    Map<String, dynamic> contentData, {
+    String? campaignId,
+    String? title,
+  }) async {}
+
+  @override
+  Future<void> toggleFavorite(
+    String contentId,
+    bool isFavorited, {
+    String? campaignId,
+  }) async {}
+
+  @override
+  Future<void> toggleFollowAccount(
+    String profileAccountId,
+    bool isFollowing,
+  ) async {
+    lastFollowAccountId = profileAccountId;
+    lastFollowWasFollowing = isFollowing;
+  }
+
+  @override
+  Future<void> toggleLike(String contentId, {String? campaignId}) async {}
+
+  @override
+  Future<void> trackEvent(String name, Map<String, dynamic> data) async {}
+
+  @override
+  Future<void> trackImpression(
+    String contentId,
+    Map<String, dynamic> data,
+  ) async {}
+
+  @override
+  Future<void> trackViewTime(
+    String contentId,
+    int seconds,
+    Map<String, dynamic> data,
+  ) async {}
+
+  @override
+  Future<void> unfollowAccount(String profileAccountId) async {}
+}
 
 void main() {
   final theme = CVDTheme(
@@ -14,14 +90,15 @@ void main() {
   Widget buildTestWidget({
     required Widget child,
     ReportSubmitCallback? onReportSubmit,
+    DirectoAiTracker? tracker,
   }) {
     final config = DirectoAiConfig(accountId: 'test', apiKey: 'test');
-    final tracker = DefaultDirectoAiTracker(config);
+    final resolvedTracker = tracker ?? DefaultDirectoAiTracker(config);
 
     return MaterialApp(
       home: DirectoAiTemplateProvider(
         config: config,
-        tracker: tracker,
+        tracker: resolvedTracker,
         theme: theme,
         templates: const <DirectoAiTemplate>[],
         onReportSubmit: onReportSubmit,
@@ -102,8 +179,204 @@ void main() {
     expect(submission!.details, 'Esse anúncio parece incorreto.');
     expect(submission!.contentId, 'content_1');
     expect(submission!.campaignId, 'campaign_1');
+  });
 
-    await tester.pump(const Duration(seconds: 3));
+  testWidgets('should toggle follow label in header menu', (tester) async {
+    final tracker = FakeTracker();
+
+    await tester.pumpWidget(
+      buildTestWidget(
+        tracker: tracker,
+        child: HeaderNodeWidget(
+          node: {
+            'id': 'header-follow',
+            'type': 'header',
+            'title': '{{post.profile.accountName}}',
+            'imageUrl': '{{post.profile.iconUrl}}',
+            'menuItems': [
+              {
+                'icon': 'user',
+                'text': 'Seguir',
+                'action': {
+                  'type': 'UI_ACTION',
+                  'payload': {'actionName': 'follow'},
+                },
+              },
+            ],
+          },
+          dataContext: {
+            'post': {
+              'accountId': 'profile_1',
+              'profile': {
+                'accountName': 'Super Zeus',
+                'iconUrl': 'https://example.com/avatar.png',
+              },
+            },
+          },
+        ),
+      ),
+    );
+
+    await tester.tap(find.byIcon(Icons.more_vert));
     await tester.pumpAndSettle();
+
+    expect(find.text('Seguir'), findsOneWidget);
+
+    await tester.tap(find.text('Seguir'));
+    await tester.pumpAndSettle();
+
+    expect(tracker.lastFollowAccountId, 'profile_1');
+    expect(tracker.lastFollowWasFollowing, false);
+
+    await tester.tap(find.byIcon(Icons.more_vert));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Deixar de seguir'), findsOneWidget);
+  });
+
+  testWidgets('should open profile view and load account posts', (
+    tester,
+  ) async {
+    final tracker = FakeTracker()
+      ..profileFeedPosts = [
+        Post(
+          id: 'post_2',
+          contentId: 'post_2',
+          accountId: 'profile_1',
+          title: 'Raquete de Tênis Babolat Pure Aero',
+          url: 'https://example.com/image.jpg',
+          price: '',
+          originalPrice: '',
+          discount: '',
+          templateId: 'tpl_1',
+          profile: PostProfile(
+            accountId: 'profile_1',
+            accountName: 'Super Zeus',
+            iconUrl: 'https://example.com/avatar.png',
+          ),
+        ),
+      ];
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: DirectoAiTemplateProvider(
+          config: DirectoAiConfig(accountId: 'test', apiKey: 'test'),
+          tracker: tracker,
+          theme: theme,
+          templates: [
+            DirectoAiTemplate(
+              templateId: 'tpl_1',
+              name: 'Test',
+              active: true,
+              slug: 'test',
+              data: [
+                {'id': 'text-1', 'type': 'text', 'value': '{{post.title}}'},
+              ],
+            ),
+          ],
+          child: Scaffold(
+            body: Builder(
+              builder: (context) {
+                return ElevatedButton(
+                  onPressed: () {
+                    executeAction(
+                      ComponentAction(
+                        type: 'UI_ACTION',
+                        payload: ActionPayload(actionName: 'open_profile'),
+                      ),
+                      context,
+                      {
+                        'post': {
+                          'contentId': 'content_1',
+                          'accountId': 'profile_1',
+                          'templateId': 'tpl_1',
+                          'title': 'Super Zeus',
+                          'url': 'https://example.com/current-image.jpg',
+                          'profile': {
+                            'accountId': 'profile_1',
+                            'accountName': 'Super Zeus',
+                            'iconUrl': 'https://example.com/avatar.png',
+                            'description': 'Loja oficial da Super Zeus',
+                          },
+                        },
+                      },
+                      null,
+                      null,
+                    );
+                  },
+                  child: const Text('Abrir perfil'),
+                );
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Abrir perfil'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Publicações'), findsOneWidget);
+    expect(tracker.lastProfileFeedAccountId, 'profile_1');
+    expect(find.text('Raquete de Tênis Babolat Pure Aero'), findsOneWidget);
+
+    await tester.tap(find.widgetWithText(OutlinedButton, 'Seguir'));
+    await tester.pumpAndSettle();
+
+    expect(tracker.lastFollowAccountId, 'profile_1');
+    expect(tracker.lastFollowWasFollowing, false);
+    expect(find.widgetWithText(OutlinedButton, 'Seguindo'), findsOneWidget);
+  });
+
+  testWidgets('should show error when profile account id is missing', (
+    tester,
+  ) async {
+    final action = ComponentAction(
+      type: 'UI_ACTION',
+      payload: ActionPayload(actionName: 'open_profile'),
+    );
+
+    await tester.pumpWidget(
+      buildTestWidget(
+        tracker: FakeTracker(),
+        child: Builder(
+          builder: (context) {
+            return Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  executeAction(
+                    action,
+                    context,
+                    {
+                      'post': {
+                        'contentId': 'content_3',
+                        'templateId': 'tpl_1',
+                        'title': 'Conta sem id',
+                        'url': 'https://example.com/current-image.jpg',
+                        'profile': {
+                          'accountName': 'Conta sem id',
+                          'iconUrl': 'https://example.com/avatar.png',
+                        },
+                      },
+                    },
+                    null,
+                    null,
+                  );
+                },
+                child: const Text('Abrir perfil'),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Abrir perfil'));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text('Não foi possível identificar o perfil desta conta.'),
+      findsOneWidget,
+    );
   });
 }

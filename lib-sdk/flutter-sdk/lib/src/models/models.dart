@@ -24,26 +24,38 @@ class CVDTheme {
 class PostProfile {
   final String accountName;
   final String iconUrl;
+  final String? accountId;
   final String? description;
+  final bool? following;
+  final bool? isFollowing;
 
   PostProfile({
     required this.accountName,
     required this.iconUrl,
+    this.accountId,
     this.description,
+    this.following,
+    this.isFollowing,
   });
 
   factory PostProfile.fromJson(Map<String, dynamic> json) {
     return PostProfile(
       accountName: json['accountName'] ?? '',
       iconUrl: json['iconUrl'] ?? '',
+      accountId: json['accountId'],
       description: json['description'],
+      following: json['following'],
+      isFollowing: json['isFollowing'],
     );
   }
 
   Map<String, dynamic> toJson() => {
     'accountName': accountName,
     'iconUrl': iconUrl,
+    'accountId': accountId,
     'description': description,
+    'following': following,
+    'isFollowing': isFollowing,
   };
 }
 
@@ -63,6 +75,7 @@ class PostShop {
 class Post {
   final String? id;
   final String contentId;
+  final String? accountId;
   final String title;
   final String url;
   final String price;
@@ -77,11 +90,14 @@ class Post {
   final bool? liked;
   final int? likeCount;
   final bool? favorite;
+  final bool? following;
+  final bool? isFollowing;
   final PostProfile? profile;
 
   Post({
     this.id,
     required this.contentId,
+    this.accountId,
     required this.title,
     required this.url,
     required this.price,
@@ -96,6 +112,8 @@ class Post {
     this.liked,
     this.likeCount,
     this.favorite,
+    this.following,
+    this.isFollowing,
     this.profile,
   });
 
@@ -103,6 +121,7 @@ class Post {
     return Post(
       id: json['id'],
       contentId: json['contentId'] ?? json['id'] ?? '',
+      accountId: json['accountId'],
       title: json['title'] ?? '',
       url: json['url'] ?? '',
       price: json['price']?.toString() ?? '',
@@ -117,6 +136,8 @@ class Post {
       liked: json['liked'],
       likeCount: json['likeCount'],
       favorite: json['favorite'],
+      following: json['following'],
+      isFollowing: json['isFollowing'],
       profile: json['profile'] != null
           ? PostProfile.fromJson(json['profile'])
           : null,
@@ -126,6 +147,7 @@ class Post {
   Map<String, dynamic> toJson() => {
     'id': id,
     'contentId': contentId,
+    'accountId': accountId,
     'title': title,
     'url': url,
     'price': price,
@@ -140,6 +162,9 @@ class Post {
     'liked': liked,
     'likeCount': likeCount,
     'favorite': favorite,
+    'following': following,
+    'isFollowing': isFollowing,
+    'profile': profile?.toJson(),
   };
 }
 

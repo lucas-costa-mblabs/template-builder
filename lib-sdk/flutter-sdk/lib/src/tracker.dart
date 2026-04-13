@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:typed_data';
+import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 import 'models/models.dart';
@@ -12,6 +14,10 @@ abstract class DirectoAiTracker {
     Map<String, dynamic> data,
   );
   Future<void> toggleLike(String contentId, {String? campaignId});
+  Future<List<Post>> fetchProfileFeed(String profileAccountId);
+  Future<void> followAccount(String profileAccountId);
+  Future<void> unfollowAccount(String profileAccountId);
+  Future<void> toggleFollowAccount(String profileAccountId, bool isFollowing);
   Future<void> addFavorite(String contentId, {String? campaignId});
   Future<void> removeFavorite(String contentId);
   Future<void> toggleFavorite(
@@ -38,6 +44,23 @@ class DefaultDirectoAiTracker implements DirectoAiTracker {
   DefaultDirectoAiTracker(this.config);
 
   String get baseUrl => config.baseUrl ?? "https://api.directoai.com.br";
+
+  Uint8List _stringToUTF16LE(String value) {
+    final bytes = Uint8List(value.length * 2);
+    for (var i = 0; i < value.length; i++) {
+      final code = value.codeUnitAt(i);
+      bytes[i * 2] = code & 0xFF;
+      bytes[i * 2 + 1] = code >> 8;
+    }
+    return bytes;
+  }
+
+  Future<String> _computeSHA256(String value) async {
+    if (value.isEmpty) return '';
+
+    final utf16Bytes = _stringToUTF16LE(value);
+    return sha256.convert(utf16Bytes).toString().toUpperCase();
+  }
 
   Future<void> _sendToAnalytics(
     String eventName,
@@ -131,6 +154,129 @@ class DefaultDirectoAiTracker implements DirectoAiTracker {
       'contentId': contentId,
       if (campaignId != null) 'campaignId': campaignId,
     });
+  }
+
+  @override
+  Future<List<Post>> fetchProfileFeed(String profileAccountId) async {
+    if (config.accountId.isEmpty || config.apiKey.isEmpty) {
+      throw Exception('Missing required data for profile feed request');
+    }
+
+    final url =
+        '$baseUrl/campaign/api/v1/feed/accounts?accountId=${Uri.encodeQueryComponent(config.accountId)}&apiKey=${Uri.encodeQueryComponent(config.apiKey)}&profileAccountId=${Uri.encodeQueryComponent(profileAccountId)}';
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode >= 300) {
+        throw Exception(
+          'Profile feed request failed with status: ${response.statusCode}',
+        );
+      }
+
+      final payload = jsonDecode(response.body);
+      final dynamic data = payload['data'];
+      final dynamic feeds = data is Map<String, dynamic>
+          ? data['feeds']
+          : payload['feeds'] ?? data;
+
+      if (feeds is! List) {
+        return <Post>[];
+      }
+
+      return feeds
+          .whereType<Map>()
+          .map((item) => Post.fromJson(Map<String, dynamic>.from(item)))
+          .toList();
+    } catch (e) {
+      print('DirectoAi SDK: Failed to fetch profile feed: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> followAccount(String profileAccountId) async {
+    if (config.accountId.isEmpty ||
+        config.apiKey.isEmpty ||
+        (config.customerId?.isEmpty ?? true)) {
+      throw Exception('Missing required data for follow action');
+    }
+
+    final url =
+        '$baseUrl/campaign/api/v1/feed/followers?accountId=${Uri.encodeQueryComponent(config.accountId)}&apiKey=${Uri.encodeQueryComponent(config.apiKey)}';
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'accountId': profileAccountId,
+          'customerId': config.customerId,
+        }),
+      );
+
+      if (response.statusCode >= 300) {
+        throw Exception(
+          'Follow account failed with status: ${response.statusCode}',
+        );
+      }
+
+      await trackEvent('click-follow', {'profileAccountId': profileAccountId});
+    } catch (e) {
+      print('DirectoAi SDK: Failed to follow account: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> unfollowAccount(String profileAccountId) async {
+    if (config.accountId.isEmpty ||
+        config.apiKey.isEmpty ||
+        (config.customerId?.isEmpty ?? true)) {
+      throw Exception('Missing required data for unfollow action');
+    }
+
+    final url =
+        '$baseUrl/campaign/api/v1/feed/followers?accountId=${Uri.encodeQueryComponent(config.accountId)}&apiKey=${Uri.encodeQueryComponent(config.apiKey)}';
+
+    try {
+      final response = await http.delete(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'accountId': profileAccountId,
+          'customerId': config.customerId,
+        }),
+      );
+
+      if (response.statusCode >= 300) {
+        throw Exception(
+          'Unfollow account failed with status: ${response.statusCode}',
+        );
+      }
+
+      await trackEvent('click-unfollow', {
+        'profileAccountId': profileAccountId,
+      });
+    } catch (e) {
+      print('DirectoAi SDK: Failed to unfollow account: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> toggleFollowAccount(
+    String profileAccountId,
+    bool isFollowing,
+  ) async {
+    if (isFollowing) {
+      return unfollowAccount(profileAccountId);
+    }
+
+    return followAccount(profileAccountId);
   }
 
   @override
@@ -289,7 +435,8 @@ class DefaultDirectoAiTracker implements DirectoAiTracker {
     required String reportType,
     String? description,
   }) async {
-    final url = '$baseUrl/api/v1/contents/$contentId/report';
+    final url = '$baseUrl/content/api/v1/contents/$contentId/report';
+    final reporterCustomerId = await _computeSHA256(config.customerId ?? '');
 
     try {
       final response = await http.post(
@@ -297,7 +444,7 @@ class DefaultDirectoAiTracker implements DirectoAiTracker {
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'reportType': reportType,
-          'reporterCustomerId': config.customerId,
+          'reporterCustomerId': reporterCustomerId,
           if (description != null && description.isNotEmpty)
             'description': description,
         }),

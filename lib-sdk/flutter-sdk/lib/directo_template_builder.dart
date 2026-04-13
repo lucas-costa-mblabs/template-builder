@@ -8,4 +8,6 @@ export 'src/tracker.dart';
 export 'src/action_handler.dart' show ActionCallback, ReportSubmitCallback;
 export 'src/widgets/report_dialog.dart'
     show DirectoAiReportDialog, showDirectoAiReportDialog;
+export 'src/widgets/profile_view_page.dart'
+    show DirectoAiProfileViewPage, showDirectoAiProfileView;
 export 'src/utils.dart' show resolveVariables;

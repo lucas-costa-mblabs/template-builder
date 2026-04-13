@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'models/models.dart';
+import 'widgets/profile_view_page.dart';
 import 'widgets/report_dialog.dart';
 
 /// Callback type para ações que o consumer precisa implementar.
@@ -34,6 +35,13 @@ Future<void> executeAction(
       onAction: onAction,
       onSubmit: onReportSubmit,
     );
+  }
+
+  if (action.type == 'UI_ACTION' && actionName == 'open_profile') {
+    final postData = dataContext?['post'];
+    if (postData is Map<String, dynamic>) {
+      return showDirectoAiProfileView(context, post: Post.fromJson(postData));
+    }
   }
 
   if (onAction != null) {
