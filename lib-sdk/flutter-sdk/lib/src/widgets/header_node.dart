@@ -42,6 +42,7 @@ class HeaderNodeWidget extends StatelessWidget {
                       context,
                       dataContext,
                       sdk?.onAction,
+                      sdk?.onReportSubmit,
                     )
                   : null,
               child: Row(
@@ -106,6 +107,7 @@ class HeaderNodeWidget extends StatelessWidget {
                     context,
                     dataContext,
                     sdk?.onAction,
+                    sdk?.onReportSubmit,
                   );
                 }
               },
@@ -138,7 +140,11 @@ class HeaderNodeWidget extends StatelessWidget {
                           color: const Color(0xFF6B7280),
                         ),
                         const SizedBox(width: 8),
-                        LabelWidget(item['label']?.toString() ?? ''),
+                        LabelWidget(
+                          item['text']?.toString() ??
+                              item['label']?.toString() ??
+                              '',
+                        ),
                       ],
                     ),
                   );

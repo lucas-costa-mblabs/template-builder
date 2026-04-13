@@ -51,7 +51,13 @@ class AvatarNodeWidget extends StatelessWidget {
 
     if (action != null) {
       child = GestureDetector(
-        onTap: () => executeAction(action, context, dataContext, sdk?.onAction),
+        onTap: () => executeAction(
+          action,
+          context,
+          dataContext,
+          sdk?.onAction,
+          sdk?.onReportSubmit,
+        ),
         child: child,
       );
     }

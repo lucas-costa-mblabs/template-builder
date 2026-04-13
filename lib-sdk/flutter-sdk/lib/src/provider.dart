@@ -9,6 +9,7 @@ class DirectoAiTemplateProvider extends InheritedWidget {
   final DirectoAiConfig config;
   final DirectoAiTracker tracker;
   final ActionCallback? onAction;
+  final ReportSubmitCallback? onReportSubmit;
 
   const DirectoAiTemplateProvider({
     super.key,
@@ -17,6 +18,7 @@ class DirectoAiTemplateProvider extends InheritedWidget {
     required this.config,
     required this.tracker,
     this.onAction,
+    this.onReportSubmit,
     required super.child,
   });
 
@@ -31,6 +33,7 @@ class DirectoAiTemplateProvider extends InheritedWidget {
         templates != oldWidget.templates ||
         config != oldWidget.config ||
         tracker != oldWidget.tracker ||
-        onAction != oldWidget.onAction;
+        onAction != oldWidget.onAction ||
+        onReportSubmit != oldWidget.onReportSubmit;
   }
 }

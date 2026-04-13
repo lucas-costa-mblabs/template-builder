@@ -183,6 +183,8 @@ class DirectoAiConfig {
   final String? customerId;
   final String? deviceId;
   final String? baseUrl;
+  final void Function(String eventName, Map<String, dynamic> eventParams)?
+  onAnalyticsEvent;
 
   DirectoAiConfig({
     required this.accountId,
@@ -190,6 +192,7 @@ class DirectoAiConfig {
     this.customerId,
     this.deviceId,
     this.baseUrl,
+    this.onAnalyticsEvent,
   });
 
   factory DirectoAiConfig.fromJson(Map<String, dynamic> json) {
@@ -238,4 +241,34 @@ class ComponentAction {
     if (json == null || json is! Map<String, dynamic>) return null;
     return ComponentAction.fromJson(json);
   }
+}
+
+class ReportSubmission {
+  final String reasonId;
+  final String reasonLabel;
+  final String details;
+  final String? contentId;
+  final String? campaignId;
+  final String? title;
+  final DateTime createdAt;
+
+  ReportSubmission({
+    required this.reasonId,
+    required this.reasonLabel,
+    required this.details,
+    this.contentId,
+    this.campaignId,
+    this.title,
+    required this.createdAt,
+  });
+
+  Map<String, dynamic> toJson() => {
+    'reasonId': reasonId,
+    'reasonLabel': reasonLabel,
+    'details': details,
+    'contentId': contentId,
+    'campaignId': campaignId,
+    'title': title,
+    'createdAt': createdAt.toUtc().toIso8601String(),
+  };
 }

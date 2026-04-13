@@ -59,7 +59,13 @@ class ButtonNodeWidget extends StatelessWidget {
         onPressed: () {
           // Prioridade: ComponentAction
           if (action != null) {
-            executeAction(action, context, dataContext, sdk?.onAction);
+            executeAction(
+              action,
+              context,
+              dataContext,
+              sdk?.onAction,
+              sdk?.onReportSubmit,
+            );
             return;
           }
           // Fallback: comportamento legado (consumer lida)

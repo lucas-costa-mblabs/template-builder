@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/models.dart';
 import '../provider.dart';
 import '../utils.dart';
 import '../action_handler.dart';
@@ -39,7 +40,13 @@ class IconNodeWidget extends StatelessWidget {
 
     if (action != null) {
       child = GestureDetector(
-        onTap: () => executeAction(action, context, dataContext, sdk?.onAction),
+        onTap: () => executeAction(
+          action,
+          context,
+          dataContext,
+          sdk?.onAction,
+          sdk?.onReportSubmit,
+        ),
         child: child,
       );
     }
@@ -68,13 +75,40 @@ class _PostInteractionsNodeWidgetState
   bool isLiked = false;
   bool isFavorited = false;
 
+  bool _shouldRunNativeAction(ComponentAction? action, String actionName) {
+    if (action == null) return true;
+    return action.type == 'UI_ACTION' &&
+        action.payload.actionName?.trim().toLowerCase() == actionName;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _syncStateFromPost();
+  }
+
+  @override
+  void didUpdateWidget(covariant PostInteractionsNodeWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.dataContext != widget.dataContext) {
+      _syncStateFromPost();
+    }
+  }
+
+  void _syncStateFromPost() {
+    final postData = widget.dataContext?['post'] as Map<String, dynamic>?;
+    isLiked = postData?['liked'] == true;
+    isFavorited = postData?['favorite'] == true;
+  }
+
   @override
   Widget build(BuildContext context) {
     final sdk = DirectoAiTemplateProvider.of(context);
     if (sdk == null) return const SizedBox.shrink();
 
     final postData = widget.dataContext?['post'];
-    final contentId = postData?['id']?.toString();
+    final contentId =
+        postData?['contentId']?.toString() ?? postData?['id']?.toString();
     final campaignId = postData?['campaignId']?.toString();
     final title = postData?['title']?.toString();
 
@@ -109,13 +143,17 @@ class _PostInteractionsNodeWidgetState
                         context,
                         widget.dataContext,
                         sdk.onAction,
+                        sdk.onReportSubmit,
                       );
-                      setState(() => isLiked = !isLiked);
-                      return;
                     }
                     if (contentId != null) {
                       setState(() => isLiked = !isLiked);
-                      sdk.tracker.toggleLike(contentId, campaignId: campaignId);
+                      if (_shouldRunNativeAction(onLikeAction, 'like')) {
+                        sdk.tracker.toggleLike(
+                          contentId,
+                          campaignId: campaignId,
+                        );
+                      }
                     }
                   },
                 ),
@@ -136,18 +174,22 @@ class _PostInteractionsNodeWidgetState
                         context,
                         widget.dataContext,
                         sdk.onAction,
+                        sdk.onReportSubmit,
                       );
-                      setState(() => isFavorited = !isFavorited);
-                      return;
                     }
                     if (contentId != null) {
                       final prev = isFavorited;
                       setState(() => isFavorited = !isFavorited);
-                      sdk.tracker.toggleFavorite(
-                        contentId,
-                        prev,
-                        campaignId: campaignId,
-                      );
+                      if (_shouldRunNativeAction(onSaveAction, 'save')) {
+                        if (prev) {
+                          sdk.tracker.removeFavorite(contentId);
+                        } else {
+                          sdk.tracker.addFavorite(
+                            contentId,
+                            campaignId: campaignId,
+                          );
+                        }
+                      }
                     }
                   },
                 ),
@@ -167,15 +209,17 @@ class _PostInteractionsNodeWidgetState
                     context,
                     widget.dataContext,
                     sdk.onAction,
+                    sdk.onReportSubmit,
                   );
-                  return;
                 }
                 if (contentId != null) {
-                  sdk.tracker.shareContent(
-                    postData ?? {},
-                    campaignId: campaignId,
-                    title: title,
-                  );
+                  if (_shouldRunNativeAction(onShareAction, 'share')) {
+                    sdk.tracker.shareContent(
+                      postData ?? {},
+                      campaignId: campaignId,
+                      title: title,
+                    );
+                  }
                 }
               },
             ),
@@ -240,7 +284,13 @@ class HtmlNodeWidget extends StatelessWidget {
 
     if (action != null) {
       child = GestureDetector(
-        onTap: () => executeAction(action, context, dataContext, sdk?.onAction),
+        onTap: () => executeAction(
+          action,
+          context,
+          dataContext,
+          sdk?.onAction,
+          sdk?.onReportSubmit,
+        ),
         child: child,
       );
     }
