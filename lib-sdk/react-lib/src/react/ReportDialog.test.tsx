@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import { TemplateProvider } from "./TemplateProvider.js";
 import { HeaderNode } from "./nodes/HeaderNode.js";
@@ -90,5 +90,68 @@ describe("Report Dialog", () => {
         }),
       }),
     );
+  });
+
+  it("should toggle follow label in header menu", async () => {
+    const tracker = {
+      trackEvent: vi.fn().mockResolvedValue(undefined),
+      trackImpression: vi.fn().mockResolvedValue(undefined),
+      trackViewTime: vi.fn().mockResolvedValue(undefined),
+      toggleLike: vi.fn().mockResolvedValue(undefined),
+      followAccount: vi.fn().mockResolvedValue(undefined),
+      unfollowAccount: vi.fn().mockResolvedValue(undefined),
+      toggleFollowAccount: vi.fn().mockResolvedValue(undefined),
+      addFavorite: vi.fn().mockResolvedValue(undefined),
+      removeFavorite: vi.fn().mockResolvedValue(undefined),
+      toggleFavorite: vi.fn().mockResolvedValue(undefined),
+      reportContent: vi.fn().mockResolvedValue(undefined),
+      shareContent: vi.fn().mockResolvedValue(undefined),
+    };
+
+    render(
+      <TemplateProvider theme={mockTheme} config={mockConfig} tracker={tracker as any}>
+        <HeaderNode
+          node={
+            {
+              id: "header-follow",
+              type: "header",
+              imageUrl: "{{post.profile.iconUrl}}",
+              title: "{{post.profile.accountName}}",
+              menuItems: [
+                {
+                  icon: "user",
+                  text: "Seguir",
+                  action: {
+                    type: "UI_ACTION",
+                    payload: { actionName: "follow" },
+                  },
+                },
+              ],
+            } as any
+          }
+          dataContext={
+            {
+              post: {
+                accountId: "profile_1",
+                profile: {
+                  accountName: "Super Zeus",
+                  iconUrl: "https://example.com/avatar.png",
+                },
+              },
+            } as any
+          }
+        />
+      </TemplateProvider>,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /abrir opções/i }));
+    fireEvent.click(screen.getByText("Seguir"));
+
+    await waitFor(() => {
+      expect(tracker.toggleFollowAccount).toHaveBeenCalledWith("profile_1", false);
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /abrir opções/i }));
+    expect(screen.getByText("Deixar de seguir")).toBeInTheDocument();
   });
 });

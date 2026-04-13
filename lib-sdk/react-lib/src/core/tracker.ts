@@ -1,4 +1,4 @@
-import type { DirectoAiConfig } from "./types.js";
+import type { DirectoAiConfig, Post } from "./types.js";
 
 export interface DirectoAiTracker {
   trackEvent(name: string, data: Record<string, any>): Promise<void>;
@@ -9,6 +9,13 @@ export interface DirectoAiTracker {
     data: Record<string, any>,
   ): Promise<void>;
   toggleLike(contentId: string, campaignId?: string): Promise<void>;
+  fetchProfileFeed(profileAccountId: string): Promise<Post[]>;
+  followAccount(profileAccountId: string): Promise<void>;
+  unfollowAccount(profileAccountId: string): Promise<void>;
+  toggleFollowAccount(
+    profileAccountId: string,
+    isFollowing: boolean,
+  ): Promise<void>;
   addFavorite(contentId: string, campaignId?: string): Promise<void>;
   removeFavorite(contentId: string): Promise<void>;
   toggleFavorite(
@@ -33,6 +40,29 @@ export class DefaultDirectoAiTracker implements DirectoAiTracker {
 
   private get baseUrl() {
     return this.config.baseUrl || "https://api.directoai.com.br";
+  }
+
+  private stringToUTF16LE(value: string) {
+    const bytes = new Uint8Array(value.length * 2);
+    for (let i = 0; i < value.length; i += 1) {
+      const code = value.charCodeAt(i);
+      bytes[i * 2] = code & 0xff;
+      bytes[i * 2 + 1] = code >> 8;
+    }
+    return bytes;
+  }
+
+  private async computeSHA256(value: string) {
+    if (!value) return "";
+
+    const utf16Bytes = this.stringToUTF16LE(value);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", utf16Bytes);
+    const hashArray = new Uint8Array(hashBuffer);
+
+    return Array.from(hashArray)
+      .map((byte) => byte.toString(16).padStart(2, "0"))
+      .join("")
+      .toUpperCase();
   }
 
   private async sendToGA(eventName: string, eventParams: Record<string, any>) {
@@ -123,6 +153,113 @@ export class DefaultDirectoAiTracker implements DirectoAiTracker {
     });
   }
 
+  async fetchProfileFeed(profileAccountId: string): Promise<Post[]> {
+    if (!this.config.accountId || !this.config.apiKey) {
+      throw new Error("Missing required data for profile feed request");
+    }
+
+    const url = `${this.baseUrl}/campaign/api/v1/feed/accounts?accountId=${encodeURIComponent(this.config.accountId)}&apiKey=${encodeURIComponent(this.config.apiKey)}&profileAccountId=${encodeURIComponent(profileAccountId)}`;
+
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Profile feed request failed: ${response.status}`);
+      }
+
+      const payload = await response.json();
+      const feeds = Array.isArray(payload?.data?.feeds)
+        ? payload.data.feeds
+        : Array.isArray(payload?.data)
+          ? payload.data
+          : Array.isArray(payload?.feeds)
+            ? payload.feeds
+            : [];
+
+      return feeds as Post[];
+    } catch (error) {
+      console.error("DirectoAi SDK: Failed to fetch profile feed:", error);
+      throw error;
+    }
+  }
+
+  async followAccount(profileAccountId: string) {
+    if (!this.config.accountId || !this.config.apiKey || !this.config.customerId) {
+      throw new Error("Missing required data for follow action");
+    }
+
+    const url = `${this.baseUrl}/campaign/api/v1/feed/followers?accountId=${encodeURIComponent(this.config.accountId)}&apiKey=${encodeURIComponent(this.config.apiKey)}`;
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          accountId: profileAccountId,
+          customerId: this.config.customerId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Follow account failed: ${response.status}`);
+      }
+
+      await this.trackEvent("click-follow", {
+        profileAccountId,
+      });
+    } catch (error) {
+      console.error("DirectoAi SDK: Failed to follow account:", error);
+      throw error;
+    }
+  }
+
+  async unfollowAccount(profileAccountId: string) {
+    if (!this.config.accountId || !this.config.apiKey || !this.config.customerId) {
+      throw new Error("Missing required data for unfollow action");
+    }
+
+    const url = `${this.baseUrl}/campaign/api/v1/feed/followers?accountId=${encodeURIComponent(this.config.accountId)}&apiKey=${encodeURIComponent(this.config.apiKey)}`;
+
+    try {
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          accountId: profileAccountId,
+          customerId: this.config.customerId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Unfollow account failed: ${response.status}`);
+      }
+
+      await this.trackEvent("click-unfollow", {
+        profileAccountId,
+      });
+    } catch (error) {
+      console.error("DirectoAi SDK: Failed to unfollow account:", error);
+      throw error;
+    }
+  }
+
+  async toggleFollowAccount(profileAccountId: string, isFollowing: boolean) {
+    if (isFollowing) {
+      return this.unfollowAccount(profileAccountId);
+    }
+
+    return this.followAccount(profileAccountId);
+  }
+
   async addFavorite(contentId: string, campaignId?: string) {
     const url = `${this.baseUrl}/campaign/api/v1/feed/favorites`;
     try {
@@ -204,7 +341,10 @@ export class DefaultDirectoAiTracker implements DirectoAiTracker {
     reportType: string,
     description?: string,
   ) {
-    const url = `${this.baseUrl}/api/v1/contents/${contentId}/report`;
+    const url = `${this.baseUrl}/content/api/v1/contents/${contentId}/report`;
+    const reporterCustomerId = await this.computeSHA256(
+      this.config.customerId || "",
+    );
 
     try {
       const response = await fetch(url, {
@@ -214,7 +354,7 @@ export class DefaultDirectoAiTracker implements DirectoAiTracker {
         },
         body: JSON.stringify({
           reportType,
-          reporterCustomerId: this.config.customerId,
+          reporterCustomerId,
           ...(description ? { description } : {}),
         }),
       });

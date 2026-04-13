@@ -40,7 +40,10 @@ export interface Theme {
 export interface PostProfile {
   accountName: string;
   iconUrl: string;
+  accountId?: string;
   description?: string;
+  following?: boolean;
+  isFollowing?: boolean;
 }
 
 export interface PostShop {
@@ -60,6 +63,7 @@ export interface DirectoAiConfig {
 export interface Post {
   id?: string;
   contentId: string; // Mapeamento principal da API
+  accountId?: string;
   title: string;
   legend?: string; // Mapeamento da API
   url: string;
@@ -68,6 +72,12 @@ export interface Post {
   discount?: string | null;
   shop?: PostShop;
   profile?: PostProfile;
+  sponsored?: boolean;
+  liked?: boolean;
+  likeCount?: number;
+  favorite?: boolean;
+  following?: boolean;
+  isFollowing?: boolean;
   templateId: string;
   template?: string; // HTML legado se houver
   [key: string]: unknown;

@@ -33,17 +33,25 @@ export function ReportDialog({
   const [details, setDetails] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const [showSuccessState, setShowSuccessState] = useState(false);
 
   const selectedReason = useMemo(
     () => REPORT_REASONS.find((reason) => reason.id === selectedReasonId),
     [selectedReasonId],
   );
   const shouldShowDetails = selectedReasonId === "other_reason";
+  const post =
+    (dataContext?.post as Record<string, unknown> | undefined) || {};
+  const postTitle =
+    (post.title as string | undefined)?.trim() || "este conteúdo";
+  const accountName =
+    ((post.profile as Record<string, unknown> | undefined)?.accountName as
+      | string
+      | undefined)?.trim() || "a conta responsável";
 
   const handleSubmit = async () => {
     setErrorMessage("");
-    setSuccessMessage("");
+    setShowSuccessState(false);
 
     if (
       !selectedReason ||
@@ -55,8 +63,6 @@ export function ReportDialog({
 
     if (isSubmitting) return;
 
-    const post =
-      (dataContext?.post as Record<string, unknown> | undefined) || {};
     const submission: ReportSubmission = {
       reasonId: selectedReason.id,
       reasonLabel: selectedReason.label,
@@ -98,10 +104,7 @@ export function ReportDialog({
         throw new Error("Missing contentId for report submission");
       }
 
-      setSuccessMessage("Sua denúncia foi enviada com sucesso.");
-      window.setTimeout(() => {
-        onClose();
-      }, 3000);
+      setShowSuccessState(true);
     } catch (error) {
       setErrorMessage(
         "Não foi possível enviar sua denúncia. Tente novamente mais tarde.",
@@ -142,6 +145,89 @@ export function ReportDialog({
         }}
         onClick={(event) => event.stopPropagation()}
       >
+        {showSuccessState ? (
+          <>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                gap: "12px",
+              }}
+            >
+              <div>
+                <h2
+                  style={{
+                    margin: 0,
+                    fontSize: "1.05rem",
+                    lineHeight: 1.2,
+                    fontWeight: 700,
+                    color: "#101828",
+                  }}
+                >
+                  Denúncia enviada com sucesso
+                </h2>
+                <p
+                  style={{
+                    margin: "8px 0 0",
+                    fontSize: "0.74rem",
+                    lineHeight: 1.45,
+                    color: "#5f6673",
+                  }}
+                >
+                  Recebemos sua denúncia sobre <strong>{postTitle}</strong>,
+                  associado a <strong>{accountName}</strong>.
+                </p>
+              </div>
+              <button
+                type="button"
+                aria-label="Fechar modal"
+                onClick={onClose}
+                style={{
+                  border: "none",
+                  background: "transparent",
+                  color: "#5f6673",
+                  fontSize: "22px",
+                  lineHeight: 1,
+                  cursor: "pointer",
+                  padding: "0 0 0 8px",
+                }}
+              >
+                ×
+              </button>
+            </div>
+
+            <div
+              style={{
+                marginTop: "12px",
+                borderRadius: "12px",
+                backgroundColor: "#f8fafc",
+                padding: "12px",
+                fontSize: "0.74rem",
+                lineHeight: 1.5,
+                color: "#475467",
+              }}
+            >
+              Nossa equipe recebeu as informações enviadas e realizará uma
+              análise criteriosa do post reportado, considerando o contexto do
+              conteúdo e as políticas da plataforma. Caso sejam identificadas
+              inconsistências ou violações, adotaremos as medidas cabíveis.
+            </div>
+
+            <div
+              style={{
+                marginTop: "10px",
+                fontSize: "0.72rem",
+                lineHeight: 1.45,
+                color: "#11b780",
+              }}
+            >
+              Agradecemos pela sua colaboração para manter a experiência mais
+              segura, confiável e alinhada aos nossos padrões de qualidade.
+            </div>
+          </>
+        ) : (
+          <>
         <div
           style={{
             display: "flex",
@@ -298,15 +384,15 @@ export function ReportDialog({
           </div>
         )}
 
-        {(errorMessage || successMessage) && (
+        {errorMessage && (
           <div
             style={{
               marginTop: "8px",
               fontSize: "0.72rem",
-              color: errorMessage ? "#dc2626" : "#11b780",
+              color: "#dc2626",
             }}
           >
-            {errorMessage || successMessage}
+            {errorMessage}
           </div>
         )}
 
@@ -353,6 +439,8 @@ export function ReportDialog({
             {isSubmitting ? "Enviando..." : "Enviar denúncia"}
           </button>
         </div>
+          </>
+        )}
       </div>
     </div>
   );

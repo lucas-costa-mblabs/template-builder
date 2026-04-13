@@ -43,10 +43,14 @@ describe("Tracking & Observability", () => {
             trackImpression: vi.fn().mockResolvedValue(undefined),
             trackViewTime: vi.fn().mockResolvedValue(undefined),
             toggleLike: vi.fn().mockResolvedValue(undefined),
+            followAccount: vi.fn().mockResolvedValue(undefined),
+            unfollowAccount: vi.fn().mockResolvedValue(undefined),
+            toggleFollowAccount: vi.fn().mockResolvedValue(undefined),
             addFavorite: vi.fn().mockResolvedValue(undefined),
             removeFavorite: vi.fn().mockResolvedValue(undefined),
             toggleFavorite: vi.fn().mockResolvedValue(undefined),
             shareContent: vi.fn().mockResolvedValue(undefined),
+            reportContent: vi.fn().mockResolvedValue(undefined),
         };
         vi.clearAllMocks();
     });

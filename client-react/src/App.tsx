@@ -38,7 +38,7 @@ function App() {
         templates={templates as any}
         config={{
           accountId: "0b455c19-e389-4a7f-b83c-ef0cf7286ecb",
-          apiKey: "mock-api-key",
+          apiKey: "57cbcfd2-fe10-41db-abf3-84bdb569cdae",
           customerId: "mock-customer-123",
           baseUrl: "https://api.dev-directoai.com.br",
         }}

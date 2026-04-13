@@ -9,12 +9,18 @@ import type {
   DirectoAiConfig,
   ComponentAction,
   ReportSubmission,
+  Post as PostType,
 } from "../core/types.js";
 import { ReportDialog } from "./ReportDialog.js";
+import { ProfileViewModal } from "./ProfileViewModal.js";
 
 interface ReportDialogState {
   action: ComponentAction;
   dataContext?: Record<string, unknown>;
+}
+
+interface ProfileViewState {
+  post: PostType;
 }
 
 export interface TemplateProviderProps {
@@ -43,6 +49,10 @@ export function TemplateProvider({
   const [reportDialog, setReportDialog] = useState<ReportDialogState | null>(
     null,
   );
+  const [profileView, setProfileView] = useState<ProfileViewState | null>(null);
+  const [followedAccounts, setFollowedAccounts] = useState<Set<string>>(
+    () => new Set(),
+  );
 
   // Warning para ajudar no debug do projeto real
   useEffect(() => {
@@ -67,6 +77,14 @@ export function TemplateProvider({
       }>;
       const actionName = customEvent.detail?.actionName?.trim().toLowerCase();
 
+      if (actionName === "open_profile") {
+        const post = customEvent.detail?.dataContext?.post as PostType | undefined;
+        if (post) {
+          setProfileView({ post });
+        }
+        return;
+      }
+
       if (actionName !== "report" && actionName !== "denunciar") {
         return;
       }
@@ -90,8 +108,32 @@ export function TemplateProvider({
       );
   }, []);
 
+  const getIsFollowing = (profileAccountId: string) =>
+    followedAccounts.has(profileAccountId);
+
+  const setIsFollowing = (profileAccountId: string, isFollowing: boolean) => {
+    setFollowedAccounts((prev) => {
+      const next = new Set(prev);
+      if (isFollowing) {
+        next.add(profileAccountId);
+      } else {
+        next.delete(profileAccountId);
+      }
+      return next;
+    });
+  };
+
   return (
-    <TemplateContext.Provider value={{ theme, templates, config, tracker }}>
+    <TemplateContext.Provider
+      value={{
+        theme,
+        templates,
+        config,
+        tracker,
+        getIsFollowing,
+        setIsFollowing,
+      }}
+    >
       {children}
       {reportDialog && (
         <ReportDialog
@@ -100,6 +142,12 @@ export function TemplateProvider({
           dataContext={reportDialog.dataContext}
           onClose={() => setReportDialog(null)}
           onSubmit={onReportSubmit}
+        />
+      )}
+      {profileView && (
+        <ProfileViewModal
+          initialPost={profileView.post}
+          onClose={() => setProfileView(null)}
         />
       )}
     </TemplateContext.Provider>

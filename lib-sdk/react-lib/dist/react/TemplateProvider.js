@@ -3,11 +3,14 @@ import { useMemo, useEffect, useState } from "react";
 import { TemplateContext } from "./context.js";
 import { DefaultDirectoAiTracker } from "../core/tracker.js";
 import { ReportDialog } from "./ReportDialog.js";
+import { ProfileViewModal } from "./ProfileViewModal.js";
 export function TemplateProvider({ theme, templates = [], config, tracker: providedTracker, onReportSubmit, children, }) {
     const tracker = useMemo(() => {
         return providedTracker || new DefaultDirectoAiTracker(config);
     }, [providedTracker, config]);
     const [reportDialog, setReportDialog] = useState(null);
+    const [profileView, setProfileView] = useState(null);
+    const [followedAccounts, setFollowedAccounts] = useState(() => new Set());
     // Warning para ajudar no debug do projeto real
     useEffect(() => {
         if (!templates || templates.length === 0) {
@@ -21,6 +24,13 @@ export function TemplateProvider({ theme, templates = [], config, tracker: provi
         const handleUiAction = (event) => {
             const customEvent = event;
             const actionName = customEvent.detail?.actionName?.trim().toLowerCase();
+            if (actionName === "open_profile") {
+                const post = customEvent.detail?.dataContext?.post;
+                if (post) {
+                    setProfileView({ post });
+                }
+                return;
+            }
             if (actionName !== "report" && actionName !== "denunciar") {
                 return;
             }
@@ -37,6 +47,26 @@ export function TemplateProvider({ theme, templates = [], config, tracker: provi
         window.addEventListener("directo:ui-action", handleUiAction);
         return () => window.removeEventListener("directo:ui-action", handleUiAction);
     }, []);
-    return (_jsxs(TemplateContext.Provider, { value: { theme, templates, config, tracker }, children: [children, reportDialog && (_jsx(ReportDialog, { action: reportDialog.action, tracker: tracker, dataContext: reportDialog.dataContext, onClose: () => setReportDialog(null), onSubmit: onReportSubmit }))] }));
+    const getIsFollowing = (profileAccountId) => followedAccounts.has(profileAccountId);
+    const setIsFollowing = (profileAccountId, isFollowing) => {
+        setFollowedAccounts((prev) => {
+            const next = new Set(prev);
+            if (isFollowing) {
+                next.add(profileAccountId);
+            }
+            else {
+                next.delete(profileAccountId);
+            }
+            return next;
+        });
+    };
+    return (_jsxs(TemplateContext.Provider, { value: {
+            theme,
+            templates,
+            config,
+            tracker,
+            getIsFollowing,
+            setIsFollowing,
+        }, children: [children, reportDialog && (_jsx(ReportDialog, { action: reportDialog.action, tracker: tracker, dataContext: reportDialog.dataContext, onClose: () => setReportDialog(null), onSubmit: onReportSubmit })), profileView && (_jsx(ProfileViewModal, { initialPost: profileView.post, onClose: () => setProfileView(null) }))] }));
 }
 //# sourceMappingURL=TemplateProvider.js.map

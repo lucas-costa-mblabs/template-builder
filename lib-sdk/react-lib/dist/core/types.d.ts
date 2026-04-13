@@ -30,7 +30,10 @@ export interface Theme {
 export interface PostProfile {
     accountName: string;
     iconUrl: string;
+    accountId?: string;
     description?: string;
+    following?: boolean;
+    isFollowing?: boolean;
 }
 export interface PostShop {
     avatar: string;
@@ -47,6 +50,7 @@ export interface DirectoAiConfig {
 export interface Post {
     id?: string;
     contentId: string;
+    accountId?: string;
     title: string;
     legend?: string;
     url: string;
@@ -55,6 +59,12 @@ export interface Post {
     discount?: string | null;
     shop?: PostShop;
     profile?: PostProfile;
+    sponsored?: boolean;
+    liked?: boolean;
+    likeCount?: number;
+    favorite?: boolean;
+    following?: boolean;
+    isFollowing?: boolean;
     templateId: string;
     template?: string;
     [key: string]: unknown;

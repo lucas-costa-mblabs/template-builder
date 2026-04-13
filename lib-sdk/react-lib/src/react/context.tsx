@@ -11,6 +11,8 @@ export interface TemplateContextValue {
   templates: DirectoAiTemplate[];
   config?: DirectoAiConfig;
   tracker: DirectoAiTracker;
+  getIsFollowing?: (profileAccountId: string) => boolean;
+  setIsFollowing?: (profileAccountId: string, isFollowing: boolean) => void;
 }
 
 export const TemplateContext = createContext<TemplateContextValue | null>(null);
