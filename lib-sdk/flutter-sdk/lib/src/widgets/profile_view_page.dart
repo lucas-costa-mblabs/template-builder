@@ -223,7 +223,7 @@ class _DirectoAiProfileViewPageState extends State<DirectoAiProfileViewPage> {
                           child: Text(
                             _profileName,
                             style: const TextStyle(
-                              fontSize: 32,
+                              fontSize: 24,
                               height: 1.1,
                               fontWeight: FontWeight.w700,
                               color: Color(0xFF101828),

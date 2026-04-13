@@ -43,8 +43,6 @@ export function ProfileViewModal({
     initialPost.profile?.accountName?.trim() || "Perfil";
   const profileAvatarUrl = initialPost.profile?.iconUrl?.trim() || "";
   const profileDescription = getProfileDescription(initialPost);
-  const isSponsored =
-    initialPost.sponsored === true || initialPost.profile?.description?.trim();
   const [posts, setPosts] = useState<PostType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
@@ -152,7 +150,6 @@ export function ProfileViewModal({
             display: "flex",
             alignItems: "center",
             gap: "16px",
-            marginBottom: "18px",
           }}
         >
           <button
@@ -203,7 +200,7 @@ export function ProfileViewModal({
             <h2
               style={{
                 margin: 0,
-                fontSize: "30px",
+                fontSize: "24px",
                 lineHeight: 1.1,
                 fontWeight: 700,
                 color: "#101828",
@@ -214,102 +211,37 @@ export function ProfileViewModal({
           </div>
         </div>
 
-        <div
-          style={{
-            width: "100%",
-            borderRadius: "28px",
-            padding: "24px",
-            boxSizing: "border-box",
-            background:
-              "linear-gradient(180deg, rgba(248,250,252,1) 0%, rgba(255,255,255,1) 100%)",
-            border: "1px solid #e5e7eb",
-            boxShadow: "0 16px 40px rgba(15, 23, 42, 0.06)",
-          }}
-        >
+        <div style={{ marginTop: "36px", width: "100%" }}>
           <div
             style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              padding: "6px 12px",
-              borderRadius: "9999px",
-              backgroundColor: "#eefdf7",
-              color: "#0f8a62",
-              fontSize: "12px",
-              fontWeight: 700,
-              letterSpacing: "0.04em",
-              textTransform: "uppercase",
-            }}
-          >
-            {isSponsored ? "Marca em destaque" : "Perfil da conta"}
-          </div>
-
-          <div
-            style={{
-              marginTop: "16px",
-              fontSize: "30px",
+              fontSize: "24px",
               lineHeight: 1.2,
-              fontWeight: 700,
-              color: "#1f2937",
+              fontWeight: 500,
+              color: "#344054",
             }}
           >
             {profileName}
           </div>
 
-          <p
-            style={{
-              margin: "10px 0 0",
-              fontSize: "15px",
-              lineHeight: 1.55,
-              color: "#667085",
-            }}
-          >
-            {profileDescription ||
-              "Acompanhe as publicações, novidades e campanhas desta conta em um só lugar."}
-          </p>
-
-          <div
-            style={{
-              display: "flex",
-              gap: "10px",
-              flexWrap: "wrap",
-              marginTop: "16px",
-            }}
-          >
-            <div
+          {profileDescription ? (
+            <p
               style={{
-                padding: "8px 12px",
-                borderRadius: "14px",
-                backgroundColor: "#ffffff",
-                border: "1px solid #e5e7eb",
-                fontSize: "13px",
-                fontWeight: 600,
-                color: "#344054",
+                margin: "10px 0 0",
+                fontSize: "16px",
+                lineHeight: 1.5,
+                color: "#667085",
               }}
             >
-              Conteúdo da marca
-            </div>
-            <div
-              style={{
-                padding: "8px 12px",
-                borderRadius: "14px",
-                backgroundColor: "#ffffff",
-                border: "1px solid #e5e7eb",
-                fontSize: "13px",
-                fontWeight: 600,
-                color: "#344054",
-              }}
-            >
-              Publicações exclusivas
-            </div>
-          </div>
+              {profileDescription}
+            </p>
+          ) : null}
 
           <button
             type="button"
             onClick={() => void handleFollowToggle()}
             disabled={!profileAccountId || isFollowLoading}
             style={{
-              marginTop: "20px",
+              marginTop: "22px",
               width: "100%",
               minHeight: "58px",
               borderRadius: "14px",
@@ -321,9 +253,6 @@ export function ProfileViewModal({
               cursor:
                 !profileAccountId || isFollowLoading ? "not-allowed" : "pointer",
               opacity: !profileAccountId || isFollowLoading ? 0.7 : 1,
-              boxShadow: isFollowing
-                ? "none"
-                : "0 12px 24px rgba(17, 183, 128, 0.22)",
             }}
           >
             {isFollowLoading ? "Processando..." : buttonLabel}
