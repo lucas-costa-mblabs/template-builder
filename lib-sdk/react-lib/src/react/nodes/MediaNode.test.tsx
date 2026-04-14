@@ -66,4 +66,17 @@ describe("MediaNode", () => {
     const { container } = renderWithContext(<MediaNode node={node as any} />);
     expect(container.firstChild).toBeNull();
   });
+
+  it("should render video when media type is inferred from extension", () => {
+    const node = {
+      id: "m2",
+      type: "media",
+      url: "https://example.com/video.mp4",
+    };
+
+    renderWithContext(<MediaNode node={node as any} />);
+    const video = screen.getByTestId("media-video");
+    expect(video.tagName.toLowerCase()).toBe("video");
+    expect(video).toHaveAttribute("src", "https://example.com/video.mp4");
+  });
 });

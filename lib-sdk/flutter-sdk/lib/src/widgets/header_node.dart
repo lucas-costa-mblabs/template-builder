@@ -19,6 +19,38 @@ class _HeaderNodeWidgetState extends State<HeaderNodeWidget> {
   bool? _isFollowing;
   bool _isFollowLoading = false;
 
+  IconData _resolveMenuIcon(
+    String? iconName,
+    String? actionName,
+    bool isFollowAction,
+  ) {
+    final normalizedIcon = iconName?.trim().toLowerCase();
+    final normalizedAction = actionName?.trim().toLowerCase();
+
+    if (normalizedIcon == 'flag') return Icons.flag_outlined;
+    if (normalizedIcon == 'report') return Icons.warning_amber_outlined;
+    if (normalizedIcon == 'follow') return Icons.person_add_outlined;
+    if (normalizedIcon == 'store') return Icons.store_outlined;
+    if (normalizedIcon == 'heart') return Icons.favorite_border;
+    if (normalizedIcon == 'share') return Icons.share_outlined;
+    if (normalizedIcon == 'bookmark') return Icons.bookmark_border;
+    if (normalizedIcon == 'info') return Icons.info_outline;
+    if (normalizedIcon == 'user') return Icons.person_add_outlined;
+    if (normalizedIcon == 'star') return Icons.warning_amber_outlined;
+
+    if (isFollowAction) return Icons.person_add_outlined;
+    if (normalizedAction == 'report' || normalizedAction == 'denunciar') {
+      return Icons.warning_amber_outlined;
+    }
+    if (normalizedAction == 'open_profile' ||
+        normalizedAction == 'about' ||
+        normalizedAction == 'sobre') {
+      return Icons.info_outline;
+    }
+
+    return Icons.more_vert;
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -79,7 +111,10 @@ class _HeaderNodeWidgetState extends State<HeaderNodeWidget> {
     });
 
     try {
-      await sdk.tracker.toggleFollowAccount(profileAccountId, previousFollowing);
+      await sdk.tracker.toggleFollowAccount(
+        profileAccountId,
+        previousFollowing,
+      );
     } catch (error) {
       if (!mounted) return;
       setState(() {
@@ -115,7 +150,7 @@ class _HeaderNodeWidgetState extends State<HeaderNodeWidget> {
     final isFollowing = _isFollowing ?? false;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.fromLTRB(16, 12, 10, 12),
       child: Row(
         children: [
           // Left side: Avatar + Title
@@ -232,55 +267,71 @@ class _HeaderNodeWidgetState extends State<HeaderNodeWidget> {
                     ),
                   ),
                 PopupMenuButton<Map<String, dynamic>>(
-                  icon: const Icon(Icons.more_vert, color: Color(0xFF6B7280)),
+                  padding: const EdgeInsets.all(4),
+                  iconSize: 20,
+                  splashRadius: 20,
+                  offset: const Offset(0, 8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  color: const Color(0xFFFFFFFF),
+                  elevation: 6,
+                  icon: const Icon(
+                    Icons.more_vert,
+                    color: Color(0xFF6B7280),
+                    size: 20,
+                  ),
                   onSelected: (item) async {
-                    await _handleMenuSelection(
-                      context,
-                      sdk,
-                      item,
-                    );
+                    await _handleMenuSelection(context, sdk, item);
                   },
                   itemBuilder: (BuildContext context) {
                     return menuItems.map<PopupMenuEntry<Map<String, dynamic>>>((
                       item,
                     ) {
-                      final iconName = item['icon']?.toString() ?? 'more';
-                      IconData iconData = Icons.more_vert;
-                      if (iconName == 'flag') iconData = Icons.flag_outlined;
-                      if (iconName == 'report')
-                        iconData = Icons.warning_amber_outlined;
-                      if (iconName == 'follow')
-                        iconData = Icons.person_add_outlined;
-                      if (iconName == 'store') iconData = Icons.store_outlined;
-                      if (iconName == 'heart') iconData = Icons.favorite_border;
-                      if (iconName == 'share') iconData = Icons.share_outlined;
-                      if (iconName == 'bookmark') iconData = Icons.bookmark_border;
+                      final iconName = item['icon']?.toString();
                       final itemAction = ComponentAction.fromOptionalJson(
                         item['action'],
                       );
-                      final actionName =
-                          itemAction?.payload.actionName?.trim().toLowerCase();
+                      final actionName = itemAction?.payload.actionName
+                          ?.trim()
+                          .toLowerCase();
                       final isFollowAction =
                           actionName == 'follow' || actionName == 'unfollow';
+                      final iconData = _resolveMenuIcon(
+                        iconName,
+                        actionName,
+                        isFollowAction,
+                      );
                       final itemLabel = isFollowAction
                           ? (isFollowing ? 'Deixar de seguir' : 'Seguir')
                           : (item['text']?.toString() ??
                                 item['label']?.toString() ??
                                 '');
 
-                      LabelWidget(String text) =>
-                          Text(text, style: const TextStyle(fontSize: 14));
+                      LabelWidget(String text) => Text(
+                        text,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF111827),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      );
 
                       return PopupMenuItem<Map<String, dynamic>>(
                         value: item as Map<String, dynamic>,
+                        height: 46,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 0,
+                        ),
                         child: Row(
                           children: [
                             Icon(
                               iconData,
-                              size: 20,
+                              size: 18,
                               color: const Color(0xFF6B7280),
                             ),
-                            const SizedBox(width: 8),
+                            const SizedBox(width: 10),
                             LabelWidget(
                               isFollowAction && _isFollowLoading
                                   ? 'Processando...'

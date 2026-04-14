@@ -3,6 +3,7 @@ import '../models/models.dart';
 import '../provider.dart';
 import '../utils.dart';
 import '../action_handler.dart';
+import 'legacy_html_view.dart';
 
 class IconNodeWidget extends StatelessWidget {
   final Map<String, dynamic> node;
@@ -75,6 +76,26 @@ class _PostInteractionsNodeWidgetState
   bool isLiked = false;
   bool isFavorited = false;
 
+  Widget _buildActionButton({
+    required Widget icon,
+    required VoidCallback onPressed,
+  }) {
+    return SizedBox(
+      width: 24,
+      height: 24,
+      child: Material(
+        color: Colors.transparent,
+        child: InkResponse(
+          onTap: onPressed,
+          radius: 18,
+          splashFactory: InkRipple.splashFactory,
+          containedInkWell: false,
+          child: Center(child: icon),
+        ),
+      ),
+    );
+  }
+
   bool _shouldRunNativeAction(ComponentAction? action, String actionName) {
     if (action == null) return true;
     return action.type == 'UI_ACTION' &&
@@ -130,7 +151,7 @@ class _PostInteractionsNodeWidgetState
           Row(
             children: [
               if (showLike)
-                IconButton(
+                _buildActionButton(
                   icon: Icon(
                     isLiked ? Icons.favorite : Icons.favorite_border,
                     size: 24,
@@ -159,7 +180,7 @@ class _PostInteractionsNodeWidgetState
                 ),
               if (showLike && showSave) const SizedBox(width: 8),
               if (showSave)
-                IconButton(
+                _buildActionButton(
                   icon: Icon(
                     isFavorited ? Icons.bookmark : Icons.bookmark_border,
                     size: 24,
@@ -196,7 +217,7 @@ class _PostInteractionsNodeWidgetState
             ],
           ),
           if (showShare)
-            IconButton(
+            _buildActionButton(
               icon: const Icon(
                 Icons.share_outlined,
                 size: 24,
@@ -276,10 +297,7 @@ class HtmlNodeWidget extends StatelessWidget {
 
     Widget child = Padding(
       padding: EdgeInsets.symmetric(horizontal: px, vertical: py),
-      child: Text(
-        rawHtml.replaceAll(RegExp(r'<[^>]*>'), ''),
-        style: const TextStyle(fontSize: 14, color: Colors.black),
-      ),
+      child: LegacyHtmlView(html: rawHtml),
     );
 
     if (action != null) {

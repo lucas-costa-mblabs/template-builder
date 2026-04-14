@@ -239,6 +239,13 @@ Color colorToHex(BuildContext context, String? token) {
 
   if (effectiveColor == 'white') return Colors.white;
   if (effectiveColor == 'black') return Colors.black;
+  if (effectiveColor == 'red') return const Color(0xFFFF0000);
+  if (effectiveColor == 'blue') return const Color(0xFF0000FF);
+  if (effectiveColor == 'green') return const Color(0xFF008000);
+  if (effectiveColor == 'yellow') return const Color(0xFFFFFF00);
+  if (effectiveColor == 'gray' || effectiveColor == 'grey') {
+    return const Color(0xFF808080);
+  }
   if (effectiveColor == 'transparent') return Colors.transparent;
 
   return Colors.transparent;

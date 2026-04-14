@@ -26,6 +26,7 @@
     "react-dom": ">=18.0.0"
   },
   "dependencies": {
+    "hls.js": "^1.6.16",
     "lucide-react": "^0.577.0"
   },
   "devDependencies": {

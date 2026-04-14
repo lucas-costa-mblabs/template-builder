@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../provider.dart';
 import '../utils.dart';
+import '../media_utils.dart';
 import '../action_handler.dart';
+import 'video_node_widget.dart';
 
 class MediaNodeWidget extends StatelessWidget {
   final Map<String, dynamic> node;
@@ -13,9 +15,22 @@ class MediaNodeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final sdk = DirectoAiTemplateProvider.of(context);
     final url = resolveVariables(node['url']?.toString(), dataContext).trim();
+    final mediaType = inferMediaType(
+      url,
+      explicitType: node['mediaType']?.toString(),
+    );
+    final posterUrl = resolveVariables(
+      node['posterUrl']?.toString(),
+      dataContext,
+    ).trim();
     final widthStr = node['width']?.toString();
     final heightStr = node['height']?.toString();
+    final aspectRatio = parseAspectRatio(node['aspectRatio']?.toString());
     final objectFit = node['objectFit']?.toString();
+    final autoplay = node['autoplay'] != false;
+    final muted = node['muted'] != false;
+    final loop = node['loop'] != false;
+    final controls = node['controls'] == true;
 
     final width = (widthStr == '100%')
         ? null
@@ -24,7 +39,7 @@ class MediaNodeWidget extends StatelessWidget {
         ? null
         : (double.tryParse(heightStr ?? '') ?? null);
 
-    BoxFit fit = BoxFit.cover;
+    BoxFit fit = mediaType == 'video' ? BoxFit.cover : BoxFit.cover;
     if (objectFit == 'contain')
       fit = BoxFit.contain;
     else if (objectFit == 'fill')
@@ -34,29 +49,52 @@ class MediaNodeWidget extends StatelessWidget {
     else if (objectFit == 'scale-down')
       fit = BoxFit.scaleDown;
 
+    if (mediaType == 'video') {
+      fit = BoxFit.cover;
+    }
+
     if (url.isEmpty) return const SizedBox.shrink();
 
     final action = getNodeAction(node);
+    final shouldHandleAction =
+        action != null && !(mediaType == 'video' && controls);
 
     Widget child = SizedBox(
       width: width,
       height: height,
-      child: Image.network(
-        url,
-        fit: fit,
-        errorBuilder: (context, error, stackTrace) => Container(
-          color: Colors.grey[200],
-          child: const Center(
-            child: Icon(Icons.broken_image, color: Colors.grey),
-          ),
-        ),
-      ),
+      child: mediaType == 'video'
+          ? VideoNodeWidget(
+              url: url,
+              posterUrl: posterUrl.isNotEmpty ? posterUrl : null,
+              width: width,
+              height: height,
+              aspectRatio: aspectRatio ?? (4 / 5),
+              fit: fit,
+              autoplay: autoplay && muted,
+              muted: muted,
+              loop: loop,
+              controls: controls,
+            )
+          : Image.network(
+              url,
+              fit: fit,
+              errorBuilder: (context, error, stackTrace) => Container(
+                color: Colors.grey[200],
+                child: const Center(
+                  child: Icon(Icons.broken_image, color: Colors.grey),
+                ),
+              ),
+            ),
     );
 
-    if (action != null) {
+    if (aspectRatio != null && height == null) {
+      child = AspectRatio(aspectRatio: aspectRatio, child: child);
+    }
+
+    if (shouldHandleAction) {
       child = GestureDetector(
         onTap: () => executeAction(
-          action,
+          action!,
           context,
           dataContext,
           sdk?.onAction,

@@ -3,6 +3,7 @@ import 'models/models.dart';
 import 'provider.dart';
 import 'renderer.dart';
 import 'utils.dart';
+import 'widgets/legacy_html_view.dart';
 
 class CVDPost extends StatelessWidget {
   final Post post;
@@ -43,13 +44,7 @@ class CVDPost extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: const Color(0xFFE2E8F0)),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Text(
-            renderedHtml,
-            style: const TextStyle(fontSize: 14, color: Colors.black),
-          ),
-        ),
+        child: LegacyHtmlView(html: renderedHtml),
       );
     }
 
@@ -83,7 +78,23 @@ class CVDPost extends StatelessWidget {
       );
     }
 
-    final dataContext = {'post': post.toJson()};
+    final customVariables = post.customVariables ?? {};
+    final customProfile = customVariables['profile'] is Map<String, dynamic>
+        ? Map<String, dynamic>.from(customVariables['profile'])
+        : <String, dynamic>{};
+
+    final dataContext = {
+      'post': {
+        ...post.toJson(),
+        'profile': post.profile?.toJson() ?? customProfile,
+        'shop':
+            post.shop?.toJson() ??
+            {
+              'name': customProfile['accountName'] ?? '',
+              'avatar': customProfile['iconUrl'] ?? '',
+            },
+      },
+    };
 
     return Container(
       width: double.infinity,

@@ -67,6 +67,8 @@ export interface Post {
   title: string;
   legend?: string; // Mapeamento da API
   url: string;
+  mediaType?: "image" | "video";
+  posterUrl?: string;
   price?: string | null;
   originalPrice?: string | null;
   discount?: string | null;
@@ -144,8 +146,15 @@ export interface ComponentNode {
   // Media
   url?: string;
   alt?: string;
+  mediaType?: "image" | "video";
+  posterUrl?: string;
   aspectRatio?: string;
   objectFit?: "cover" | "contain" | "fill" | "none" | "scale-down";
+  autoplay?: boolean;
+  muted?: boolean;
+  loop?: boolean;
+  controls?: boolean;
+  playsInline?: boolean;
 
   // Button
   label?: string;

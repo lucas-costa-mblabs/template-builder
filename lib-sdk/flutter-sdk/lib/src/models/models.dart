@@ -78,6 +78,8 @@ class Post {
   final String? accountId;
   final String title;
   final String url;
+  final String? mediaType;
+  final String? posterUrl;
   final String price;
   final String originalPrice;
   final String discount;
@@ -100,6 +102,8 @@ class Post {
     this.accountId,
     required this.title,
     required this.url,
+    this.mediaType,
+    this.posterUrl,
     required this.price,
     required this.originalPrice,
     required this.discount,
@@ -124,6 +128,8 @@ class Post {
       accountId: json['accountId'],
       title: json['title'] ?? '',
       url: json['url'] ?? '',
+      mediaType: json['mediaType'],
+      posterUrl: json['posterUrl'],
       price: json['price']?.toString() ?? '',
       originalPrice: json['originalPrice']?.toString() ?? '',
       discount: json['discount']?.toString() ?? '',
@@ -150,6 +156,8 @@ class Post {
     'accountId': accountId,
     'title': title,
     'url': url,
+    'mediaType': mediaType,
+    'posterUrl': posterUrl,
     'price': price,
     'originalPrice': originalPrice,
     'discount': discount,

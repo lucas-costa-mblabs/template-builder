@@ -46,23 +46,42 @@ class _SduiFeedScreenState extends State<SduiFeedScreen> {
   Future<void> _loadData() async {
     try {
       debugPrint('DEBUG: Starting _loadData...');
-      final themeString = await rootBundle.loadString('assets/theme.json');
-      final templatesString = await rootBundle.loadString(
-        'assets/template.json',
+      final themeString = await rootBundle.loadString(
+        'assets/theme.response.json',
       );
-      final postsString = await rootBundle.loadString('assets/posts.json');
+      final templatesString = await rootBundle.loadString(
+        'assets/template.response.json',
+      );
+      final postsString = await rootBundle.loadString(
+        'assets/feed.response.json',
+      );
       debugPrint('DEBUG: JSONs loaded from assets.');
 
       final themeJson = json.decode(themeString);
-      final List<dynamic> templatesJson = json.decode(templatesString);
-      final List<dynamic> postsJson = json.decode(postsString);
-      debugPrint('DEBUG: JSONs decoded. Posts count: ${postsJson.length}');
+      final templatesJson = json.decode(templatesString);
+      final postsJson = json.decode(postsString);
+      final List<dynamic> templateItems =
+          (templatesJson['data'] as List<dynamic>? ?? <dynamic>[]);
+      final List<dynamic> feedItems =
+          (postsJson['data']?['feeds'] as List<dynamic>? ?? <dynamic>[]);
+      debugPrint('DEBUG: JSONs decoded. Posts count: ${feedItems.length}');
 
-      final parsedTheme = CVDTheme.fromJson(themeJson);
-      final parsedTemplates = templatesJson
+      final parsedTheme = CVDTheme.fromJson(themeJson['data'] ?? {});
+      final parsedTemplates = templateItems
           .map((e) => DirectoAiTemplate.fromJson(e))
           .toList();
-      final parsedPosts = postsJson.map((e) => Post.fromJson(e)).toList();
+      final parsedPosts = feedItems.map((item) {
+        final post = Map<String, dynamic>.from(item as Map);
+        final hasStructuredTemplate = parsedTemplates.any(
+          (template) => template.templateId == post['templateId'],
+        );
+
+        if (hasStructuredTemplate) {
+          post.remove('template');
+        }
+
+        return Post.fromJson(post);
+      }).toList();
       debugPrint(
         'DEBUG: Models parsed. Posts: ${parsedPosts.length}, Templates: ${parsedTemplates.length}',
       );
@@ -90,8 +109,10 @@ class _SduiFeedScreenState extends State<SduiFeedScreen> {
     }
 
     final config = DirectoAiConfig(
-      accountId: 'test-account',
-      apiKey: 'test-api-key',
+      accountId: '0b455c19-e389-4a7f-b83c-ef0cf7286ecb',
+      apiKey: '57cbcfd2-fe10-41db-abf3-84bdb569cdae',
+      customerId: 'mock-customer-123',
+      baseUrl: 'https://api.dev-directoai.com.br',
     );
     final tracker = DefaultDirectoAiTracker(config);
 

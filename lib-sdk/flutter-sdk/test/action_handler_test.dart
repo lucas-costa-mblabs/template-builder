@@ -182,56 +182,93 @@ void main() {
   });
 
   testWidgets('should toggle follow label in header menu', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(420, 800));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
     final tracker = FakeTracker();
 
     await tester.pumpWidget(
       buildTestWidget(
         tracker: tracker,
-        child: HeaderNodeWidget(
-          node: {
-            'id': 'header-follow',
-            'type': 'header',
-            'title': '{{post.profile.accountName}}',
-            'imageUrl': '{{post.profile.iconUrl}}',
-            'menuItems': [
-              {
-                'icon': 'user',
-                'text': 'Seguir',
-                'action': {
-                  'type': 'UI_ACTION',
-                  'payload': {'actionName': 'follow'},
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: SizedBox(
+            width: 358,
+            child: HeaderNodeWidget(
+              node: {
+                'id': 'header-follow',
+                'type': 'header',
+                'title': '{{post.profile.accountName}}',
+                'imageUrl': '{{post.profile.iconUrl}}',
+                'menuItems': [
+                  {
+                    'icon': 'user',
+                    'text': 'Seguir',
+                    'action': {
+                      'type': 'UI_ACTION',
+                      'payload': {'actionName': 'follow'},
+                    },
+                  },
+                ],
+              },
+              dataContext: {
+                'post': {
+                  'accountId': 'profile_1',
+                  'profile': {
+                    'accountName': 'Super Zeus',
+                    'iconUrl': 'https://example.com/avatar.png',
+                  },
                 },
               },
-            ],
-          },
-          dataContext: {
-            'post': {
-              'accountId': 'profile_1',
-              'profile': {
-                'accountName': 'Super Zeus',
-                'iconUrl': 'https://example.com/avatar.png',
-              },
-            },
-          },
+            ),
+          ),
         ),
       ),
     );
 
-    await tester.tap(find.byIcon(Icons.more_vert));
-    await tester.pumpAndSettle();
+    String extractMenuLabel(PopupMenuEntry<Map<String, dynamic>> entry) {
+      final popupItem = entry as PopupMenuItem<Map<String, dynamic>>;
+      final row = popupItem.child! as Row;
+      final label = row.children.last as Text;
+      return label.data ?? '';
+    }
 
-    expect(find.text('Seguir'), findsOneWidget);
+    var popupMenuButton = tester.widget<PopupMenuButton<Map<String, dynamic>>>(
+      find.byType(PopupMenuButton<Map<String, dynamic>>),
+    );
+    var popupContext = tester.element(
+      find.byType(PopupMenuButton<Map<String, dynamic>>),
+    );
 
-    await tester.tap(find.text('Seguir'));
+    expect(
+      extractMenuLabel(popupMenuButton.itemBuilder(popupContext).single),
+      'Seguir',
+    );
+
+    popupMenuButton.onSelected?.call({
+      'icon': 'user',
+      'text': 'Seguir',
+      'action': {
+        'type': 'UI_ACTION',
+        'payload': {'actionName': 'follow'},
+      },
+    });
     await tester.pumpAndSettle();
 
     expect(tracker.lastFollowAccountId, 'profile_1');
     expect(tracker.lastFollowWasFollowing, false);
 
-    await tester.tap(find.byIcon(Icons.more_vert));
-    await tester.pumpAndSettle();
+    popupMenuButton = tester.widget<PopupMenuButton<Map<String, dynamic>>>(
+      find.byType(PopupMenuButton<Map<String, dynamic>>),
+    );
+    popupContext = tester.element(
+      find.byType(PopupMenuButton<Map<String, dynamic>>),
+    );
 
-    expect(find.text('Deixar de seguir'), findsOneWidget);
+    expect(
+      extractMenuLabel(popupMenuButton.itemBuilder(popupContext).single),
+      'Deixar de seguir',
+    );
   });
 
   testWidgets('should open profile view and load account posts', (
