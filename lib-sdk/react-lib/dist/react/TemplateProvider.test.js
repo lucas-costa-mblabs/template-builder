@@ -19,6 +19,10 @@ describe("TemplateProvider", () => {
         render(_jsx(TemplateProvider, { theme: mockTheme, config: mockConfig, children: _jsx(TestComponent, {}) }));
         expect(screen.getByTestId("theme-primary")).toHaveTextContent("#FF0000");
     });
+    it("should work without config when used for local rendering", () => {
+        render(_jsx(TemplateProvider, { theme: mockTheme, children: _jsx(TestComponent, {}) }));
+        expect(screen.getByTestId("theme-primary")).toHaveTextContent("#FF0000");
+    });
     it("should throw error if useTemplateContext is used outside provider", () => {
         const SilentErrorComponent = () => {
             try {

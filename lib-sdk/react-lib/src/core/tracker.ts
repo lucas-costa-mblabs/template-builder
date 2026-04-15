@@ -31,6 +31,60 @@ export interface DirectoAiTracker {
   shareContent(contentData: any): Promise<void>;
 }
 
+export class NoopDirectoAiTracker implements DirectoAiTracker {
+  async trackEvent(_name: string, _data: Record<string, any>): Promise<void> {}
+
+  async trackImpression(
+    _contentId: string,
+    _data: Record<string, any>,
+  ): Promise<void> {}
+
+  async trackViewTime(
+    _contentId: string,
+    _seconds: number,
+    _data: Record<string, any>,
+  ): Promise<void> {}
+
+  async toggleLike(
+    _contentId: string,
+    _campaignId?: string,
+  ): Promise<void> {}
+
+  async fetchProfileFeed(_profileAccountId: string): Promise<Post[]> {
+    return [];
+  }
+
+  async followAccount(_profileAccountId: string): Promise<void> {}
+
+  async unfollowAccount(_profileAccountId: string): Promise<void> {}
+
+  async toggleFollowAccount(
+    _profileAccountId: string,
+    _isFollowing: boolean,
+  ): Promise<void> {}
+
+  async addFavorite(
+    _contentId: string,
+    _campaignId?: string,
+  ): Promise<void> {}
+
+  async removeFavorite(_contentId: string): Promise<void> {}
+
+  async toggleFavorite(
+    _contentId: string,
+    _campaignId: string | undefined,
+    _isFavorited: boolean,
+  ): Promise<void> {}
+
+  async reportContent(
+    _contentId: string,
+    _reportType: string,
+    _description?: string,
+  ): Promise<void> {}
+
+  async shareContent(_contentData: any): Promise<void> {}
+}
+
 export class DefaultDirectoAiTracker implements DirectoAiTracker {
   private config: DirectoAiConfig;
 

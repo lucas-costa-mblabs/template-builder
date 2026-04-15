@@ -14,6 +14,21 @@ export interface DirectoAiTracker {
     reportContent(contentId: string, reportType: string, description?: string): Promise<void>;
     shareContent(contentData: any): Promise<void>;
 }
+export declare class NoopDirectoAiTracker implements DirectoAiTracker {
+    trackEvent(_name: string, _data: Record<string, any>): Promise<void>;
+    trackImpression(_contentId: string, _data: Record<string, any>): Promise<void>;
+    trackViewTime(_contentId: string, _seconds: number, _data: Record<string, any>): Promise<void>;
+    toggleLike(_contentId: string, _campaignId?: string): Promise<void>;
+    fetchProfileFeed(_profileAccountId: string): Promise<Post[]>;
+    followAccount(_profileAccountId: string): Promise<void>;
+    unfollowAccount(_profileAccountId: string): Promise<void>;
+    toggleFollowAccount(_profileAccountId: string, _isFollowing: boolean): Promise<void>;
+    addFavorite(_contentId: string, _campaignId?: string): Promise<void>;
+    removeFavorite(_contentId: string): Promise<void>;
+    toggleFavorite(_contentId: string, _campaignId: string | undefined, _isFavorited: boolean): Promise<void>;
+    reportContent(_contentId: string, _reportType: string, _description?: string): Promise<void>;
+    shareContent(_contentData: any): Promise<void>;
+}
 export declare class DefaultDirectoAiTracker implements DirectoAiTracker {
     private config;
     constructor(config: DirectoAiConfig);

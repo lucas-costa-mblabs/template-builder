@@ -1,6 +1,7 @@
 // Components
 export { TemplateProvider } from "./TemplateProvider.js";
 export { RemoteTemplateProvider } from "./RemoteTemplateProvider.js";
+export { ScrollableContainer } from "./ScrollableContainer.js";
 export { Post } from "./Post.js";
 export { JSONRenderer } from "./JSONRenderer.js";
 export { clearRemoteBootstrapCache, fetchCvdTemplates, fetchCvdTheme, loadRemoteBootstrapData, } from "./bootstrap.js";

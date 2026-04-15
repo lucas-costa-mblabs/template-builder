@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import type { Post as PostType, ComponentNode } from "../core/types.js";
+import type {
+  Post as PostType,
+  ComponentNode,
+  DirectoAiTemplate,
+} from "../core/types.js";
 import { useTemplateContext } from "./context.js";
 import { JSONRenderer } from "./JSONRenderer.js";
 import { useImpressionObserver } from "./hooks/useImpressionObserver.js";
@@ -7,6 +11,7 @@ import { resolveVariables, injectTailwind } from "./utils.js";
 
 export interface PostProps {
   post: PostType;
+  template?: DirectoAiTemplate;
 }
 
 const PostSkeleton = () => (
@@ -33,9 +38,11 @@ const PostSkeleton = () => (
   </div>
 );
 
-export function Post({ post }: PostProps) {
+export function Post({ post, template: providedTemplate }: PostProps) {
   const { templates, theme, tracker } = useTemplateContext();
-  const template = templates.find((t) => t.templateId === post.templateId);
+  const template =
+    providedTemplate ||
+    templates.find((t) => t.templateId === post.templateId);
   const postId = post.id || post.contentId || "";
   const [isStyleLoaded, setIsStyleLoaded] = useState(false);
 

@@ -176,7 +176,7 @@ String resolveGoTemplate(String? template, Map<String, dynamic>? dataContext) {
       } else {
         if (currentDisp) {
           var val = evaluateExpression(content);
-          output += val != null ? val.toString() : '';
+          output += val != null ? val.toString() : token;
         }
       }
     } else {

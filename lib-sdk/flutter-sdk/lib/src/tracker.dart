@@ -37,6 +37,71 @@ abstract class DirectoAiTracker {
   });
 }
 
+class NoopDirectoAiTracker implements DirectoAiTracker {
+  @override
+  Future<void> addFavorite(String contentId, {String? campaignId}) async {}
+
+  @override
+  Future<List<Post>> fetchProfileFeed(String profileAccountId) async {
+    return <Post>[];
+  }
+
+  @override
+  Future<void> followAccount(String profileAccountId) async {}
+
+  @override
+  Future<void> removeFavorite(String contentId) async {}
+
+  @override
+  Future<void> reportContent(
+    String contentId, {
+    required String reportType,
+    String? description,
+  }) async {}
+
+  @override
+  Future<void> shareContent(
+    Map<String, dynamic> contentData, {
+    String? campaignId,
+    String? title,
+  }) async {}
+
+  @override
+  Future<void> toggleFavorite(
+    String contentId,
+    bool isFavorited, {
+    String? campaignId,
+  }) async {}
+
+  @override
+  Future<void> toggleFollowAccount(
+    String profileAccountId,
+    bool isFollowing,
+  ) async {}
+
+  @override
+  Future<void> toggleLike(String contentId, {String? campaignId}) async {}
+
+  @override
+  Future<void> trackEvent(String name, Map<String, dynamic> data) async {}
+
+  @override
+  Future<void> trackImpression(
+    String contentId,
+    Map<String, dynamic> data,
+  ) async {}
+
+  @override
+  Future<void> trackViewTime(
+    String contentId,
+    int seconds,
+    Map<String, dynamic> data,
+  ) async {}
+
+  @override
+  Future<void> unfollowAccount(String profileAccountId) async {}
+}
+
 class DefaultDirectoAiTracker implements DirectoAiTracker {
   final DirectoAiConfig config;
   final _uuid = const Uuid();

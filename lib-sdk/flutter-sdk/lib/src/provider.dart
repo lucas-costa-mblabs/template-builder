@@ -11,16 +11,22 @@ class DirectoAiTemplateProvider extends InheritedWidget {
   final ActionCallback? onAction;
   final ReportSubmitCallback? onReportSubmit;
 
-  const DirectoAiTemplateProvider({
+  DirectoAiTemplateProvider({
     super.key,
     required this.theme,
     required this.templates,
-    required this.config,
-    required this.tracker,
+    DirectoAiConfig? config,
+    DirectoAiTracker? tracker,
     this.onAction,
     this.onReportSubmit,
-    required super.child,
-  });
+    required Widget child,
+  }) : config = config ?? DirectoAiConfig(accountId: '', apiKey: ''),
+       tracker =
+           tracker ??
+           (config != null
+               ? DefaultDirectoAiTracker(config)
+               : NoopDirectoAiTracker()),
+       super(child: child);
 
   static DirectoAiTemplateProvider? of(BuildContext context) {
     return context

@@ -28,12 +28,12 @@ const mockTracker = {
     trackImpression: vi.fn(),
     trackViewTime: vi.fn(),
 };
-const renderPost = (post, templates = []) => {
+const renderPost = (post, templates = [], template) => {
     return render(_jsx(TemplateContext.Provider, { value: {
             theme: mockTheme,
             templates,
             tracker: mockTracker,
-        }, children: _jsx(Post, { post: post }) }));
+        }, children: _jsx(Post, { post: post, template: template }) }));
 };
 describe("Post Component", () => {
     it("should render template if found", () => {
@@ -46,6 +46,15 @@ describe("Post Component", () => {
         const post = { id: "p1", templateId: "t1" };
         renderPost(post, templates);
         expect(screen.getByText("Template Node")).toBeInTheDocument();
+    });
+    it("should render with explicit template override", () => {
+        const template = {
+            templateId: "override",
+            data: [{ id: "n1", type: "text", value: "Override Template" }],
+        };
+        const post = { id: "p1", templateId: "missing" };
+        renderPost(post, [], template);
+        expect(screen.getByText("Override Template")).toBeInTheDocument();
     });
     it("should prefer structured template over legacy html when both exist", () => {
         const templates = [

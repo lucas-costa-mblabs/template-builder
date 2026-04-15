@@ -1,6 +1,7 @@
 // Components
 export { TemplateProvider } from "./TemplateProvider.js";
 export { RemoteTemplateProvider } from "./RemoteTemplateProvider.js";
+export { ScrollableContainer } from "./ScrollableContainer.js";
 export { Post } from "./Post.js";
 export { JSONRenderer } from "./JSONRenderer.js";
 export {
@@ -31,4 +32,5 @@ export type {
 
 export type { TemplateProviderProps } from "./TemplateProvider.js";
 export type { RemoteTemplateProviderProps } from "./RemoteTemplateProvider.js";
+export type { ScrollableContainerProps } from "./ScrollableContainer.js";
 export type { PostProps } from "./Post.js";

@@ -1,6 +1,7 @@
-import type { Post as PostType } from "../core/types.js";
+import type { Post as PostType, DirectoAiTemplate } from "../core/types.js";
 export interface PostProps {
     post: PostType;
+    template?: DirectoAiTemplate;
 }
-export declare function Post({ post }: PostProps): import("react/jsx-runtime").JSX.Element;
+export declare function Post({ post, template: providedTemplate }: PostProps): import("react/jsx-runtime").JSX.Element;
 //# sourceMappingURL=Post.d.ts.map

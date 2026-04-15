@@ -24,8 +24,8 @@ const mockPost = {
     campaignId: "camp_1",
 };
 const mockTemplate = {
-    id: "tpl_1",
-    template: [
+    templateId: "tpl_1",
+    data: [
         {
             id: "b1",
             type: "button",
@@ -60,7 +60,7 @@ describe("Tracking & Observability", () => {
                 templates: [mockTemplate],
                 config: mockConfig,
                 tracker: mockTracker,
-            }, children: _jsx(ButtonNode, { node: mockTemplate.template[0], dataContext: { post: mockPost } }) }));
+            }, children: _jsx(ButtonNode, { node: mockTemplate.data[0], dataContext: { post: mockPost } }) }));
         const button = screen.getByText("Buy Now");
         fireEvent.click(button);
         expect(mockTracker.trackEvent).toHaveBeenCalledWith("click-button", expect.objectContaining({
@@ -74,7 +74,7 @@ describe("Tracking & Observability", () => {
                 templates: [mockTemplate],
                 config: mockConfig,
                 tracker: mockTracker,
-            }, children: _jsx(PostInteractionsNode, { node: mockTemplate.template[1], dataContext: { post: mockPost } }) }));
+            }, children: _jsx(PostInteractionsNode, { node: mockTemplate.data[1], dataContext: { post: mockPost } }) }));
         // Lucide icons render as SVG with data-lucide attribute (if configured) or just SVG
         const heartIcon = screen.getByTestId("heart-icon");
         const bookmarkIcon = screen.getByTestId("bookmark-icon");
@@ -84,7 +84,7 @@ describe("Tracking & Observability", () => {
         fireEvent.click(bookmarkIcon);
         expect(mockTracker.addFavorite).toHaveBeenCalledWith("post_1", "camp_1");
         fireEvent.click(shareIcon);
-        expect(mockTracker.shareContent).toHaveBeenCalledWith("post_1", "camp_1", "Test Post");
+        expect(mockTracker.shareContent).toHaveBeenCalledWith(mockPost);
     });
     it("should track impressions via Post component", () => {
         const observeSpy = vi.spyOn(IntersectionObserver.prototype, "observe");

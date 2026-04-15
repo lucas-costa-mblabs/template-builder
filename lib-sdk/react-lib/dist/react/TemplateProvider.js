@@ -1,13 +1,24 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useMemo, useEffect, useState } from "react";
 import { TemplateContext } from "./context.js";
-import { DefaultDirectoAiTracker } from "../core/tracker.js";
+import { DefaultDirectoAiTracker, NoopDirectoAiTracker } from "../core/tracker.js";
 import { ReportDialog } from "./ReportDialog.js";
 import { ProfileViewModal } from "./ProfileViewModal.js";
-export function TemplateProvider({ theme, templates = [], config, tracker: providedTracker, onReportSubmit, children, }) {
+const EMPTY_CONFIG = {
+    accountId: "",
+    apiKey: "",
+};
+export function TemplateProvider({ theme, templates = [], config: providedConfig, tracker: providedTracker, onReportSubmit, children, }) {
+    const config = useMemo(() => providedConfig || EMPTY_CONFIG, [providedConfig]);
     const tracker = useMemo(() => {
-        return providedTracker || new DefaultDirectoAiTracker(config);
-    }, [providedTracker, config]);
+        if (providedTracker) {
+            return providedTracker;
+        }
+        if (providedConfig) {
+            return new DefaultDirectoAiTracker(providedConfig);
+        }
+        return new NoopDirectoAiTracker();
+    }, [providedTracker, providedConfig]);
     const [reportDialog, setReportDialog] = useState(null);
     const [profileView, setProfileView] = useState(null);
     const [followedAccounts, setFollowedAccounts] = useState(() => new Set());

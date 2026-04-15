@@ -20,9 +20,10 @@ const PostSkeleton = () => (_jsxs("div", { style: {
         50% { opacity: .5; }
       }
     ` }), "Carregando estilos..."] }));
-export function Post({ post }) {
+export function Post({ post, template: providedTemplate }) {
     const { templates, theme, tracker } = useTemplateContext();
-    const template = templates.find((t) => t.templateId === post.templateId);
+    const template = providedTemplate ||
+        templates.find((t) => t.templateId === post.templateId);
     const postId = post.id || post.contentId || "";
     const [isStyleLoaded, setIsStyleLoaded] = useState(false);
     // Injeta o Tailwind apenas se houver um template HTML legado

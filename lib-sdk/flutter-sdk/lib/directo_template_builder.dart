@@ -5,6 +5,7 @@ export 'src/provider.dart';
 export 'src/remote_provider.dart';
 export 'src/renderer.dart';
 export 'src/post.dart';
+export 'src/scrollable_container.dart';
 export 'src/tracker.dart';
 export 'src/bootstrap_service.dart';
 export 'src/action_handler.dart' show ActionCallback, ReportSubmitCallback;

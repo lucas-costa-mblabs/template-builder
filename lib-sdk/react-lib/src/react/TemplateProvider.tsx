@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { useMemo, useEffect, useState } from "react";
 import { TemplateContext } from "./context.js";
-import { DefaultDirectoAiTracker } from "../core/tracker.js";
+import { DefaultDirectoAiTracker, NoopDirectoAiTracker } from "../core/tracker.js";
 import type { DirectoAiTracker } from "../core/tracker.js";
 import type {
   Theme,
@@ -26,7 +26,7 @@ interface ProfileViewState {
 export interface TemplateProviderProps {
   theme: Theme;
   templates?: DirectoAiTemplate[];
-  config: DirectoAiConfig;
+  config?: DirectoAiConfig;
   tracker?: DirectoAiTracker;
   onReportSubmit?: (
     submission: ReportSubmission,
@@ -35,17 +35,34 @@ export interface TemplateProviderProps {
   children: ReactNode;
 }
 
+const EMPTY_CONFIG: DirectoAiConfig = {
+  accountId: "",
+  apiKey: "",
+};
+
 export function TemplateProvider({
   theme,
   templates = [],
-  config,
+  config: providedConfig,
   tracker: providedTracker,
   onReportSubmit,
   children,
 }: TemplateProviderProps) {
+  const config = useMemo(
+    () => providedConfig || EMPTY_CONFIG,
+    [providedConfig],
+  );
   const tracker = useMemo(() => {
-    return providedTracker || new DefaultDirectoAiTracker(config);
-  }, [providedTracker, config]);
+    if (providedTracker) {
+      return providedTracker;
+    }
+
+    if (providedConfig) {
+      return new DefaultDirectoAiTracker(providedConfig);
+    }
+
+    return new NoopDirectoAiTracker();
+  }, [providedTracker, providedConfig]);
   const [reportDialog, setReportDialog] = useState<ReportDialogState | null>(
     null,
   );

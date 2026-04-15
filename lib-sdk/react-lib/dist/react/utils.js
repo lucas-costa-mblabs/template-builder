@@ -145,7 +145,7 @@ export const resolveGoTemplate = (template, dataContext) => {
             else {
                 if (currentDisp) {
                     const val = evaluateExpression(content);
-                    output += val !== undefined && val !== null ? String(val) : "";
+                    output += val !== undefined && val !== null ? String(val) : token;
                 }
             }
         }

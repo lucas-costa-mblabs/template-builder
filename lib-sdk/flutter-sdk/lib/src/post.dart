@@ -7,8 +7,9 @@ import 'widgets/legacy_html_view.dart';
 
 class CVDPost extends StatelessWidget {
   final Post post;
+  final DirectoAiTemplate? template;
 
-  const CVDPost({super.key, required this.post});
+  const CVDPost({super.key, required this.post, this.template});
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +21,16 @@ class CVDPost extends StatelessWidget {
     }
 
     // Fallback para JSON Template (Builder)
-    DirectoAiTemplate? template;
+    DirectoAiTemplate? resolvedTemplate = template;
     try {
-      template = sdk.templates.firstWhere(
+      resolvedTemplate ??= sdk.templates.firstWhere(
         (t) => t.templateId == post.templateId,
       );
     } catch (e) {
       // Not found
     }
 
-    if ((post.template?.isNotEmpty ?? false) && template == null) {
+    if ((post.template?.isNotEmpty ?? false) && resolvedTemplate == null) {
       final legacyContext = {
         ...post.toJson(),
         'Title': post.title,
@@ -57,7 +58,7 @@ class CVDPost extends StatelessWidget {
       );
     }
 
-    if (template == null) {
+    if (resolvedTemplate == null) {
       return Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -118,7 +119,7 @@ class CVDPost extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: template.data.map((node) {
+        children: resolvedTemplate.data.map((node) {
           return CVDRenderer(
             node: node as Map<String, dynamic>,
             dataContext: dataContext,

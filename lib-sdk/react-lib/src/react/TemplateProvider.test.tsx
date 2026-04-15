@@ -28,6 +28,16 @@ describe("TemplateProvider", () => {
     expect(screen.getByTestId("theme-primary")).toHaveTextContent("#FF0000");
   });
 
+  it("should work without config when used for local rendering", () => {
+    render(
+      <TemplateProvider theme={mockTheme as any}>
+        <TestComponent />
+      </TemplateProvider>,
+    );
+
+    expect(screen.getByTestId("theme-primary")).toHaveTextContent("#FF0000");
+  });
+
   it("should throw error if useTemplateContext is used outside provider", () => {
     const SilentErrorComponent = () => {
       try {

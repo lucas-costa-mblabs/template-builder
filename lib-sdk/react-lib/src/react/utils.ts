@@ -145,7 +145,7 @@ export const resolveGoTemplate = (
       } else {
         if (currentDisp) {
           const val = evaluateExpression(content);
-          output += val !== undefined && val !== null ? String(val) : "";
+          output += val !== undefined && val !== null ? String(val) : token;
         }
       }
     } else {

@@ -29,8 +29,8 @@ const mockPost = {
 } as any;
 
 const mockTemplate = {
-  id: "tpl_1",
-  template: [
+  templateId: "tpl_1",
+  data: [
     {
       id: "b1",
       type: "button",
@@ -73,7 +73,7 @@ describe("Tracking & Observability", () => {
         }}
       >
         <ButtonNode
-          node={mockTemplate.template[0]}
+          node={mockTemplate.data[0]}
           dataContext={{ post: mockPost }}
         />
       </TemplateContext.Provider>,
@@ -102,7 +102,7 @@ describe("Tracking & Observability", () => {
         }}
       >
         <PostInteractionsNode
-          node={mockTemplate.template[1]}
+          node={mockTemplate.data[1]}
           dataContext={{ post: mockPost }}
         />
       </TemplateContext.Provider>,
@@ -120,11 +120,7 @@ describe("Tracking & Observability", () => {
     expect(mockTracker.addFavorite).toHaveBeenCalledWith("post_1", "camp_1");
 
     fireEvent.click(shareIcon);
-    expect(mockTracker.shareContent).toHaveBeenCalledWith(
-      "post_1",
-      "camp_1",
-      "Test Post",
-    );
+    expect(mockTracker.shareContent).toHaveBeenCalledWith(mockPost);
   });
 
   it("should track impressions via Post component", () => {

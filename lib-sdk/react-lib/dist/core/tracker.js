@@ -1,3 +1,20 @@
+export class NoopDirectoAiTracker {
+    async trackEvent(_name, _data) { }
+    async trackImpression(_contentId, _data) { }
+    async trackViewTime(_contentId, _seconds, _data) { }
+    async toggleLike(_contentId, _campaignId) { }
+    async fetchProfileFeed(_profileAccountId) {
+        return [];
+    }
+    async followAccount(_profileAccountId) { }
+    async unfollowAccount(_profileAccountId) { }
+    async toggleFollowAccount(_profileAccountId, _isFollowing) { }
+    async addFavorite(_contentId, _campaignId) { }
+    async removeFavorite(_contentId) { }
+    async toggleFavorite(_contentId, _campaignId, _isFavorited) { }
+    async reportContent(_contentId, _reportType, _description) { }
+    async shareContent(_contentData) { }
+}
 export class DefaultDirectoAiTracker {
     config;
     constructor(config) {
