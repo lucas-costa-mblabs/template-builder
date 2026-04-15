@@ -19,8 +19,17 @@ class CVDPost extends StatelessWidget {
       );
     }
 
-    // Regra de Legado: Se o post tiver um template HTML, ele tem prioridade total
-    if (post.template != null && post.template!.isNotEmpty) {
+    // Fallback para JSON Template (Builder)
+    DirectoAiTemplate? template;
+    try {
+      template = sdk.templates.firstWhere(
+        (t) => t.templateId == post.templateId,
+      );
+    } catch (e) {
+      // Not found
+    }
+
+    if ((post.template?.isNotEmpty ?? false) && template == null) {
       final legacyContext = {
         ...post.toJson(),
         'Title': post.title,
@@ -46,16 +55,6 @@ class CVDPost extends StatelessWidget {
         ),
         child: LegacyHtmlView(html: renderedHtml),
       );
-    }
-
-    // Fallback para JSON Template (Builder)
-    DirectoAiTemplate? template;
-    try {
-      template = sdk.templates.firstWhere(
-        (t) => t.templateId == post.templateId,
-      );
-    } catch (e) {
-      // Not found
     }
 
     if (template == null) {

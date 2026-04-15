@@ -1,29 +1,12 @@
-import { TemplateProvider, Post } from "@directo/template-builder/react";
+import { RemoteTemplateProvider, Post } from "@directo/template-builder/react";
 import "./App.css";
 
-// ─── Mock: simulando dados vindos de endpoints ───
-import themeResponse from "../response/theme.response.json";
-import templateResponse from "../response/template.response.json";
 import feedResponse from "../response/feed.response.json";
 
 // ─── App ───
 
 function App() {
-  const templates = (templateResponse.data || []) as any[];
-  const posts = ((feedResponse.data?.feeds || []) as any[]).map((post) => {
-    const hasStructuredTemplate = templates.some(
-      (template) => template.templateId === post.templateId,
-    );
-
-    // No cenário novo com contextos separados, preferimos o template JSON
-    // vindo de `template.response.json` quando houver correspondência.
-    if (hasStructuredTemplate) {
-      const { template, ...rest } = post;
-      return rest;
-    }
-
-    return post;
-  });
+  const posts = (feedResponse.data?.feeds || []) as any[];
 
   return (
     <div
@@ -33,15 +16,14 @@ function App() {
         padding: "20px 0",
       }}
     >
-      <TemplateProvider
-        theme={themeResponse.data as any}
-        templates={templates as any}
+      <RemoteTemplateProvider
         config={{
           accountId: "0b455c19-e389-4a7f-b83c-ef0cf7286ecb",
           apiKey: "57cbcfd2-fe10-41db-abf3-84bdb569cdae",
           customerId: "mock-customer-123",
           baseUrl: "https://api.dev-directoai.com.br",
         }}
+        loadingFallback={<div style={{ textAlign: "center" }}>Carregando feed...</div>}
       >
         <div
           style={{
@@ -58,7 +40,7 @@ function App() {
             <Post key={post?.id || post?.contentId || index} post={post} />
           ))}
         </div>
-      </TemplateProvider>
+      </RemoteTemplateProvider>
     </div>
   );
 }

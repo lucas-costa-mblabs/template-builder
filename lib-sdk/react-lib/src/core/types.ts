@@ -51,12 +51,20 @@ export interface PostShop {
   name: string;
 }
 
+export interface DirectoAiEndpoints {
+  templateBaseUrl?: string;
+  accountBaseUrl?: string;
+  campaignBaseUrl?: string;
+  contentBaseUrl?: string;
+}
+
 export interface DirectoAiConfig {
   accountId: string;
   apiKey: string;
   customerId?: string;
   deviceId?: string;
   baseUrl?: string;
+  endpoints?: DirectoAiEndpoints;
   googleAnalyticsHandler?: (eventName: string, eventParams: Record<string, any>) => void;
 }
 

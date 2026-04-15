@@ -210,12 +210,43 @@ class DirectoAiTemplate {
   };
 }
 
+class DirectoAiEndpoints {
+  final String? templateBaseUrl;
+  final String? accountBaseUrl;
+  final String? campaignBaseUrl;
+  final String? contentBaseUrl;
+
+  const DirectoAiEndpoints({
+    this.templateBaseUrl,
+    this.accountBaseUrl,
+    this.campaignBaseUrl,
+    this.contentBaseUrl,
+  });
+
+  factory DirectoAiEndpoints.fromJson(Map<String, dynamic> json) {
+    return DirectoAiEndpoints(
+      templateBaseUrl: json['templateBaseUrl'],
+      accountBaseUrl: json['accountBaseUrl'],
+      campaignBaseUrl: json['campaignBaseUrl'],
+      contentBaseUrl: json['contentBaseUrl'],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'templateBaseUrl': templateBaseUrl,
+    'accountBaseUrl': accountBaseUrl,
+    'campaignBaseUrl': campaignBaseUrl,
+    'contentBaseUrl': contentBaseUrl,
+  };
+}
+
 class DirectoAiConfig {
   final String accountId;
   final String apiKey;
   final String? customerId;
   final String? deviceId;
   final String? baseUrl;
+  final DirectoAiEndpoints? endpoints;
   final void Function(String eventName, Map<String, dynamic> eventParams)?
   onAnalyticsEvent;
 
@@ -225,6 +256,7 @@ class DirectoAiConfig {
     this.customerId,
     this.deviceId,
     this.baseUrl,
+    this.endpoints,
     this.onAnalyticsEvent,
   });
 
@@ -235,6 +267,9 @@ class DirectoAiConfig {
       customerId: json['customerId'],
       deviceId: json['deviceId'],
       baseUrl: json['baseUrl'],
+      endpoints: json['endpoints'] is Map<String, dynamic>
+          ? DirectoAiEndpoints.fromJson(json['endpoints'])
+          : null,
     );
   }
 }

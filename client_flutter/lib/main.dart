@@ -32,8 +32,6 @@ class SduiFeedScreen extends StatefulWidget {
 }
 
 class _SduiFeedScreenState extends State<SduiFeedScreen> {
-  CVDTheme? theme;
-  List<DirectoAiTemplate> templates = [];
   List<Post> posts = [];
   bool isLoading = true;
 
@@ -46,49 +44,22 @@ class _SduiFeedScreenState extends State<SduiFeedScreen> {
   Future<void> _loadData() async {
     try {
       debugPrint('DEBUG: Starting _loadData...');
-      final themeString = await rootBundle.loadString(
-        'assets/theme.response.json',
-      );
-      final templatesString = await rootBundle.loadString(
-        'assets/template.response.json',
-      );
       final postsString = await rootBundle.loadString(
         'assets/feed.response.json',
       );
-      debugPrint('DEBUG: JSONs loaded from assets.');
+      debugPrint('DEBUG: Feed JSON loaded from assets.');
 
-      final themeJson = json.decode(themeString);
-      final templatesJson = json.decode(templatesString);
-      final postsJson = json.decode(postsString);
-      final List<dynamic> templateItems =
-          (templatesJson['data'] as List<dynamic>? ?? <dynamic>[]);
+      final postsJson = jsonDecode(postsString);
       final List<dynamic> feedItems =
           (postsJson['data']?['feeds'] as List<dynamic>? ?? <dynamic>[]);
       debugPrint('DEBUG: JSONs decoded. Posts count: ${feedItems.length}');
 
-      final parsedTheme = CVDTheme.fromJson(themeJson['data'] ?? {});
-      final parsedTemplates = templateItems
-          .map((e) => DirectoAiTemplate.fromJson(e))
+      final parsedPosts = feedItems
+          .map((item) => Post.fromJson(Map<String, dynamic>.from(item as Map)))
           .toList();
-      final parsedPosts = feedItems.map((item) {
-        final post = Map<String, dynamic>.from(item as Map);
-        final hasStructuredTemplate = parsedTemplates.any(
-          (template) => template.templateId == post['templateId'],
-        );
-
-        if (hasStructuredTemplate) {
-          post.remove('template');
-        }
-
-        return Post.fromJson(post);
-      }).toList();
-      debugPrint(
-        'DEBUG: Models parsed. Posts: ${parsedPosts.length}, Templates: ${parsedTemplates.length}',
-      );
+      debugPrint('DEBUG: Models parsed. Posts: ${parsedPosts.length}');
 
       setState(() {
-        theme = parsedTheme;
-        templates = parsedTemplates;
         posts = parsedPosts;
         isLoading = false;
       });
@@ -104,7 +75,7 @@ class _SduiFeedScreenState extends State<SduiFeedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading || theme == null) {
+    if (isLoading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
@@ -116,12 +87,11 @@ class _SduiFeedScreenState extends State<SduiFeedScreen> {
     );
     final tracker = DefaultDirectoAiTracker(config);
 
-    // O SDK centraliza toda a renderização e gestão de templates
-    return DirectoAiTemplateProvider(
-      theme: theme!,
-      templates: templates,
+    return DirectoAiRemoteTemplateProvider(
       config: config,
       tracker: tracker,
+      loadingBuilder: (context) =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
       child: Scaffold(
         backgroundColor: const Color(0xFFF8FAFC),
         appBar: AppBar(

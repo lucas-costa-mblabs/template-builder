@@ -41,7 +41,7 @@ export function Post({ post }: PostProps) {
 
   // Injeta o Tailwind apenas se houver um template HTML legado
   useEffect(() => {
-    if (post.template) {
+    if (post.template && !template) {
       setIsStyleLoaded(false);
       injectTailwind(theme).then(() => {
         // Delay extra para garantir que o Tailwind processou o DOM
@@ -50,7 +50,7 @@ export function Post({ post }: PostProps) {
     } else {
       setIsStyleLoaded(true);
     }
-  }, [post.template, theme]);
+  }, [post.template, template, theme]);
 
   const { elementRef } = useImpressionObserver({
     contentId: postId,
@@ -59,12 +59,12 @@ export function Post({ post }: PostProps) {
   });
 
   // Se estiver carregando estilos para template legado, mostra o skeleton
-  if (post.template && !isStyleLoaded) {
+  if (post.template && !template && !isStyleLoaded) {
     return <PostSkeleton />;
   }
 
-  // Regra de Legado: Se o post tiver um template HTML, ele tem prioridade total
-  if (post.template) {
+  // Regra híbrida: preferimos o template estruturado quando houver correspondência.
+  if (post.template && !template) {
     // Normaliza o contexto para compatibilidade com as tags Go (ex: .Title, .ImageURL)
     const legacyContext = {
       ...post,
