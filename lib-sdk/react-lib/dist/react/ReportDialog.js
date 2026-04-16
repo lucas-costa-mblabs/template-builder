@@ -139,7 +139,7 @@ export function ReportDialog({ action, tracker, dataContext, onClose, onSubmit, 
                                             color: "#101828",
                                         }, children: "Denunciar an\u00FAncio" }), _jsx("p", { style: {
                                             margin: "6px 0 0",
-                                            fontSize: "0.72rem",
+                                            fontSize: "0.84rem",
                                             lineHeight: 1.35,
                                             color: "#70757f",
                                         }, children: "Selecione o motivo da den\u00FAncia. Suas informa\u00E7\u00F5es s\u00E3o confidenciais." })] }), _jsx("button", { type: "button", "aria-label": "Fechar modal", onClick: onClose, style: {
@@ -176,7 +176,7 @@ export function ReportDialog({ action, tracker, dataContext, onClose, onSubmit, 
                                                 backgroundColor: "#10b981",
                                                 display: "block",
                                             } })) }), _jsx("input", { type: "radio", name: "directo-report-reason", value: reason.id, checked: isSelected, onChange: () => setSelectedReasonId(reason.id), style: { display: "none" } }), _jsx("span", { style: {
-                                            fontSize: "0.8rem",
+                                            fontSize: "0.95rem",
                                             lineHeight: 1.25,
                                             color: "#101828",
                                         }, children: reason.label })] }, reason.id));

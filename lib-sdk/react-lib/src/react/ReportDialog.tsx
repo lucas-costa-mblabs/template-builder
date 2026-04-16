@@ -251,7 +251,7 @@ export function ReportDialog({
             <p
               style={{
                 margin: "6px 0 0",
-                fontSize: "0.72rem",
+                fontSize: "0.84rem",
                 lineHeight: 1.35,
                 color: "#70757f",
               }}
@@ -328,7 +328,7 @@ export function ReportDialog({
                 />
                 <span
                   style={{
-                    fontSize: "0.8rem",
+                    fontSize: "0.95rem",
                     lineHeight: 1.25,
                     color: "#101828",
                   }}

@@ -297,7 +297,7 @@ class _DirectoAiReportDialogState extends State<DirectoAiReportDialog> {
                               Text(
                                 'Selecione o motivo da denúncia. Suas informações são confidenciais.',
                                 style: TextStyle(
-                                  fontSize: 12,
+                                  fontSize: 14,
                                   height: 1.35,
                                   color: Color(0xFF6B7280),
                                 ),
@@ -371,7 +371,7 @@ class _DirectoAiReportDialogState extends State<DirectoAiReportDialog> {
                                 child: Text(
                                   reason.label,
                                   style: const TextStyle(
-                                    fontSize: 12,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     color: Color(0xFF101218),
                                     height: 1.2,
