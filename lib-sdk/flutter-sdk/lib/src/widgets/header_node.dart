@@ -172,6 +172,7 @@ class _HeaderNodeWidgetState extends State<HeaderNodeWidget> {
                       'id': '${widget.node['id']}-avatar',
                       'type': 'avatar',
                       'url': avatarUrl,
+                      'fallbackText': title,
                       'size': 36,
                       'borderRadius': 'full',
                     },

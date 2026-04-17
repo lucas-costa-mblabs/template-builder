@@ -3,6 +3,18 @@ import '../provider.dart';
 import '../utils.dart';
 import '../action_handler.dart';
 
+String _resolveAvatarFallbackLabel(String? fallbackText) {
+  final trimmed = fallbackText?.trim() ?? '';
+  if (trimmed.isEmpty) return '';
+
+  final firstWord = trimmed
+      .split(RegExp(r'\s+'))
+      .firstWhere((part) => part.isNotEmpty, orElse: () => '');
+  if (firstWord.isEmpty) return '';
+
+  return String.fromCharCodes(firstWord.runes.take(1)).toUpperCase();
+}
+
 class AvatarNodeWidget extends StatelessWidget {
   final Map<String, dynamic> node;
   final Map<String, dynamic>? dataContext;
@@ -13,6 +25,11 @@ class AvatarNodeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final sdk = DirectoAiTemplateProvider.of(context);
     final url = resolveVariables(node['url']?.toString(), dataContext).trim();
+    final fallbackText = resolveVariables(
+      node['fallbackText']?.toString(),
+      dataContext,
+    ).trim();
+    final fallbackLabel = _resolveAvatarFallbackLabel(fallbackText);
     final size = double.tryParse(node['size']?.toString() ?? '40') ?? 40.0;
     final bgColor = colorToHex(context, node['backgroundColor']?.toString());
     final radiusStr = node['borderRadius']?.toString();
@@ -21,6 +38,22 @@ class AvatarNodeWidget extends StatelessWidget {
         : getRadius(context, radiusStr);
 
     final action = getNodeAction(node);
+    final fallbackChild = Center(
+      child: fallbackLabel.isNotEmpty
+          ? Text(
+              fallbackLabel,
+              style: TextStyle(
+                fontSize: size * 0.42,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF4B5563),
+              ),
+            )
+          : Icon(
+              Icons.person,
+              size: size * 0.6,
+              color: const Color(0xFF6B7280),
+            ),
+    );
 
     Widget child = Container(
       width: size,
@@ -36,17 +69,9 @@ class AvatarNodeWidget extends StatelessWidget {
           ? Image.network(
               url,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Icon(
-                Icons.person,
-                size: size * 0.6,
-                color: const Color(0xFF6B7280),
-              ),
+              errorBuilder: (context, error, stackTrace) => fallbackChild,
             )
-          : Icon(
-              Icons.person,
-              size: size * 0.6,
-              color: const Color(0xFF6B7280),
-            ),
+          : fallbackChild,
     );
 
     if (action != null) {

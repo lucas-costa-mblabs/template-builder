@@ -1,6 +1,7 @@
 import 'package:directo_template_builder/directo_template_builder.dart';
 import 'package:directo_template_builder/src/action_handler.dart';
 import 'package:directo_template_builder/src/tracker.dart';
+import 'package:directo_template_builder/src/widgets/avatar_node.dart';
 import 'package:directo_template_builder/src/widgets/header_node.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -271,6 +272,29 @@ void main() {
     );
   });
 
+  testWidgets('should render avatar fallback label when image url is missing', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      buildTestWidget(
+        child: const Center(
+          child: AvatarNodeWidget(
+            node: {
+              'id': 'avatar-fallback',
+              'type': 'avatar',
+              'fallbackText': 'Flashsale',
+              'size': 40,
+              'borderRadius': 'full',
+            },
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('F'), findsOneWidget);
+    expect(find.byIcon(Icons.person), findsNothing);
+  });
+
   testWidgets('should open profile view and load account posts', (
     tester,
   ) async {
@@ -364,6 +388,58 @@ void main() {
     expect(tracker.lastFollowWasFollowing, false);
     expect(find.widgetWithText(OutlinedButton, 'Seguindo'), findsOneWidget);
   });
+
+  testWidgets(
+    'should render profile avatar fallback label when profile image is missing',
+    (tester) async {
+      final action = ComponentAction(
+        type: 'UI_ACTION',
+        payload: ActionPayload(actionName: 'open_profile'),
+      );
+
+      await tester.pumpWidget(
+        buildTestWidget(
+          tracker: FakeTracker(),
+          child: Builder(
+            builder: (context) {
+              return Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    executeAction(
+                      action,
+                      context,
+                      {
+                        'post': {
+                          'contentId': 'content_4',
+                          'accountId': 'profile_4',
+                          'templateId': 'tpl_1',
+                          'title': 'Flashsale',
+                          'url': 'https://example.com/current-image.jpg',
+                          'profile': {
+                            'accountId': 'profile_4',
+                            'accountName': 'Flashsale',
+                            'iconUrl': '',
+                          },
+                        },
+                      },
+                      null,
+                      null,
+                    );
+                  },
+                  child: const Text('Abrir perfil'),
+                ),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Abrir perfil'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('F'), findsOneWidget);
+    },
+  );
 
   testWidgets('should show error when profile account id is missing', (
     tester,

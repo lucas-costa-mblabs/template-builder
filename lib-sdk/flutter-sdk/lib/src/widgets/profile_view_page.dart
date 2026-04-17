@@ -7,6 +7,18 @@ import '../provider.dart';
 const double _profileContentWidth = 400;
 const double _profileCardWidth = 358;
 
+String _resolveAvatarFallbackLabel(String? fallbackText) {
+  final trimmed = fallbackText?.trim() ?? '';
+  if (trimmed.isEmpty) return '';
+
+  final firstWord = trimmed
+      .split(RegExp(r'\s+'))
+      .firstWhere((part) => part.isNotEmpty, orElse: () => '');
+  if (firstWord.isEmpty) return '';
+
+  return String.fromCharCodes(firstWord.runes.take(1)).toUpperCase();
+}
+
 String _resolveProfileAccountId(Post post) {
   final profileAccountId = post.profile?.accountId?.trim();
   if (profileAccountId != null && profileAccountId.isNotEmpty) {
@@ -171,6 +183,21 @@ class _DirectoAiProfileViewPageState extends State<DirectoAiProfileViewPage> {
 
   Widget _buildAvatar() {
     final avatarUrl = _profileAvatarUrl;
+    final fallbackLabel = _resolveAvatarFallbackLabel(_profileName);
+
+    final fallbackChild = Center(
+      child: fallbackLabel.isNotEmpty
+          ? Text(
+              fallbackLabel,
+              style: const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF4B5563),
+              ),
+            )
+          : const Icon(Icons.person, size: 34, color: Color(0xFF6B7280)),
+    );
+
     return Container(
       width: 68,
       height: 68,
@@ -181,11 +208,11 @@ class _DirectoAiProfileViewPageState extends State<DirectoAiProfileViewPage> {
       ),
       clipBehavior: Clip.antiAlias,
       child: avatarUrl.isEmpty
-          ? const SizedBox.shrink()
+          ? fallbackChild
           : Image.network(
               avatarUrl,
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+              errorBuilder: (_, __, ___) => fallbackChild,
             ),
     );
   }
