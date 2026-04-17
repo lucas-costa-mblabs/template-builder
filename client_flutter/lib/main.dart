@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:directo_template_builder/directo_template_builder.dart';
 
 void main() {
@@ -32,64 +30,37 @@ class SduiFeedScreen extends StatefulWidget {
 }
 
 class _SduiFeedScreenState extends State<SduiFeedScreen> {
-  List<Post> posts = [];
-  bool isLoading = true;
+  late final DirectoAiConfig _config;
+  late final DefaultDirectoAiTracker _tracker;
+  late final DirectoAiRemoteFeedService _remoteFeedService;
+  late Future<List<Post>> _feedFuture;
 
   @override
   void initState() {
     super.initState();
-    _loadData();
+    _config = DirectoAiConfig(
+      accountId: 'b3e196b8-046e-4092-bc42-aa8425a168d2',
+      apiKey: 'e8a6f853-d162-44a0-85ec-4479d447e22a',
+      customerId: 'mock-customer-123',
+      baseUrl: 'https://api.dev-directoai.com.br',
+    );
+    _tracker = DefaultDirectoAiTracker(_config);
+    _remoteFeedService = DirectoAiRemoteFeedService();
+    _feedFuture = _remoteFeedService.load(_config);
   }
 
-  Future<void> _loadData() async {
-    try {
-      debugPrint('DEBUG: Starting _loadData...');
-      final postsString = await rootBundle.loadString(
-        'assets/feed.response.json',
-      );
-      debugPrint('DEBUG: Feed JSON loaded from assets.');
-
-      final postsJson = jsonDecode(postsString);
-      final List<dynamic> feedItems =
-          (postsJson['data']?['feeds'] as List<dynamic>? ?? <dynamic>[]);
-      debugPrint('DEBUG: JSONs decoded. Posts count: ${feedItems.length}');
-
-      final parsedPosts = feedItems
-          .map((item) => Post.fromJson(Map<String, dynamic>.from(item as Map)))
-          .toList();
-      debugPrint('DEBUG: Models parsed. Posts: ${parsedPosts.length}');
-
-      setState(() {
-        posts = parsedPosts;
-        isLoading = false;
-      });
-      debugPrint('DEBUG: State updated. isLoading: false');
-    } catch (e, stack) {
-      debugPrint('DEBUG ERROR: $e');
-      debugPrint('STACKTRACE: $stack');
-      setState(() {
-        isLoading = false;
-      });
-    }
+  void _reloadFeed() {
+    setState(() {
+      DirectoAiRemoteFeedService.clearCache(_config);
+      _feedFuture = _remoteFeedService.load(_config);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
-    final config = DirectoAiConfig(
-      accountId: '0b455c19-e389-4a7f-b83c-ef0cf7286ecb',
-      apiKey: '57cbcfd2-fe10-41db-abf3-84bdb569cdae',
-      customerId: 'mock-customer-123',
-      baseUrl: 'https://api.dev-directoai.com.br',
-    );
-    final tracker = DefaultDirectoAiTracker(config);
-
     return DirectoAiRemoteTemplateProvider(
-      config: config,
-      tracker: tracker,
+      config: _config,
+      tracker: _tracker,
       loadingBuilder: (context) =>
           const Scaffold(body: Center(child: CircularProgressIndicator())),
       child: Scaffold(
@@ -103,16 +74,53 @@ class _SduiFeedScreenState extends State<SduiFeedScreen> {
           backgroundColor: Colors.white,
           elevation: 0,
         ),
-        body: ListView.separated(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-          itemCount: posts.length,
-          separatorBuilder: (context, index) => const SizedBox(height: 20),
-          itemBuilder: (context, index) {
-            return Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 400),
-                child: CVDPost(post: posts[index]),
-              ),
+        body: FutureBuilder<List<Post>>(
+          future: _feedFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState != ConnectionState.done) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (snapshot.hasError) {
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        'Nao foi possivel carregar os posts agora.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFFB42318),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      FilledButton(
+                        onPressed: _reloadFeed,
+                        child: const Text('Tentar novamente'),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+
+            final posts = snapshot.data ?? const <Post>[];
+
+            return ListView.separated(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+              itemCount: posts.length,
+              separatorBuilder: (context, index) => const SizedBox(height: 20),
+              itemBuilder: (context, index) {
+                return Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 400),
+                    child: CVDPost(post: posts[index]),
+                  ),
+                );
+              },
             );
           },
         ),

@@ -12,7 +12,7 @@ function getRemoteFeedUrl(config) {
     if (!config.accountId || !config.apiKey || !config.customerId) {
         throw new Error("Missing required data for remote feed request");
     }
-    const url = new URL(`${getCampaignBaseUrl(config)}/api/v1/feed`);
+    const url = new URL(`${getCampaignBaseUrl(config)}/api/v2/feed`);
     url.searchParams.set("customer", config.customerId);
     url.searchParams.set("accountId", config.accountId);
     url.searchParams.set("apiKey", config.apiKey);

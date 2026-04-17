@@ -8,6 +8,7 @@ export 'src/post.dart';
 export 'src/scrollable_container.dart';
 export 'src/tracker.dart';
 export 'src/bootstrap_service.dart';
+export 'src/remote_feed_service.dart';
 export 'src/action_handler.dart' show ActionCallback, ReportSubmitCallback;
 export 'src/widgets/report_dialog.dart'
     show DirectoAiReportDialog, showDirectoAiReportDialog;

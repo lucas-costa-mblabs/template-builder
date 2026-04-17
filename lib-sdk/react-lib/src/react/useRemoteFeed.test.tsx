@@ -81,7 +81,7 @@ describe("useRemoteFeed", () => {
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
     const requestUrl = new URL(String(fetchMock.mock.calls[0]?.[0]));
-    expect(requestUrl.pathname).toBe("/campaign/api/v1/feed");
+    expect(requestUrl.pathname).toBe("/campaign/api/v2/feed");
     expect(requestUrl.searchParams.get("customer")).toBe("customer_1");
     expect(requestUrl.searchParams.get("accountId")).toBe("acc_1");
     expect(requestUrl.searchParams.get("apiKey")).toBe("api_key");

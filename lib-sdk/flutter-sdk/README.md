@@ -141,6 +141,86 @@ DirectoAiTemplateProvider(
 )
 ```
 
+## Feed remoto
+
+Se voce quiser buscar tema, templates e feed remotamente, o fluxo recomendado e:
+
+- `DirectoAiRemoteTemplateProvider` para bootstrap visual
+- `DirectoAiRemoteFeedService` para carregar os posts
+- o seu proprio `ListView.builder` ou `ListView.separated` para controlar o loop
+
+O feed principal remoto usa:
+
+```text
+GET /campaign/api/v2/feed
+```
+
+```dart
+class FeedPage extends StatefulWidget {
+  const FeedPage({super.key});
+
+  @override
+  State<FeedPage> createState() => _FeedPageState();
+}
+
+class _FeedPageState extends State<FeedPage> {
+  late final DirectoAiConfig _config;
+  late final DirectoAiRemoteFeedService _feedService;
+  late Future<List<Post>> _feedFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _config = DirectoAiConfig(
+      accountId: 'acc_1',
+      apiKey: 'api_key',
+      customerId: 'customer_1',
+      baseUrl: 'https://api.dev-directoai.com.br',
+    );
+    _feedService = DirectoAiRemoteFeedService();
+    _feedFuture = _feedService.load(_config);
+  }
+
+  void _reloadFeed() {
+    setState(() {
+      DirectoAiRemoteFeedService.clearCache(_config);
+      _feedFuture = _feedService.load(_config);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DirectoAiRemoteTemplateProvider(
+      config: _config,
+      child: FutureBuilder<List<Post>>(
+        future: _feedFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasError) {
+            return FilledButton(
+              onPressed: _reloadFeed,
+              child: const Text('Tentar novamente'),
+            );
+          }
+
+          final posts = snapshot.data ?? const <Post>[];
+
+          return ListView.builder(
+            itemCount: posts.length,
+            itemBuilder: (context, index) {
+              return CVDPost(post: posts[index]);
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+```
+
 ## Configuração
 
 Campos principais de `DirectoAiConfig`:

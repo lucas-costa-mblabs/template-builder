@@ -5,7 +5,7 @@ import {
   type PostType,
 } from "@directo/template-builder/react";
 import "./App.css";
-
+``
 const config = {
   accountId: "b3e196b8-046e-4092-bc42-aa8425a168d2",
   apiKey: "e8a6f853-d162-44a0-85ec-4479d447e22a",
