@@ -35,6 +35,55 @@ const App = () => {
 };
 ```
 
+### Uso com feed remoto
+
+Se voce quiser buscar `theme`, `templates` e tambem os posts remotamente, o fluxo recomendado e usar:
+
+- `RemoteTemplateProvider` para bootstrap visual
+- `useRemoteFeed` para carregar o feed
+- o seu proprio `map` para controlar o loop
+
+```tsx
+import {
+  Post,
+  RemoteTemplateProvider,
+  useRemoteFeed,
+  type PostType,
+} from "@directo/template-builder/react";
+
+const config = {
+  accountId: "acc_1",
+  apiKey: "api_key",
+  customerId: "customer_1",
+  baseUrl: "https://api.dev-directoai.com.br",
+};
+
+function FeedContent() {
+  const { posts, isLoading, error, reload } = useRemoteFeed();
+
+  if (isLoading) return <div>Carregando posts...</div>;
+  if (error) return <button onClick={reload}>Tentar novamente</button>;
+
+  return (
+    <>
+      {posts.map((post: PostType, index: number) => (
+        <div key={post.id ?? post.contentId ?? index}>
+          <Post post={post} />
+        </div>
+      ))}
+    </>
+  );
+}
+
+const App = () => {
+  return (
+    <RemoteTemplateProvider config={config}>
+      <FeedContent />
+    </RemoteTemplateProvider>
+  );
+};
+```
+
 ### Componentes Exportados
 
 - **`TemplateProvider`**: Envolve a aplicação. Recebe `theme` e `templates` (array de definições de template).

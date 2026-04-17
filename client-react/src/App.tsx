@@ -1,13 +1,68 @@
-import { RemoteTemplateProvider, Post } from "@directo/template-builder/react";
+import {
+  Post,
+  RemoteTemplateProvider,
+  useRemoteFeed,
+  type PostType,
+} from "@directo/template-builder/react";
 import "./App.css";
 
-import feedResponse from "../response/feed.response.json";
+const config = {
+  accountId: "b3e196b8-046e-4092-bc42-aa8425a168d2",
+  apiKey: "e8a6f853-d162-44a0-85ec-4479d447e22a",
+  customerId: "mock-customer-123",
+  baseUrl: "https://api.dev-directoai.com.br",
+};
 
-// ─── App ───
+function FeedContent() {
+  const { posts, isLoading, error, reload } = useRemoteFeed();
+
+  if (isLoading) {
+    return <div style={{ textAlign: "center" }}>Carregando posts...</div>;
+  }
+
+  if (error) {
+    return (
+      <div
+        style={{
+          margin: "0 auto",
+          width: "400px",
+          maxWidth: "100%",
+          padding: "0 20px",
+          textAlign: "center",
+        }}
+      >
+        <p style={{ color: "#b42318" }}>
+          Nao foi possivel carregar os posts agora.
+        </p>
+        <button type="button" onClick={reload}>
+          Tentar novamente
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      style={{
+        margin: "0 auto",
+        padding: "0 20px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "20px",
+        width: "400px",
+        maxWidth: "100%",
+      }}
+    >
+      {posts.map((post: PostType, index: number) => (
+        <div key={post.id || post.contentId || index}>
+          <Post post={post} />
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function App() {
-  const posts = (feedResponse.data?.feeds || []) as any[];
-
   return (
     <div
       style={{
@@ -17,29 +72,12 @@ function App() {
       }}
     >
       <RemoteTemplateProvider
-        config={{
-          accountId: "0b455c19-e389-4a7f-b83c-ef0cf7286ecb",
-          apiKey: "57cbcfd2-fe10-41db-abf3-84bdb569cdae",
-          customerId: "mock-customer-123",
-          baseUrl: "https://api.dev-directoai.com.br",
-        }}
-        loadingFallback={<div style={{ textAlign: "center" }}>Carregando feed...</div>}
+        config={config}
+        loadingFallback={
+          <div style={{ textAlign: "center" }}>Carregando tema...</div>
+        }
       >
-        <div
-          style={{
-            margin: "0 auto",
-            padding: "0 20px",
-            display: "flex",
-            flexDirection: "column",
-            gap: "20px",
-            width: "400px",
-            maxWidth: "100%",
-          }}
-        >
-          {posts.map((post: any, index: number) => (
-            <Post key={post?.id || post?.contentId || index} post={post} />
-          ))}
-        </div>
+        <FeedContent />
       </RemoteTemplateProvider>
     </div>
   );
