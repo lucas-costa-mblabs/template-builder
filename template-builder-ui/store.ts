@@ -5,7 +5,7 @@ import {
     saveGlobalTheme,
 } from './services/templateService';
 import { theme as defaultTheme } from './theme';
-import type { CVDTemplate, Theme } from './types';
+import type { TemplateBuilderTemplate, Theme } from './types';
 
 type LoadOptions = {
     force?: boolean;
@@ -14,16 +14,16 @@ type LoadOptions = {
 type AsyncStatus = 'idle' | 'loading' | 'success' | 'error';
 
 type TemplateBuilderStore = {
-    templates: CVDTemplate[];
+    templates: TemplateBuilderTemplate[];
     globalTheme: Theme;
     templatesStatus: AsyncStatus;
     themeStatus: AsyncStatus;
     templatesError: string | null;
     themeError: string | null;
-    loadTemplates: (options?: LoadOptions) => Promise<CVDTemplate[]>;
+    loadTemplates: (options?: LoadOptions) => Promise<TemplateBuilderTemplate[]>;
     loadGlobalTheme: (options?: LoadOptions) => Promise<Theme>;
     hydrateCatalog: (options?: LoadOptions) => Promise<void>;
-    upsertTemplate: (template: CVDTemplate) => void;
+    upsertTemplate: (template: TemplateBuilderTemplate) => void;
     removeTemplate: (templateId: string) => void;
     setGlobalTheme: (theme: Theme) => void;
     persistGlobalTheme: (theme: Theme) => Promise<void>;
@@ -31,7 +31,7 @@ type TemplateBuilderStore = {
 };
 
 const INITIAL_STATE = {
-    templates: [] as CVDTemplate[],
+    templates: [] as TemplateBuilderTemplate[],
     globalTheme: defaultTheme,
     templatesStatus: 'idle' as AsyncStatus,
     themeStatus: 'idle' as AsyncStatus,

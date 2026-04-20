@@ -17,7 +17,8 @@
     "./template-builder-ui": {
       "import": "./template-builder-ui/dist/index.js",
       "types": "./template-builder-ui/dist/index.d.ts"
-    }
+    },
+    "./template-builder-ui/style.css": "./template-builder-ui/dist/style.css"
   },
   "scripts": {
     "prepare": "cd lib-sdk/react-lib && npm install && npm run build",

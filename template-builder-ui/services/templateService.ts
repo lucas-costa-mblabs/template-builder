@@ -1,6 +1,6 @@
 import { getTemplateClient, getAccountClient, getBuilderConfig } from '../config';
 import { theme as defaultTheme } from '../theme';
-import type { Theme, CVDTemplate, ComponentNode } from '../types';
+import type { Theme, TemplateBuilderTemplate, ComponentNode } from '../types';
 
 interface TemplateAPIPayload {
   templateId: string;
@@ -12,7 +12,7 @@ interface TemplateAPIPayload {
   data: ComponentNode[] | Record<string, never>;
 }
 
-function apiToTemplate(payload: TemplateAPIPayload): CVDTemplate {
+function apiToTemplate(payload: TemplateAPIPayload): TemplateBuilderTemplate {
   return {
     id: payload.templateId,
     title: payload.name,
@@ -22,7 +22,7 @@ function apiToTemplate(payload: TemplateAPIPayload): CVDTemplate {
   };
 }
 
-function templateToApi(template: CVDTemplate): TemplateAPIPayload {
+function templateToApi(template: TemplateBuilderTemplate): TemplateAPIPayload {
   return {
     templateId: template.id,
     name: template.title,
@@ -47,24 +47,24 @@ export async function saveGlobalTheme(theme: Theme): Promise<void> {
   await getAccountClient().put('/theme', theme);
 }
 
-export async function getTemplates(): Promise<CVDTemplate[]> {
+export async function getTemplates(): Promise<TemplateBuilderTemplate[]> {
   const accountId = getBuilderConfig().getAccountId();
   const response = await getTemplateClient().get(`/templates/account/${accountId}`);
   const data: TemplateAPIPayload[] = response.data?.data ?? [];
   return data.map(apiToTemplate);
 }
 
-export async function getTemplateById(id: string): Promise<CVDTemplate | undefined> {
+export async function getTemplateById(id: string): Promise<TemplateBuilderTemplate | undefined> {
   const response = await getTemplateClient().get(`/templates/${id}`);
   const data: TemplateAPIPayload = response.data?.data ?? response.data;
   return data ? apiToTemplate(data) : undefined;
 }
 
-export async function createTemplate(template: CVDTemplate): Promise<void> {
+export async function createTemplate(template: TemplateBuilderTemplate): Promise<void> {
   await getTemplateClient().post('/templates', templateToApi(template));
 }
 
-export async function updateTemplate(template: CVDTemplate): Promise<void> {
+export async function updateTemplate(template: TemplateBuilderTemplate): Promise<void> {
   await getTemplateClient().patch(`/templates/${template.id}`, templateToApi(template));
 }
 

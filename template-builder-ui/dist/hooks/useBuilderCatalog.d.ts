@@ -1,6 +1,6 @@
-import { CVDTemplate, Theme } from '../types';
+import { TemplateBuilderTemplate, Theme } from '../types';
 type UseBuilderCatalogResult = {
-    templates: CVDTemplate[];
+    templates: TemplateBuilderTemplate[];
     globalTheme: Theme;
     isLoading: boolean;
 };

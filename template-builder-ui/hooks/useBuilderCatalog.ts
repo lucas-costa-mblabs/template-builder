@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useTemplateBuilderStore } from '../store';
-import type { CVDTemplate, Theme } from '../types';
+import type { TemplateBuilderTemplate, Theme } from '../types';
 
 type UseBuilderCatalogResult = {
-    templates: CVDTemplate[];
+    templates: TemplateBuilderTemplate[];
     globalTheme: Theme;
     isLoading: boolean;
 };

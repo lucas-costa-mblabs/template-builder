@@ -186,9 +186,9 @@ export interface TemplatePost {
         enabled?: boolean;
         slug?: string;
     };
-    cvdTemplate?: CVDTemplate;
+    templateBuilderTemplate?: TemplateBuilderTemplate;
 }
-export interface CVDTemplate {
+export interface TemplateBuilderTemplate {
     id: string;
     title: string;
     active: boolean;

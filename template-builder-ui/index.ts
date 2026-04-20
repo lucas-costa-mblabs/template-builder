@@ -9,7 +9,7 @@ export { templateBuilderEmptyStateTemplate } from './utils/emptyStateTemplate';
 
 export type { TemplateBuilderConfig } from './config';
 export type {
-  CVDTemplate,
+  TemplateBuilderTemplate,
   Theme,
   ComponentNode,
   TokenType,

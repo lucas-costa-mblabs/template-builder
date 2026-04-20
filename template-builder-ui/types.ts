@@ -263,10 +263,10 @@ export interface TemplatePost {
     slug?: string;
   };
   // New standardized template format
-  cvdTemplate?: CVDTemplate;
+  templateBuilderTemplate?: TemplateBuilderTemplate;
 }
 
-export interface CVDTemplate {
+export interface TemplateBuilderTemplate {
   id: string;
   title: string;
   active: boolean;

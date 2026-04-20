@@ -1,6 +1,6 @@
-import type { CVDTemplate } from "../types";
+import type { TemplateBuilderTemplate } from "../types";
 
-export const activationDiscountTemplate: CVDTemplate = {
+export const activationDiscountTemplate: TemplateBuilderTemplate = {
   id: "template-1774286543836",
   title: "Ativação Desconto",
   active: true,

@@ -2,7 +2,7 @@ import type {
     DirectoAiTemplate,
     PostType,
 } from '@directo/template-builder/react';
-import type { CVDTemplate } from '../types';
+import type { TemplateBuilderTemplate } from '../types';
 
 const DEFAULT_ACCOUNT_NAME = 'Directo Feed';
 
@@ -89,8 +89,8 @@ export const defaultSdkPreviewPost: PostType = {
     customVariables: {},
 };
 
-export const mapCvdTemplateToSdkTemplate = (
-    template: CVDTemplate
+export const mapTemplateBuilderTemplateToSdkTemplate = (
+    template: TemplateBuilderTemplate
 ): DirectoAiTemplate => ({
     templateId: template.id,
     name: template.title,

@@ -7,4 +7,4 @@ export { initTemplateBuilder } from './config';
 export { buildTemplatePreviewDataContext, defaultTemplatePreviewData } from './utils/previewData';
 export { templateBuilderEmptyStateTemplate } from './utils/emptyStateTemplate';
 export type { TemplateBuilderConfig } from './config';
-export type { CVDTemplate, Theme, ComponentNode, TokenType, ColorToken, ActionType, ComponentAction, } from './types';
+export type { TemplateBuilderTemplate, Theme, ComponentNode, TokenType, ColorToken, ActionType, ComponentAction, } from './types';

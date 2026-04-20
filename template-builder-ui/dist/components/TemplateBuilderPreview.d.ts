@@ -1,8 +1,8 @@
 import { CSSProperties, ReactNode } from 'react';
-import { CVDTemplate, Theme } from '../types';
+import { TemplateBuilderTemplate, Theme } from '../types';
 interface TemplateBuilderPreviewProps {
-    template?: CVDTemplate | null;
-    templates?: CVDTemplate[];
+    template?: TemplateBuilderTemplate | null;
+    templates?: TemplateBuilderTemplate[];
     theme?: Theme;
     dataContext?: Record<string, unknown>;
     posts?: Record<string, unknown>[];

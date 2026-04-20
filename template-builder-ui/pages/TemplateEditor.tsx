@@ -6,7 +6,7 @@ import {
     SaveOutlined,
     BgColorsOutlined,
 } from '@ant-design/icons';
-import type { ComponentNode, Theme, CVDTemplate } from '../types';
+import type { ComponentNode, Theme, TemplateBuilderTemplate } from '../types';
 import { generateId } from '../types';
 import '../assets/style.css';
 
@@ -239,7 +239,7 @@ export default function TemplateEditor() {
     const handleSave = async () => {
         if (!id) return;
 
-        const cvdTemplate: CVDTemplate = {
+        const templateBuilderTemplate: TemplateBuilderTemplate = {
             id: id,
             title: templateName,
             active: enabled,
@@ -249,12 +249,12 @@ export default function TemplateEditor() {
 
         try {
             if (isExisting) {
-                await updateTemplate(cvdTemplate);
+                await updateTemplate(templateBuilderTemplate);
             } else {
-                await createTemplate(cvdTemplate);
+                await createTemplate(templateBuilderTemplate);
                 setIsExisting(true);
             }
-            upsertTemplate(cvdTemplate);
+            upsertTemplate(templateBuilderTemplate);
             message.success('Layout salvo com sucesso! ✅');
         } catch (error) {
             console.error('Error saving template:', error);

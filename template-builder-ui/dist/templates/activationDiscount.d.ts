@@ -1,2 +1,2 @@
-import { CVDTemplate } from '../types';
-export declare const activationDiscountTemplate: CVDTemplate;
+import { TemplateBuilderTemplate } from '../types';
+export declare const activationDiscountTemplate: TemplateBuilderTemplate;

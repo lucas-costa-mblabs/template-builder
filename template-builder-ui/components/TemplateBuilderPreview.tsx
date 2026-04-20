@@ -5,17 +5,17 @@ import {
     ScrollableContainer,
     TemplateProvider,
 } from '@directo/template-builder/react';
-import type { CVDTemplate, Theme } from '../types';
+import type { TemplateBuilderTemplate, Theme } from '../types';
 import { theme as defaultTheme } from '../theme';
 import { defaultTemplatePreviewData } from '../utils/previewData';
 import {
-    mapCvdTemplateToSdkTemplate,
+    mapTemplateBuilderTemplateToSdkTemplate,
     mapPreviewPostToSdkPost,
 } from '../utils/sdkPreview';
 
 interface TemplateBuilderPreviewProps {
-    template?: CVDTemplate | null;
-    templates?: CVDTemplate[];
+    template?: TemplateBuilderTemplate | null;
+    templates?: TemplateBuilderTemplate[];
     theme?: Theme;
     dataContext?: Record<string, unknown>;
     posts?: Record<string, unknown>[];
@@ -48,9 +48,9 @@ export default function TemplateBuilderPreview({
 }: TemplateBuilderPreviewProps) {
     const previewTemplates =
         templates.length > 0 ? templates : template ? [template] : [];
-    const sdkTemplates = previewTemplates.map(mapCvdTemplateToSdkTemplate);
+    const sdkTemplates = previewTemplates.map(mapTemplateBuilderTemplateToSdkTemplate);
     const selectedTemplate = template
-        ? mapCvdTemplateToSdkTemplate(template)
+        ? mapTemplateBuilderTemplateToSdkTemplate(template)
         : sdkTemplates[0];
     const postSources =
         posts && posts.length > 0

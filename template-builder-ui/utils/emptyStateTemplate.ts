@@ -1,6 +1,6 @@
-import type { CVDTemplate } from '../types';
+import type { TemplateBuilderTemplate } from '../types';
 
-export const templateBuilderEmptyStateTemplate: CVDTemplate = {
+export const templateBuilderEmptyStateTemplate: TemplateBuilderTemplate = {
     id: 'template-builder-empty-state',
     title: 'Post Empty State',
     slug: 'post-empty-state',

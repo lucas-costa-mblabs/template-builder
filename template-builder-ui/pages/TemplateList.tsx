@@ -33,7 +33,7 @@ import {
     updateTemplate,
     deleteTemplate,
 } from '../services/templateService';
-import type { Theme, CVDTemplate } from '../types';
+import type { Theme, TemplateBuilderTemplate } from '../types';
 import { useTemplateBuilderStore } from '../store';
 import '../assets/style.css';
 
@@ -49,7 +49,7 @@ function TemplateCard({
     onDelete,
     theme,
 }: {
-    t: CVDTemplate;
+    t: TemplateBuilderTemplate;
     onOpen: () => void;
     onDuplicate: (id: string) => void;
     onCopyJson: (id: string) => void;
@@ -223,7 +223,7 @@ export default function TemplateList() {
     const handleDuplicate = async (id: string) => {
         const template = templates.find((t) => t.id === id);
         if (!template) return;
-        const copy: CVDTemplate = {
+        const copy: TemplateBuilderTemplate = {
             ...template,
             id: `template-${Date.now()}`,
             title: `${template.title} (cópia)`,
