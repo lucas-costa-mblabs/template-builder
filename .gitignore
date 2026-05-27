@@ -21,3 +21,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Template builder dev env
+template-builder-ui/dev/.env

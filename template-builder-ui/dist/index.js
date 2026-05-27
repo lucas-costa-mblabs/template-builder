@@ -36,7 +36,7 @@ function lt() {
   if (!Ie) throw new Error("[TemplateBuilder] Not initialized. Call initTemplateBuilder() first.");
   return Ie;
 }
-function Ot({ config: i, children: l }) {
+function Rt({ config: i, children: l }) {
   const s = ye(!1);
   return s.current || (tt(i), s.current = !0), /* @__PURE__ */ e(M, { children: l });
 }
@@ -132,7 +132,7 @@ const ee = {
     },
     customVariables: {}
   }
-}, Rt = (i) => {
+}, $t = (i) => {
   var s, o, c, a, p, m, d, $, v, y, h, O, b, E, t, I;
   if (!i)
     return Pe;
@@ -300,6 +300,7 @@ function at({
         alignItems: "center",
         justifyContent: "center",
         overflow: "visible",
+        position: "relative",
         ...d
       },
       children: /* @__PURE__ */ e(
@@ -584,15 +585,21 @@ async function Be() {
     return ee;
   }
 }
-async function ct(i) {
-  await ii().put("/theme", i);
+function ct(i) {
+  return {
+    primaryColor: i.colors.primary,
+    secondaryColor: i.colors.secondary
+  };
+}
+async function pt(i) {
+  await ii().put("/theme", ct(i));
 }
 async function si() {
   var o;
   const i = lt().getAccountId();
   return (((o = (await ue().get(`/templates/account/${i}`)).data) == null ? void 0 : o.data) ?? []).map(ai);
 }
-async function pt(i) {
+async function dt(i) {
   var o;
   const l = await ue().get(`/templates/${i}`), s = ((o = l.data) == null ? void 0 : o.data) ?? l.data;
   return s ? ai(s) : void 0;
@@ -603,11 +610,11 @@ async function ci(i) {
 async function pi(i) {
   await ue().patch(`/templates/${i.id}`, oi(i));
 }
-async function dt(i) {
+async function ut(i) {
   await ue().delete(`/templates/${i}`);
 }
-async function ut(i) {
-  const l = await pt(i);
+async function ht(i) {
+  const l = await dt(i);
   return {
     found: !!l,
     components: (l == null ? void 0 : l.template) || [],
@@ -704,7 +711,7 @@ const Ge = {
         themeError: null
       });
       try {
-        await ct(s), i({
+        await pt(s), i({
           globalTheme: s,
           themeStatus: "success",
           themeError: null
@@ -718,8 +725,8 @@ const Ge = {
     },
     reset: () => i(Ge)
   })
-), { Content: ht } = ze, { Text: Ye } = de;
-function mt({
+), { Content: mt } = ze, { Text: Ye } = de;
+function gt({
   t: i,
   onOpen: l,
   onDuplicate: s,
@@ -850,7 +857,7 @@ function mt({
     }
   );
 }
-function gt() {
+function ft() {
   const i = qe(), [l, s] = L(!1), o = H((k) => k.templates), c = H((k) => k.globalTheme), a = H(
     (k) => k.templatesStatus
   ), p = H((k) => k.themeStatus), m = H(
@@ -915,7 +922,7 @@ function gt() {
       cancelText: "Cancelar",
       onOk: async () => {
         try {
-          await dt(k), O(k), X.success("Template excluído com sucesso!");
+          await ut(k), O(k), X.success("Template excluído com sucesso!");
         } catch {
           X.error("Erro ao excluir o template.");
         }
@@ -924,7 +931,7 @@ function gt() {
   }, K = async (k) => {
     await y(k);
   };
-  return /* @__PURE__ */ r(ht, { className: "tb-root cockpit-content-align", children: [
+  return /* @__PURE__ */ r(mt, { className: "tb-root cockpit-content-align", children: [
     /* @__PURE__ */ e("div", { className: "cockpit-subheader", children: /* @__PURE__ */ r(Ji, { align: "middle", justify: "space-between", children: [
       /* @__PURE__ */ e(Me, { children: /* @__PURE__ */ e("h2", { className: "cockpit-subheader-title", children: "Gestão de Templates" }) }),
       /* @__PURE__ */ e(Me, { children: /* @__PURE__ */ r(le, { size: "middle", children: [
@@ -969,7 +976,7 @@ function gt() {
       ) }),
       !b && !E && o.length === 0 && /* @__PURE__ */ e("div", { className: "col-span-full flex justify-center py-16", children: /* @__PURE__ */ e(Zi, { description: "Nenhum template encontrado. Crie o seu primeiro!" }) }),
       !b && !E && o.map((k) => /* @__PURE__ */ e(
-        mt,
+        gt,
         {
           t: k,
           onOpen: () => i(`/template-builder/editor/${k.id}`),
@@ -993,11 +1000,11 @@ function gt() {
     )
   ] });
 }
-const ft = () => Math.random().toString(36).substr(2, 9), { Text: fe } = de, yt = () => /* @__PURE__ */ r("svg", { width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
+const yt = () => Math.random().toString(36).substr(2, 9), { Text: fe } = de, xt = () => /* @__PURE__ */ r("svg", { width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
   /* @__PURE__ */ e("rect", { x: "2", y: "7", width: "20", height: "10", rx: "2" }),
   /* @__PURE__ */ e("path", { d: "M7 12h10" })
 ] });
-function xt({
+function vt({
   onDragStart: i,
   activeTab: l,
   onImportJson: s
@@ -1044,7 +1051,7 @@ function xt({
             {
               title: "Ações",
               items: [
-                { type: "button", label: "Botão", icon: /* @__PURE__ */ e(yt, {}) },
+                { type: "button", label: "Botão", icon: /* @__PURE__ */ e(xt, {}) },
                 { type: "icon", label: "Ícone", icon: /* @__PURE__ */ e(Mi, { style: { fontSize: "20px", color: "#f59e0b" } }) }
               ]
             }
@@ -1104,7 +1111,7 @@ function xt({
     }
   ) });
 }
-function vt({
+function bt({
   node: i,
   resolvedTitle: l,
   resolvedImageUrl: s,
@@ -1899,7 +1906,7 @@ function di({
   if (i.type === "header") {
     const n = i, T = b(n.title || "Shopping"), C = b(n.imageUrl || ""), x = T.split(" ").map((R) => R[0]).filter(Boolean).slice(0, 2).join("").toUpperCase();
     return /* @__PURE__ */ e(
-      vt,
+      bt,
       {
         node: n,
         resolvedTitle: T,
@@ -1950,7 +1957,7 @@ function di({
   return /* @__PURE__ */ e("div", { children: "Unknown Component" });
 }
 const { Text: Xe } = de;
-function bt({
+function Ct({
   showGuides: i,
   setShowGuides: l,
   components: s,
@@ -2377,7 +2384,7 @@ const se = ({ includeNone: i = !0, noneLabel: l = "None" }) => /* @__PURE__ */ r
     ] })
   ] });
 };
-function Ct({
+function wt({
   selectedNode: i,
   onUpdateNode: l,
   onClose: s
@@ -4042,8 +4049,8 @@ function Ct({
     }
   );
 }
-const { Content: Je, Sider: wt } = ze;
-function kt() {
+const { Content: Je, Sider: kt } = ze;
+function Tt() {
   const i = qe(), { id: l } = Si(), s = H(
     (u) => u.upsertTemplate
   ), o = H(
@@ -4081,7 +4088,7 @@ function kt() {
         return;
       }
       try {
-        const f = await ut(l);
+        const f = await ht(l);
         h(f.components || []), a(
           f.title || (l === "dermage" ? "Template Dermage" : `Template ${l.replace("template-", "#")}`)
         ), t(f.slug || ""), g(f.enabled !== !1), A(f.theme || ee), C(f.found);
@@ -4238,7 +4245,7 @@ function kt() {
       W([...y, P]);
     }
   }, _e = (u) => {
-    const f = { id: ft(), type: u };
+    const f = { id: yt(), type: u };
     switch (u) {
       case "container":
         return {
@@ -4406,14 +4413,14 @@ function kt() {
     /* @__PURE__ */ r(ze, { className: "flex-1 min-h-0 bg-transparent relative", children: [
       k && /* @__PURE__ */ e("div", { className: "absolute inset-0 z-50 flex items-center justify-center bg-white/70 backdrop-blur-sm", children: /* @__PURE__ */ e(Di, { size: "large" }) }),
       /* @__PURE__ */ e(
-        wt,
+        kt,
         {
           width: 280,
           theme: "light",
           className: "border-r border-gray-200 overflow-y-auto",
           style: { background: "#fff" },
           children: /* @__PURE__ */ e(
-            xt,
+            vt,
             {
               onDragStart: gi,
               activeTab: $ ? "elements" : void 0,
@@ -4428,7 +4435,7 @@ function kt() {
           className: "relative flex flex-col items-center justify-start p-8",
           onClick: () => me(null),
           children: /* @__PURE__ */ e(
-            bt,
+            Ct,
             {
               showGuides: m,
               setShowGuides: d,
@@ -4450,7 +4457,7 @@ function kt() {
               templateName: c,
               onRenameTemplate: p,
               children: Oe && /* @__PURE__ */ e(
-                Ct,
+                wt,
                 {
                   selectedNode: Oe,
                   onUpdateNode: hi,
@@ -4475,14 +4482,14 @@ function kt() {
     )
   ] });
 }
-function $t() {
+function _t() {
   return /* @__PURE__ */ r(Ii, { children: [
     /* @__PURE__ */ e(we, { index: !0, element: /* @__PURE__ */ e(Pi, { to: "list", replace: !0 }) }),
-    /* @__PURE__ */ e(we, { path: "list", element: /* @__PURE__ */ e(gt, {}) }),
-    /* @__PURE__ */ e(we, { path: "editor/:id", element: /* @__PURE__ */ e(kt, {}) })
+    /* @__PURE__ */ e(we, { path: "list", element: /* @__PURE__ */ e(ft, {}) }),
+    /* @__PURE__ */ e(we, { path: "editor/:id", element: /* @__PURE__ */ e(Tt, {}) })
   ] });
 }
-function _t() {
+function jt() {
   const i = H((a) => a.templates), l = H((a) => a.globalTheme), s = H((a) => a.hydrateCatalog), o = H((a) => a.templatesStatus), c = H((a) => a.themeStatus);
   return U(() => {
     s();
@@ -4492,7 +4499,7 @@ function _t() {
     isLoading: o === "loading" || c === "loading"
   };
 }
-const jt = {
+const Wt = {
   id: "template-builder-empty-state",
   title: "Post Empty State",
   slug: "post-empty-state",
@@ -4579,12 +4586,12 @@ const jt = {
 };
 export {
   at as TemplateBuilderPreview,
-  Ot as TemplateBuilderProvider,
-  $t as TemplateBuilderRoutes,
-  Rt as buildTemplatePreviewDataContext,
+  Rt as TemplateBuilderProvider,
+  _t as TemplateBuilderRoutes,
+  $t as buildTemplatePreviewDataContext,
   Pe as defaultTemplatePreviewData,
   tt as initTemplateBuilder,
-  jt as templateBuilderEmptyStateTemplate,
-  _t as useBuilderCatalog,
+  Wt as templateBuilderEmptyStateTemplate,
+  jt as useBuilderCatalog,
   H as useTemplateBuilderStore
 };
