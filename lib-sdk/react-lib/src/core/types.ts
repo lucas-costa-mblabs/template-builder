@@ -88,6 +88,7 @@ export interface Post {
   favorite?: boolean;
   following?: boolean;
   isFollowing?: boolean;
+  isFollower?: boolean;
   templateId: string;
   template?: string; // HTML legado se houver
   [key: string]: unknown;

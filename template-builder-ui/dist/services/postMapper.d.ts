@@ -12,6 +12,14 @@ interface RawPost {
     discount?: number;
     category?: string;
     brand?: string;
+    sponsored?: boolean;
+    liked?: boolean;
+    favorite?: boolean;
+    likeCount?: number;
+    following?: boolean;
+    isFollowing?: boolean;
+    isFollower?: boolean;
+    accountId?: string;
     customVariables?: {
         discountPrice?: string;
         originalPrice?: string;
@@ -24,6 +32,8 @@ interface RawPost {
         profile?: {
             accountName?: string;
             iconUrl?: string;
+            accountId?: string;
+            description?: string;
         };
         validUntil?: string;
     };
@@ -31,6 +41,7 @@ interface RawPost {
 export declare function mapPostToViewModel(rawPost: RawPost): {
     post: {
         id: string;
+        contentId: string;
         title: string;
         url: string;
         destinationUrl: string;
@@ -40,9 +51,18 @@ export declare function mapPostToViewModel(rawPost: RawPost): {
         category: string;
         brand: string;
         validUntil: string;
+        sponsored: boolean;
+        liked: boolean;
+        favorite: boolean;
+        likeCount: number;
+        following: boolean;
+        isFollowing: boolean;
+        isFollower: boolean;
+        accountId: string;
         profile: {
             accountName: string;
             iconUrl: string;
+            accountId: string;
             description: string;
         };
     };

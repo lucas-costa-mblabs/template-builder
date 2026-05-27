@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { ArrowLeft, LoaderCircle } from "lucide-react";
 import type { Post as PostType } from "../core/types.js";
 import { Post } from "./Post.js";
@@ -24,6 +25,7 @@ function getInitialFollowingState(post: PostType) {
   return (
     post.following === true ||
     post.isFollowing === true ||
+    post.isFollower === true ||
     post.profile?.following === true ||
     post.profile?.isFollowing === true
   );
@@ -123,7 +125,7 @@ export function ProfileViewModal({
     }
   };
 
-  return (
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
@@ -366,6 +368,7 @@ export function ProfileViewModal({
           to { transform: rotate(360deg); }
         }
       `}</style>
-    </div>
+    </div>,
+    document.body,
   );
 }

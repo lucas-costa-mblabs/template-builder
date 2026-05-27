@@ -1,5 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { ArrowLeft, LoaderCircle } from "lucide-react";
 import { Post } from "./Post.js";
 import { useTemplateContext } from "./context.js";
@@ -13,6 +14,7 @@ function getProfileAccountId(post) {
 function getInitialFollowingState(post) {
     return (post.following === true ||
         post.isFollowing === true ||
+        post.isFollower === true ||
         post.profile?.following === true ||
         post.profile?.isFollowing === true);
 }
@@ -96,7 +98,7 @@ export function ProfileViewModal({ initialPost, onClose, }) {
             setIsFollowLoading(false);
         }
     };
-    return (_jsxs("div", { role: "dialog", "aria-modal": "true", "aria-label": `Perfil de ${profileName}`, style: {
+    return createPortal(_jsxs("div", { role: "dialog", "aria-modal": "true", "aria-label": `Perfil de ${profileName}`, style: {
             position: "fixed",
             inset: 0,
             zIndex: 10000,
@@ -221,6 +223,6 @@ export function ProfileViewModal({ initialPost, onClose, }) {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
         }
-      ` })] }));
+      ` })] }), document.body);
 }
 //# sourceMappingURL=ProfileViewModal.js.map

@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import type { ComponentAction, ReportSubmission } from "../core/types.js";
 import type { DirectoAiTracker } from "../core/tracker.js";
 
@@ -115,7 +116,7 @@ export function ReportDialog({
     }
   };
 
-  return (
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
@@ -442,6 +443,7 @@ export function ReportDialog({
           </>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

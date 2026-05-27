@@ -38,6 +38,7 @@ export function HeaderNode({ node, dataContext }) {
         "";
     const initialFollowing = post.following === true ||
         post.isFollowing === true ||
+        post.isFollower === true ||
         profile.following === true ||
         profile.isFollowing === true;
     useEffect(() => {

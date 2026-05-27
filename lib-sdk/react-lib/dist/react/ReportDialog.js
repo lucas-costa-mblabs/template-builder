@@ -1,5 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import { useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 const REPORT_REASONS = [
     { id: "abuse_or_harassment", label: "Abuso ou assédio" },
     { id: "violence_or_hate", label: "Violência ou discurso de ódio" },
@@ -71,7 +72,7 @@ export function ReportDialog({ action, tracker, dataContext, onClose, onSubmit, 
             setIsSubmitting(false);
         }
     };
-    return (_jsx("div", { role: "dialog", "aria-modal": "true", "aria-label": "Denunciar an\u00FAncio", style: {
+    return createPortal(_jsx("div", { role: "dialog", "aria-modal": "true", "aria-label": "Denunciar an\u00FAncio", style: {
             position: "fixed",
             inset: 0,
             zIndex: 9999,
@@ -230,6 +231,6 @@ export function ReportDialog({ action, tracker, dataContext, onClose, onSubmit, 
                                     fontSize: ".78rem",
                                     fontWeight: 700,
                                     cursor: selectedReason ? "pointer" : "not-allowed",
-                                }, children: isSubmitting ? "Enviando..." : "Enviar denúncia" })] })] })) }) }));
+                                }, children: isSubmitting ? "Enviando..." : "Enviar denúncia" })] })] })) }) }), document.body);
 }
 //# sourceMappingURL=ReportDialog.js.map
