@@ -20,6 +20,9 @@ export {
 // Context hook (for advanced usage)
 export { useTemplateContext } from "./context.js";
 
+// Theme utilities
+export { DEFAULT_THEME, mergeWithDefaultTheme } from "./defaultTheme.js";
+
 // Types re-export
 export type {
   Post as PostType,

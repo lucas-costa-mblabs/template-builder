@@ -9,4 +9,6 @@ export { clearRemoteBootstrapCache, fetchCvdTemplates, fetchCvdTheme, loadRemote
 export { clearRemoteFeedCache, fetchRemoteFeed, loadRemoteFeed, } from "./remoteFeed.js";
 // Context hook (for advanced usage)
 export { useTemplateContext } from "./context.js";
+// Theme utilities
+export { DEFAULT_THEME, mergeWithDefaultTheme } from "./defaultTheme.js";
 //# sourceMappingURL=index.js.map

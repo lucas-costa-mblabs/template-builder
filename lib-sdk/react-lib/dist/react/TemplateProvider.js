@@ -2,13 +2,15 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useMemo, useEffect, useState } from "react";
 import { TemplateContext } from "./context.js";
 import { DefaultDirectoAiTracker, NoopDirectoAiTracker } from "../core/tracker.js";
+import { mergeWithDefaultTheme } from "./defaultTheme.js";
 import { ReportDialog } from "./ReportDialog.js";
 import { ProfileViewModal } from "./ProfileViewModal.js";
 const EMPTY_CONFIG = {
     accountId: "",
     apiKey: "",
 };
-export function TemplateProvider({ theme, templates = [], config: providedConfig, tracker: providedTracker, onReportSubmit, children, }) {
+export function TemplateProvider({ theme: themeProp, templates = [], config: providedConfig, tracker: providedTracker, onReportSubmit, children, }) {
+    const theme = useMemo(() => mergeWithDefaultTheme(themeProp), [themeProp]);
     const config = useMemo(() => providedConfig || EMPTY_CONFIG, [providedConfig]);
     const tracker = useMemo(() => {
         if (providedTracker) {
@@ -27,10 +29,10 @@ export function TemplateProvider({ theme, templates = [], config: providedConfig
         if (!templates || templates.length === 0) {
             console.warn("@directo/template-builder: Nenhum template fornecido ao TemplateProvider. Verifique se os dados da API foram carregados e mapeados corretamente.");
         }
-        if (!theme || !theme.colors) {
-            console.warn("@directo/template-builder: Nenhum tema (theme) fornecido ao TemplateProvider. Usando estilos default.");
+        if (!themeProp || !themeProp.colors) {
+            console.warn("@directo/template-builder: Nenhum tema (theme) fornecido ao TemplateProvider. Usando tema default.");
         }
-    }, [templates, theme]);
+    }, [templates, themeProp]);
     useEffect(() => {
         const handleUiAction = (event) => {
             const customEvent = event;

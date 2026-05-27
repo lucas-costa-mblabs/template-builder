@@ -11,6 +11,7 @@ import type {
   ReportSubmission,
   Post as PostType,
 } from "../core/types.js";
+import { mergeWithDefaultTheme } from "./defaultTheme.js";
 import { ReportDialog } from "./ReportDialog.js";
 import { ProfileViewModal } from "./ProfileViewModal.js";
 
@@ -24,7 +25,7 @@ interface ProfileViewState {
 }
 
 export interface TemplateProviderProps {
-  theme: Theme;
+  theme?: Partial<Theme>;
   templates?: DirectoAiTemplate[];
   config?: DirectoAiConfig;
   tracker?: DirectoAiTracker;
@@ -41,13 +42,15 @@ const EMPTY_CONFIG: DirectoAiConfig = {
 };
 
 export function TemplateProvider({
-  theme,
+  theme: themeProp,
   templates = [],
   config: providedConfig,
   tracker: providedTracker,
   onReportSubmit,
   children,
 }: TemplateProviderProps) {
+  const theme = useMemo(() => mergeWithDefaultTheme(themeProp), [themeProp]);
+
   const config = useMemo(
     () => providedConfig || EMPTY_CONFIG,
     [providedConfig],
@@ -78,12 +81,12 @@ export function TemplateProvider({
         "@directo/template-builder: Nenhum template fornecido ao TemplateProvider. Verifique se os dados da API foram carregados e mapeados corretamente.",
       );
     }
-    if (!theme || !theme.colors) {
+    if (!themeProp || !themeProp.colors) {
       console.warn(
-        "@directo/template-builder: Nenhum tema (theme) fornecido ao TemplateProvider. Usando estilos default.",
+        "@directo/template-builder: Nenhum tema (theme) fornecido ao TemplateProvider. Usando tema default.",
       );
     }
-  }, [templates, theme]);
+  }, [templates, themeProp]);
 
   useEffect(() => {
     const handleUiAction = (event: Event) => {
