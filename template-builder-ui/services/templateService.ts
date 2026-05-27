@@ -34,17 +34,41 @@ function templateToApi(template: TemplateBuilderTemplate): TemplateAPIPayload {
   };
 }
 
+interface APITheme {
+  primaryColor?: string;
+  secondaryColor?: string;
+}
+
+function apiThemeToTheme(apiTheme: APITheme | null | undefined): Theme {
+  if (!apiTheme) return defaultTheme;
+  return {
+    ...defaultTheme,
+    colors: {
+      ...defaultTheme.colors,
+      ...(apiTheme.primaryColor && { primary: apiTheme.primaryColor }),
+      ...(apiTheme.secondaryColor && { secondary: apiTheme.secondaryColor }),
+    },
+  };
+}
+
 export async function getGlobalTheme(): Promise<Theme> {
   try {
     const response = await getAccountClient().get('/theme');
-    return response.data?.data ?? defaultTheme;
+    return apiThemeToTheme(response.data?.data);
   } catch {
     return defaultTheme;
   }
 }
 
+function themeToApiTheme(theme: Theme): APITheme {
+  return {
+    primaryColor: theme.colors.primary,
+    secondaryColor: theme.colors.secondary,
+  };
+}
+
 export async function saveGlobalTheme(theme: Theme): Promise<void> {
-  await getAccountClient().put('/theme', theme);
+  await getAccountClient().put('/theme', themeToApiTheme(theme));
 }
 
 export async function getTemplates(): Promise<TemplateBuilderTemplate[]> {

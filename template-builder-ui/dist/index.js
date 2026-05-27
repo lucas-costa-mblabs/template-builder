@@ -4,7 +4,7 @@ import je from "axios";
 import { useNavigate as qe, useParams as Si, Routes as Ii, Route as we, Navigate as Pi } from "react-router-dom";
 import * as B from "@ant-design/icons";
 import { FileImageOutlined as Ai, LayoutOutlined as Ke, BgColorsOutlined as Ee, CodeOutlined as ce, PlusOutlined as Ei, MoreOutlined as zi, EditOutlined as Bi, CopyOutlined as Ze, PoweroffOutlined as Oi, DeleteOutlined as Ri, AppstoreOutlined as We, ImportOutlined as Le, BorderOutlined as Qe, FontSizeOutlined as $i, DollarOutlined as _i, LineOutlined as ji, PictureFilled as Wi, HeartOutlined as Li, StarOutlined as Mi, EyeOutlined as Fi, ZoomOutOutlined as Vi, ZoomInOutlined as Hi, ArrowLeftOutlined as Gi, SaveOutlined as Yi } from "@ant-design/icons";
-import { Typography as de, Collapse as Ue, Drawer as Xi, Tabs as De, Input as pe, Space as te, Button as G, message as X, Tag as Ne, Layout as ze, Row as Ji, Col as Me, Card as Se, Skeleton as qi, Alert as Ki, Empty as Zi, Modal as ei, Dropdown as Qi, Tooltip as ae, Divider as ke, Switch as Ui, Spin as Di } from "antd";
+import { Typography as de, Collapse as Ue, Drawer as Xi, Tabs as De, Input as pe, Space as le, Button as G, message as X, Tag as Ne, Layout as ze, Row as Ji, Col as Me, Card as Se, Skeleton as qi, Alert as Ki, Empty as Zi, Modal as ei, Dropdown as Qi, Tooltip as ae, Divider as ke, Switch as Ui, Spin as Di } from "antd";
 import { TemplateProvider as Ni, ScrollableContainer as et, Post as Fe } from "@directo/template-builder/react";
 import { create as it } from "zustand";
 let Ie = null, xe = null, ve = null;
@@ -36,11 +36,11 @@ function lt() {
   if (!Ie) throw new Error("[TemplateBuilder] Not initialized. Call initTemplateBuilder() first.");
   return Ie;
 }
-function Bt({ config: i, children: l }) {
+function Ot({ config: i, children: l }) {
   const s = ye(!1);
   return s.current || (tt(i), s.current = !0), /* @__PURE__ */ e(M, { children: l });
 }
-const le = {
+const ee = {
   colors: {
     // Base / Brand
     primary: "#6366f1",
@@ -132,7 +132,7 @@ const le = {
     },
     customVariables: {}
   }
-}, Ot = (i) => {
+}, Rt = (i) => {
   var s, o, c, a, p, m, d, $, v, y, h, O, b, E, t, I;
   if (!i)
     return Pe;
@@ -181,7 +181,7 @@ const le = {
     return "video";
   if (l.includes("image"))
     return "image";
-}, ee = {
+}, ie = {
   contentId: "template-preview",
   id: "template-preview",
   title: "Chaleira Elétrica Cadence 1,8L Inox Control 127V CEL850",
@@ -212,28 +212,28 @@ const le = {
 }), nt = (i, l = "", s = "template-preview") => {
   if (!i)
     return {
-      ...ee,
+      ...ie,
       templateId: l,
       contentId: s,
       id: s
     };
-  const o = oe(i.customVariables), c = oe(o.price), a = oe(i.profile), p = oe(o.profile), m = oe(i.shop), d = _(i.contentId) || _(i.id) || s, $ = _(a.accountName) || _(p.accountName) || _(o.storeName) || Ae, v = _(a.iconUrl) || _(p.iconUrl), y = _(i.title) || _(i.contentTitle) || ee.title, h = _(i.legend) || _(i.caption) || _(i.description) || ee.legend;
+  const o = oe(i.customVariables), c = oe(o.price), a = oe(i.profile), p = oe(o.profile), m = oe(i.shop), d = _(i.contentId) || _(i.id) || s, $ = _(a.accountName) || _(p.accountName) || _(o.storeName) || Ae, v = _(a.iconUrl) || _(p.iconUrl), y = _(i.title) || _(i.contentTitle) || ie.title, h = _(i.legend) || _(i.caption) || _(i.description) || ie.legend;
   return {
-    ...ee,
+    ...ie,
     ...i,
     id: _(i.id) || d,
     contentId: d,
     accountId: _(i.accountId),
     title: y,
     legend: h,
-    url: _(i.url) || _(i.imageUrl) || ee.url,
-    mediaType: Ve(i.mediaType) || Ve(i.contentType) || ee.mediaType,
+    url: _(i.url) || _(i.imageUrl) || ie.url,
+    mediaType: Ve(i.mediaType) || Ve(i.contentType) || ie.mediaType,
     posterUrl: _(i.posterUrl),
     price: D(i.price) || D(o.discountPrice) || D(c.price),
     originalPrice: D(i.originalPrice) || D(o.originalPrice) || D(c.price_suggested) || D(c.original_price),
     discount: D(i.discount) || D(c.discount_percentage),
-    destinationUrl: _(i.destinationUrl) || ee.destinationUrl,
-    templateId: _(i.templateId) || l || ee.templateId,
+    destinationUrl: _(i.destinationUrl) || ie.destinationUrl,
+    templateId: _(i.templateId) || l || ie.templateId,
     template: _(i.template),
     sponsored: Z(i.sponsored),
     liked: Z(i.liked),
@@ -319,7 +319,7 @@ function at({
           children: /* @__PURE__ */ e(
             Ni,
             {
-              theme: s || le,
+              theme: s || ee,
               templates: E,
               children: z ? /* @__PURE__ */ e(
                 et,
@@ -474,7 +474,7 @@ function ni({
           items: [
             {
               key: "spacing",
-              label: /* @__PURE__ */ r(te, { size: "small", children: [
+              label: /* @__PURE__ */ r(le, { size: "small", children: [
                 /* @__PURE__ */ e(Ke, { className: "text-[12px]" }),
                 /* @__PURE__ */ e("span", { className: "text-[12px] font-bold text-gray-700", children: "Espaços" })
               ] }),
@@ -493,7 +493,7 @@ function ni({
             },
             {
               key: "colors",
-              label: /* @__PURE__ */ r(te, { size: "small", children: [
+              label: /* @__PURE__ */ r(le, { size: "small", children: [
                 /* @__PURE__ */ e(Ee, { className: "text-[12px]" }),
                 /* @__PURE__ */ e("span", { className: "text-[12px] font-bold", children: "Cores" })
               ] }),
@@ -565,15 +565,26 @@ function oi(i) {
     data: i.template
   };
 }
+function st(i) {
+  return i ? {
+    ...ee,
+    colors: {
+      ...ee.colors,
+      ...i.primaryColor && { primary: i.primaryColor },
+      ...i.secondaryColor && { secondary: i.secondaryColor }
+    }
+  } : ee;
+}
 async function Be() {
   var i;
   try {
-    return ((i = (await ii().get("/theme")).data) == null ? void 0 : i.data) ?? le;
+    const l = await ii().get("/theme");
+    return st((i = l.data) == null ? void 0 : i.data);
   } catch {
-    return le;
+    return ee;
   }
 }
-async function st(i) {
+async function ct(i) {
   await ii().put("/theme", i);
 }
 async function si() {
@@ -581,7 +592,7 @@ async function si() {
   const i = lt().getAccountId();
   return (((o = (await ue().get(`/templates/account/${i}`)).data) == null ? void 0 : o.data) ?? []).map(ai);
 }
-async function ct(i) {
+async function pt(i) {
   var o;
   const l = await ue().get(`/templates/${i}`), s = ((o = l.data) == null ? void 0 : o.data) ?? l.data;
   return s ? ai(s) : void 0;
@@ -592,11 +603,11 @@ async function ci(i) {
 async function pi(i) {
   await ue().patch(`/templates/${i.id}`, oi(i));
 }
-async function pt(i) {
+async function dt(i) {
   await ue().delete(`/templates/${i}`);
 }
-async function dt(i) {
-  const l = await ct(i);
+async function ut(i) {
+  const l = await pt(i);
   return {
     found: !!l,
     components: (l == null ? void 0 : l.template) || [],
@@ -608,7 +619,7 @@ async function dt(i) {
 }
 const Ge = {
   templates: [],
-  globalTheme: le,
+  globalTheme: ee,
   templatesStatus: "idle",
   themeStatus: "idle",
   templatesError: null,
@@ -655,7 +666,7 @@ const Ge = {
         }), a;
       } catch (a) {
         throw i({
-          globalTheme: le,
+          globalTheme: ee,
           themeStatus: "error",
           themeError: a instanceof Error ? a.message : "Erro ao carregar tema global"
         }), a;
@@ -693,7 +704,7 @@ const Ge = {
         themeError: null
       });
       try {
-        await st(s), i({
+        await ct(s), i({
           globalTheme: s,
           themeStatus: "success",
           themeError: null
@@ -707,8 +718,8 @@ const Ge = {
     },
     reset: () => i(Ge)
   })
-), { Content: ut } = ze, { Text: Ye } = de;
-function ht({
+), { Content: ht } = ze, { Text: Ye } = de;
+function mt({
   t: i,
   onOpen: l,
   onDuplicate: s,
@@ -839,7 +850,7 @@ function ht({
     }
   );
 }
-function mt() {
+function gt() {
   const i = qe(), [l, s] = L(!1), o = H((k) => k.templates), c = H((k) => k.globalTheme), a = H(
     (k) => k.templatesStatus
   ), p = H((k) => k.themeStatus), m = H(
@@ -904,7 +915,7 @@ function mt() {
       cancelText: "Cancelar",
       onOk: async () => {
         try {
-          await pt(k), O(k), X.success("Template excluído com sucesso!");
+          await dt(k), O(k), X.success("Template excluído com sucesso!");
         } catch {
           X.error("Erro ao excluir o template.");
         }
@@ -913,10 +924,10 @@ function mt() {
   }, K = async (k) => {
     await y(k);
   };
-  return /* @__PURE__ */ r(ut, { className: "tb-root cockpit-content-align", children: [
+  return /* @__PURE__ */ r(ht, { className: "tb-root cockpit-content-align", children: [
     /* @__PURE__ */ e("div", { className: "cockpit-subheader", children: /* @__PURE__ */ r(Ji, { align: "middle", justify: "space-between", children: [
       /* @__PURE__ */ e(Me, { children: /* @__PURE__ */ e("h2", { className: "cockpit-subheader-title", children: "Gestão de Templates" }) }),
-      /* @__PURE__ */ e(Me, { children: /* @__PURE__ */ r(te, { size: "middle", children: [
+      /* @__PURE__ */ e(Me, { children: /* @__PURE__ */ r(le, { size: "middle", children: [
         /* @__PURE__ */ e(
           G,
           {
@@ -958,7 +969,7 @@ function mt() {
       ) }),
       !b && !E && o.length === 0 && /* @__PURE__ */ e("div", { className: "col-span-full flex justify-center py-16", children: /* @__PURE__ */ e(Zi, { description: "Nenhum template encontrado. Crie o seu primeiro!" }) }),
       !b && !E && o.map((k) => /* @__PURE__ */ e(
-        ht,
+        mt,
         {
           t: k,
           onOpen: () => i(`/template-builder/editor/${k.id}`),
@@ -982,11 +993,11 @@ function mt() {
     )
   ] });
 }
-const gt = () => Math.random().toString(36).substr(2, 9), { Text: fe } = de, ft = () => /* @__PURE__ */ r("svg", { width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
+const ft = () => Math.random().toString(36).substr(2, 9), { Text: fe } = de, yt = () => /* @__PURE__ */ r("svg", { width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
   /* @__PURE__ */ e("rect", { x: "2", y: "7", width: "20", height: "10", rx: "2" }),
   /* @__PURE__ */ e("path", { d: "M7 12h10" })
 ] });
-function yt({
+function xt({
   onDragStart: i,
   activeTab: l,
   onImportJson: s
@@ -1006,7 +1017,7 @@ function yt({
       items: [
         {
           key: "elements",
-          label: /* @__PURE__ */ r(te, { size: 8, children: [
+          label: /* @__PURE__ */ r(le, { size: 8, children: [
             /* @__PURE__ */ e(We, {}),
             /* @__PURE__ */ e("span", { children: "Elementos" })
           ] }),
@@ -1033,7 +1044,7 @@ function yt({
             {
               title: "Ações",
               items: [
-                { type: "button", label: "Botão", icon: /* @__PURE__ */ e(ft, {}) },
+                { type: "button", label: "Botão", icon: /* @__PURE__ */ e(yt, {}) },
                 { type: "icon", label: "Ícone", icon: /* @__PURE__ */ e(Mi, { style: { fontSize: "20px", color: "#f59e0b" } }) }
               ]
             }
@@ -1056,7 +1067,7 @@ function yt({
         },
         {
           key: "import",
-          label: /* @__PURE__ */ r(te, { size: 8, children: [
+          label: /* @__PURE__ */ r(le, { size: 8, children: [
             /* @__PURE__ */ e(Le, {}),
             /* @__PURE__ */ e("span", { children: "Importar" })
           ] }),
@@ -1093,7 +1104,7 @@ function yt({
     }
   ) });
 }
-function xt({
+function vt({
   node: i,
   resolvedTitle: l,
   resolvedImageUrl: s,
@@ -1888,7 +1899,7 @@ function di({
   if (i.type === "header") {
     const n = i, T = b(n.title || "Shopping"), C = b(n.imageUrl || ""), x = T.split(" ").map((R) => R[0]).filter(Boolean).slice(0, 2).join("").toUpperCase();
     return /* @__PURE__ */ e(
-      xt,
+      vt,
       {
         node: n,
         resolvedTitle: T,
@@ -1939,7 +1950,7 @@ function di({
   return /* @__PURE__ */ e("div", { children: "Unknown Component" });
 }
 const { Text: Xe } = de;
-function vt({
+function bt({
   showGuides: i,
   setShowGuides: l,
   components: s,
@@ -1968,7 +1979,7 @@ function vt({
     2
   );
   return /* @__PURE__ */ r("div", { className: "flex flex-col w-full h-full relative", children: [
-    /* @__PURE__ */ e("div", { className: "absolute top-4 left-1/2 -translate-x-1/2 z-20", children: /* @__PURE__ */ r(te, { className: "bg-white/80 backdrop-blur-md p-1.5 rounded-full shadow-lg border border-gray-100", children: [
+    /* @__PURE__ */ e("div", { className: "absolute top-4 left-1/2 -translate-x-1/2 z-20", children: /* @__PURE__ */ r(le, { className: "bg-white/80 backdrop-blur-md p-1.5 rounded-full shadow-lg border border-gray-100", children: [
       /* @__PURE__ */ e(ae, { title: "Preview", children: /* @__PURE__ */ e(
         G,
         {
@@ -2081,7 +2092,7 @@ function vt({
     /* @__PURE__ */ e(
       ei,
       {
-        title: /* @__PURE__ */ r(te, { children: [
+        title: /* @__PURE__ */ r(le, { children: [
           /* @__PURE__ */ e(ce, { className: "text-primary" }),
           /* @__PURE__ */ e("span", { children: "Código JSON do Template" })
         ] }),
@@ -2366,7 +2377,7 @@ const se = ({ includeNone: i = !0, noneLabel: l = "None" }) => /* @__PURE__ */ r
     ] })
   ] });
 };
-function bt({
+function Ct({
   selectedNode: i,
   onUpdateNode: l,
   onClose: s
@@ -4031,8 +4042,8 @@ function bt({
     }
   );
 }
-const { Content: Je, Sider: Ct } = ze;
-function wt() {
+const { Content: Je, Sider: wt } = ze;
+function kt() {
   const i = qe(), { id: l } = Si(), s = H(
     (u) => u.upsertTemplate
   ), o = H(
@@ -4060,7 +4071,7 @@ function wt() {
   }, [l]);
   const p = (u) => {
     a(u);
-  }, [m, d] = L(!0), [$, v] = L(!1), [y, h] = L([]), [O, b] = L(null), [E, t] = L(""), [I, g] = L(!0), [z, A] = L(le), [Y, K] = L(!1), [k, n] = L(!0), [T, C] = L(!1);
+  }, [m, d] = L(!0), [$, v] = L(!1), [y, h] = L([]), [O, b] = L(null), [E, t] = L(""), [I, g] = L(!0), [z, A] = L(ee), [Y, K] = L(!1), [k, n] = L(!0), [T, C] = L(!1);
   U(() => {
     async function u() {
       if (n(!0), h([]), a(""), t(""), b(null), !l || l === "new") {
@@ -4070,10 +4081,10 @@ function wt() {
         return;
       }
       try {
-        const f = await dt(l);
+        const f = await ut(l);
         h(f.components || []), a(
           f.title || (l === "dermage" ? "Template Dermage" : `Template ${l.replace("template-", "#")}`)
-        ), t(f.slug || ""), g(f.enabled !== !1), A(f.theme || le), C(f.found);
+        ), t(f.slug || ""), g(f.enabled !== !1), A(f.theme || ee), C(f.found);
       } catch (f) {
         console.error("Error loading template data:", f), X.error("Erro ao carregar o template.");
       } finally {
@@ -4162,7 +4173,7 @@ function wt() {
     u.stopPropagation(), u.dataTransfer.setData("draggedNodeId", f);
   }, vi = (u, f) => {
     u.preventDefault(), u.stopPropagation();
-    const P = u.currentTarget.getBoundingClientRect(), F = u.clientY - P.top, ie = ne(y, f), q = ie && ie.type === "container";
+    const P = u.currentTarget.getBoundingClientRect(), F = u.clientY - P.top, te = ne(y, f), q = te && te.type === "container";
     let j = "inside";
     if (q) {
       const J = P.height * 0.25;
@@ -4184,9 +4195,9 @@ function wt() {
       W([...P, w]);
       return;
     }
-    const F = (ie) => {
+    const F = (te) => {
       const q = [];
-      for (const j of ie)
+      for (const j of te)
         j.id === f ? S === "inside" && j.type === "container" ? q.push({
           ...j,
           blocks: [...j.blocks || [], w]
@@ -4203,7 +4214,7 @@ function wt() {
     if (w)
       $e(w, f);
     else if (P) {
-      const F = _e(P), ie = (q) => {
+      const F = _e(P), te = (q) => {
         const j = [];
         for (const J of q)
           J.id === f ? S === "inside" && J.type === "container" ? j.push({
@@ -4211,11 +4222,11 @@ function wt() {
             blocks: [...J.blocks || [], F]
           }) : S === "top" ? (j.push(F), j.push(J)) : (j.push(J), j.push(F)) : "blocks" in J && J.blocks ? j.push({
             ...J,
-            blocks: ie(J.blocks)
+            blocks: te(J.blocks)
           }) : j.push(J);
         return j;
       };
-      W(ie(y)), b(F.id);
+      W(te(y)), b(F.id);
     }
   }, ki = (u) => {
     u.preventDefault(), v(!1);
@@ -4227,7 +4238,7 @@ function wt() {
       W([...y, P]);
     }
   }, _e = (u) => {
-    const f = { id: gt(), type: u };
+    const f = { id: ft(), type: u };
     switch (u) {
       case "container":
         return {
@@ -4395,14 +4406,14 @@ function wt() {
     /* @__PURE__ */ r(ze, { className: "flex-1 min-h-0 bg-transparent relative", children: [
       k && /* @__PURE__ */ e("div", { className: "absolute inset-0 z-50 flex items-center justify-center bg-white/70 backdrop-blur-sm", children: /* @__PURE__ */ e(Di, { size: "large" }) }),
       /* @__PURE__ */ e(
-        Ct,
+        wt,
         {
           width: 280,
           theme: "light",
           className: "border-r border-gray-200 overflow-y-auto",
           style: { background: "#fff" },
           children: /* @__PURE__ */ e(
-            yt,
+            xt,
             {
               onDragStart: gi,
               activeTab: $ ? "elements" : void 0,
@@ -4417,7 +4428,7 @@ function wt() {
           className: "relative flex flex-col items-center justify-start p-8",
           onClick: () => me(null),
           children: /* @__PURE__ */ e(
-            vt,
+            bt,
             {
               showGuides: m,
               setShowGuides: d,
@@ -4439,7 +4450,7 @@ function wt() {
               templateName: c,
               onRenameTemplate: p,
               children: Oe && /* @__PURE__ */ e(
-                bt,
+                Ct,
                 {
                   selectedNode: Oe,
                   onUpdateNode: hi,
@@ -4464,14 +4475,14 @@ function wt() {
     )
   ] });
 }
-function Rt() {
+function $t() {
   return /* @__PURE__ */ r(Ii, { children: [
     /* @__PURE__ */ e(we, { index: !0, element: /* @__PURE__ */ e(Pi, { to: "list", replace: !0 }) }),
-    /* @__PURE__ */ e(we, { path: "list", element: /* @__PURE__ */ e(mt, {}) }),
-    /* @__PURE__ */ e(we, { path: "editor/:id", element: /* @__PURE__ */ e(wt, {}) })
+    /* @__PURE__ */ e(we, { path: "list", element: /* @__PURE__ */ e(gt, {}) }),
+    /* @__PURE__ */ e(we, { path: "editor/:id", element: /* @__PURE__ */ e(kt, {}) })
   ] });
 }
-function $t() {
+function _t() {
   const i = H((a) => a.templates), l = H((a) => a.globalTheme), s = H((a) => a.hydrateCatalog), o = H((a) => a.templatesStatus), c = H((a) => a.themeStatus);
   return U(() => {
     s();
@@ -4481,7 +4492,7 @@ function $t() {
     isLoading: o === "loading" || c === "loading"
   };
 }
-const _t = {
+const jt = {
   id: "template-builder-empty-state",
   title: "Post Empty State",
   slug: "post-empty-state",
@@ -4568,12 +4579,12 @@ const _t = {
 };
 export {
   at as TemplateBuilderPreview,
-  Bt as TemplateBuilderProvider,
-  Rt as TemplateBuilderRoutes,
-  Ot as buildTemplatePreviewDataContext,
+  Ot as TemplateBuilderProvider,
+  $t as TemplateBuilderRoutes,
+  Rt as buildTemplatePreviewDataContext,
   Pe as defaultTemplatePreviewData,
   tt as initTemplateBuilder,
-  _t as templateBuilderEmptyStateTemplate,
-  $t as useBuilderCatalog,
+  jt as templateBuilderEmptyStateTemplate,
+  _t as useBuilderCatalog,
   H as useTemplateBuilderStore
 };

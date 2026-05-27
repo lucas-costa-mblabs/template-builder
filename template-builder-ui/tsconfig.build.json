@@ -17,5 +17,5 @@
     "emitDeclarationOnly": true
   },
   "include": ["."],
-  "exclude": ["dist", "node_modules", "vite.config.ts"]
+  "exclude": ["dist", "node_modules", "vite.config.ts", "vite.dev.config.ts", "dev"]
 }

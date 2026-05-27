@@ -111,6 +111,7 @@ export default function TemplateBuilderPreview({
                 alignItems: 'center',
                 justifyContent: 'center',
                 overflow: 'visible',
+                position: 'relative',
                 ...wrapperStyle,
             }}
         >
