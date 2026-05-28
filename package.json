@@ -25,8 +25,13 @@
     "build:lib": "cd lib-sdk/react-lib && npm run build",
     "build:ui": "cd template-builder-ui && npm install && npm run build",
     "build:react": "cd client-react && npm run build",
-    "build:flutter": "cd client_flutter && flutter build",
-    "build:all": "npm run build:lib && concurrently \"npm run build:react\" \"npm run build:flutter\"",
+    "build:flutter:android": "cd client_flutter && flutter build apk",
+    "build:flutter:ios": "cd client_flutter && flutter build ios --no-codesign",
+    "build:flutter": "concurrently \"npm run build:flutter:android\" \"npm run build:flutter:ios\"",
+    "build:all": "npm run build:lib && npm run build:ui && concurrently \"npm run build:react\" \"npm run build:flutter\"",
     "test:all": "npm test --prefix lib-sdk/react-lib && cd lib-sdk/flutter-sdk && flutter test"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
   }
 }
