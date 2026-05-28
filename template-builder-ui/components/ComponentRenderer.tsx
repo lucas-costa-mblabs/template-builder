@@ -22,7 +22,11 @@ interface HeaderRendererProps {
   resolvedTitle: string;
   resolvedImageUrl: string;
   abbreviation: string;
-  renderIcon: (icon: string, color: string, size?: number | string) => React.ReactNode;
+  renderIcon: (
+    icon: string,
+    color: string,
+    size?: number | string,
+  ) => React.ReactNode;
   colorToHex: (token?: string) => string | undefined;
   resolveVariables: (str: string) => string;
   selectionStyle: React.CSSProperties;
@@ -143,7 +147,7 @@ function HeaderRenderer({
               style={{
                 fontSize: "14px",
                 fontWeight: 600,
-                color: "var(--text-primary)",
+                color: "var(--tb-text-primary)",
               }}
             >
               {abbreviation}
@@ -157,7 +161,7 @@ function HeaderRenderer({
             flex: 1,
             fontWeight: 600,
             fontSize: "14px",
-            color: "var(--text-primary)",
+            color: "var(--tb-text-primary)",
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
@@ -211,7 +215,9 @@ function HeaderRenderer({
                   setMenuOpen(false);
                   if (item.action) {
                     console.log("Action Triggered (Menu Item):", item.action);
-                    alert(`Action: ${item.action.type}\nPayload: ${JSON.stringify(item.action.payload)}`);
+                    alert(
+                      `Action: ${item.action.type}\nPayload: ${JSON.stringify(item.action.payload)}`,
+                    );
                   }
                 }}
                 style={{
@@ -280,41 +286,55 @@ export default function ComponentRenderer({
   const tokenToPx = (token?: string) => {
     if (!token) return undefined;
     if (theme?.spacing && token in theme.spacing) {
-        return theme.spacing[token as keyof Theme["spacing"]];
+      return theme.spacing[token as keyof Theme["spacing"]];
     }
     // Fallback if token not in dynamic theme
     switch (token) {
-      case "xs": return "4px";
-      case "sm": return "8px";
-      case "md": return "16px";
-      case "lg": return "24px";
-      case "xl": return "32px";
-      case "xxl": return "48px";
-      default: return token.includes('px') || token.includes('%') ? token : undefined;
+      case "xs":
+        return "4px";
+      case "sm":
+        return "8px";
+      case "md":
+        return "16px";
+      case "lg":
+        return "24px";
+      case "xl":
+        return "32px";
+      case "xxl":
+        return "48px";
+      default:
+        return token.includes("px") || token.includes("%") ? token : undefined;
     }
   };
 
   const colorToHex = (token?: string) => {
     if (!token) return undefined;
     if (theme?.colors && token in theme.colors) {
-        return theme.colors[token as keyof Theme["colors"]];
+      return theme.colors[token as keyof Theme["colors"]];
     }
     // Fallback if token not in dynamic theme
     switch (token) {
-      case "white": return "#ffffff";
-      case "gray-100": return "#f3f4f6";
-      case "gray-200": return "#e2e8f0";
-      case "gray-800": return "#1f2937";
-      case "gray-900": return "#111827";
-      case "primary": return "#6366f1";
-      default: return token; // Fallback
+      case "white":
+        return "#ffffff";
+      case "gray-100":
+        return "#f3f4f6";
+      case "gray-200":
+        return "#e2e8f0";
+      case "gray-800":
+        return "#1f2937";
+      case "gray-900":
+        return "#111827";
+      case "primary":
+        return "#6366f1";
+      default:
+        return token; // Fallback
     }
   };
 
   const mockDataContext = {
     post: {
-      title: "Chaleira Elétrica Cadence 1,8L Inox Control 127V CEL850",
-      description: "",
+      title: "Titulo do post",
+      description: "Chaleira Elétrica Cadence 1,8L Inox Control 127V CEL850",
       originalPrice: "89,90",
       price: "39,90",
       discount: "26",
@@ -322,13 +342,13 @@ export default function ComponentRenderer({
       contentType: "catalog",
       url: "https://cdn.luxuryloyalty.com/media/product/detail/9c3adfe3-00d6-4e1a-9e4f-be925067f2d6-1.jpg",
       profile: {
-        accountName: "Rede Sol Alfredo Antunes",
-        iconUrl: "https://images.dev-directoai.com.br/2c812754-1fb4-4446-9fe2-b7ce3fcb9c5a/profile_image/profile_image.jpg",
-        description: "A Rede Sol Antunes em Mirassol foi inaugurada em 1946, conta com quatro amplas unidades na cidade, com estacionamento próprio com capacidade para 270 veículos, grande variedade de produtos em todos os setores, restaurante e rotisseria próprios e uma equipe de 410 colaboradores prontos para servir da melhor maneira.",
+        accountName: "Flash Shopping",
+        iconUrl:
+          "https://cockpit-app.dev-directoai.com.br/assets/creator_logo-BVuuYkvo.png",
+        description:
+          "A Rede Sol Antunes em Mirassol foi inaugurada em 1946, conta com quatro amplas unidades na cidade, com estacionamento próprio com capacidade para 270 veículos, grande variedade de produtos em todos os setores, restaurante e rotisseria próprios e uma equipe de 410 colaboradores prontos para servir da melhor maneira.",
       },
-      customVariables: {
-        html: "<div style='color: #6366f1; font-weight: bold;'>Custom HTML from Variable</div>"
-      }
+      customVariables: {},
     },
   };
 
@@ -338,7 +358,11 @@ export default function ComponentRenderer({
       const parts = path.trim().split(".");
       let current: unknown = dataContext || mockDataContext;
       for (const part of parts) {
-        if (current && typeof current === "object" && part in (current as Record<string, unknown>)) {
+        if (
+          current &&
+          typeof current === "object" &&
+          part in (current as Record<string, unknown>)
+        ) {
           current = (current as Record<string, unknown>)[part];
         } else {
           return match; // Return as is if not found
@@ -405,7 +429,8 @@ export default function ComponentRenderer({
     : {};
 
   const baseStyle: React.CSSProperties = {
-    flex: node.flex || (("height" in node && node.height === "100%") ? 1 : undefined),
+    flex:
+      node.flex || ("height" in node && node.height === "100%" ? 1 : undefined),
   };
 
   if (node.type === "text") {
@@ -449,9 +474,14 @@ export default function ComponentRenderer({
           fontSize,
           fontWeight: fontWeightStr,
           textAlign: textNode.textAlign || "left",
-          color: textNode.color ? colorToHex(textNode.color) : "var(--text-primary)",
+          color: textNode.color
+            ? colorToHex(textNode.color)
+            : "var(--tb-text-primary)",
           padding: "0",
-          cursor: (("action" in node && node.action) || isSelected) ? "pointer" : "default",
+          cursor:
+            ("action" in node && node.action) || isSelected
+              ? "pointer"
+              : "default",
           ...baseStyle,
           ...selectionStyle,
           ...dragIndicatorStyle,
@@ -478,14 +508,18 @@ export default function ComponentRenderer({
   const getRadius = (r?: string) => {
     if (!r) return "0";
     if (theme?.borderRadius && r in theme.borderRadius) {
-        return theme.borderRadius[r as keyof Theme["borderRadius"]];
+      return theme.borderRadius[r as keyof Theme["borderRadius"]];
     }
     switch (r) {
-      case "sm": return "4px";
-      case "md": return "8px";
+      case "sm":
+        return "4px";
+      case "md":
+        return "8px";
       case "lg":
-      case "full": return "9999px";
-      default: return r.includes('px') ? r : "0";
+      case "full":
+        return "9999px";
+      default:
+        return r.includes("px") ? r : "0";
     }
   };
 
@@ -539,7 +573,6 @@ export default function ComponentRenderer({
         }}
         className="builder-container-node"
       >
-
         {containerNode.blocks && containerNode.blocks.length > 0 ? (
           containerNode.blocks.map((child) => (
             <ComponentRenderer
@@ -639,21 +672,15 @@ export default function ComponentRenderer({
           alignItems: "center",
           justifyContent: "center",
           borderRadius: "4px",
-          cursor: (mediaNode.action || isSelected) ? "pointer" : "default",
+          cursor: mediaNode.action || isSelected ? "pointer" : "default",
           overflow: "hidden",
           ...baseStyle,
           ...selectionStyle,
           ...dragIndicatorStyle,
         }}
         onClick={(e) => {
-          if (mediaNode.action) {
-            e.stopPropagation();
-            console.log("Action Triggered (Media):", mediaNode.action);
-            alert(`Media Action: ${mediaNode.action.type}`);
-          } else {
-            e.stopPropagation();
-            onSelect(node.id);
-          }
+          e.stopPropagation();
+          onSelect(node.id);
         }}
       >
         {mediaNode.url ? (
@@ -733,9 +760,12 @@ export default function ComponentRenderer({
       >
         <div style={{ display: "flex", alignItems: "center", gap: gapIcons }}>
           {showLike && (
-            <div 
+            <div
               onClick={(e) => {
-                const action = interactionsNode.onLike || { type: "UI_ACTION", payload: { actionName: "like" } };
+                const action = interactionsNode.onLike || {
+                  type: "UI_ACTION",
+                  payload: { actionName: "like" },
+                };
                 e.stopPropagation();
                 alert(`Action: Like (${action.payload.actionName})`);
               }}
@@ -745,9 +775,12 @@ export default function ComponentRenderer({
             </div>
           )}
           {showSave && (
-            <div 
+            <div
               onClick={(e) => {
-                const action = interactionsNode.onSave || { type: "UI_ACTION", payload: { actionName: "save" } };
+                const action = interactionsNode.onSave || {
+                  type: "UI_ACTION",
+                  payload: { actionName: "save" },
+                };
                 e.stopPropagation();
                 alert(`Action: Save (${action.payload.actionName})`);
               }}
@@ -759,9 +792,12 @@ export default function ComponentRenderer({
         </div>
         <div>
           {showShare && (
-            <div 
+            <div
               onClick={(e) => {
-                const action = interactionsNode.onShare || { type: "UI_ACTION", payload: { actionName: "share" } };
+                const action = interactionsNode.onShare || {
+                  type: "UI_ACTION",
+                  payload: { actionName: "share" },
+                };
                 e.stopPropagation();
                 alert(`Action: Share (${action.payload.actionName})`);
               }}
@@ -831,7 +867,11 @@ export default function ComponentRenderer({
             )}
         </div>
         <span
-          style={{ fontSize: "20px", fontWeight: "bold", color: "var(--text-primary)" }}
+          style={{
+            fontSize: "20px",
+            fontWeight: "bold",
+            color: "var(--tb-text-primary)",
+          }}
         >
           {resolveVariables(priceNode.price)}
         </span>
@@ -946,17 +986,22 @@ export default function ComponentRenderer({
         }}
       >
         {url ? (
-          <img 
-            src={url} 
-            alt="Avatar" 
-            style={{ width: "100%", height: "100%", objectFit: "cover" }} 
+          <img
+            src={url}
+            alt="Avatar"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
             onError={(e) => {
-              (e.target as HTMLImageElement).style.display = 'none';
+              (e.target as HTMLImageElement).style.display = "none";
               // Should show fallback icon if error
             }}
           />
         ) : null}
-        {(!url) && renderIcon(avatarNode.icon || "user", colorToHex("gray-400") || "#9ca3af", size * 0.6)}
+        {!url &&
+          renderIcon(
+            avatarNode.icon || "user",
+            colorToHex("gray-400") || "#9ca3af",
+            size * 0.6,
+          )}
       </div>
     );
   }
@@ -990,7 +1035,11 @@ export default function ComponentRenderer({
           ...dragIndicatorStyle,
         }}
       >
-        {renderIcon(iconNode.icon || "star", colorToHex("gray-500") || "#64748b", iconNode.size || 20)}
+        {renderIcon(
+          iconNode.icon || "star",
+          colorToHex("gray-500") || "#64748b",
+          iconNode.size || 20,
+        )}
       </div>
     );
   }

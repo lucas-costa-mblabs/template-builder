@@ -8,10 +8,22 @@ import { DEFAULT_THEME, mergeWithDefaultTheme } from "./defaultTheme.js";
 interface APITheme {
   primaryColor?: string;
   secondaryColor?: string;
+  colors?: Record<string, string>;
+  spacing?: Record<string, string>;
+  borderRadius?: Record<string, string>;
+  typography?: Record<string, string>;
 }
 
 function apiThemeToTheme(apiTheme: APITheme | null | undefined): Theme {
   if (!apiTheme) return DEFAULT_THEME;
+  if (apiTheme.colors) {
+    return {
+      colors: { ...DEFAULT_THEME.colors, ...apiTheme.colors },
+      spacing: { ...DEFAULT_THEME.spacing, ...apiTheme.spacing },
+      borderRadius: { ...DEFAULT_THEME.borderRadius, ...apiTheme.borderRadius },
+      typography: { ...DEFAULT_THEME.typography, ...apiTheme.typography },
+    };
+  }
   return mergeWithDefaultTheme({
     colors: {
       ...(apiTheme.primaryColor && { primary: apiTheme.primaryColor }),

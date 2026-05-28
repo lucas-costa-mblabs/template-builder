@@ -111,7 +111,7 @@ const DynamicField = ({
           border: "none",
           cursor: "pointer",
           fontSize: "12px",
-          color: "var(--primary-color)",
+          color: "var(--tb-primary-color)",
           fontWeight: "bold",
           display: "flex",
           alignItems: "center",
@@ -138,8 +138,8 @@ const DynamicField = ({
           position: "absolute",
           top: "100%",
           right: 0,
-          background: "var(--bg-panel)",
-          border: "1px solid var(--border-color)",
+          background: "var(--tb-bg-panel)",
+          border: "1px solid var(--tb-border-color)",
           borderRadius: "4px",
           boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1)",
           zIndex: 100,
@@ -161,8 +161,8 @@ const DynamicField = ({
               padding: "8px 12px",
               fontSize: "12px",
               cursor: "pointer",
-              borderBottom: "1px solid var(--border-color)",
-              color: "var(--text-primary)",
+              borderBottom: "1px solid var(--tb-border-color)",
+              color: "var(--tb-text-primary)",
             }}
             className="dynamic-tag-item"
           >
@@ -210,7 +210,7 @@ const ActionEditor = ({
 
   return (
     <div style={{ 
-      border: "1px solid var(--border-color)", 
+      border: "1px solid var(--tb-border-color)", 
       borderRadius: "6px", 
       marginBottom: "8px", 
       background: "rgba(0,0,0,0.02)",
@@ -229,13 +229,13 @@ const ActionEditor = ({
       >
         <div style={{ display: "flex", flexDirection: "column" }}>
           <span style={{ fontWeight: 600, fontSize: "10px", textTransform: "uppercase", opacity: 0.7 }}>{label}</span>
-          {!isExpanded && <span style={{ fontSize: "11px", opacity: 0.8, color: "var(--text-primary)" }}>{getSummary()}</span>}
+          {!isExpanded && <span style={{ fontSize: "11px", opacity: 0.8, color: "var(--tb-text-primary)" }}>{getSummary()}</span>}
         </div>
         {isExpanded ? <Icons.CaretDownOutlined style={{fontSize: '12px'}} /> : <Icons.CaretRightOutlined style={{fontSize: '12px'}} />}
       </div>
       
       {isExpanded && (
-        <div style={{ padding: "10px", borderTop: "1px solid var(--border-color)" }}>
+        <div style={{ padding: "10px", borderTop: "1px solid var(--tb-border-color)" }}>
           <div style={{ marginBottom: "8px" }}>
             <label style={{ fontSize: "10px" }}>Tipo de Ação</label>
             <select
@@ -534,7 +534,7 @@ export default function PropertiesPopup({
                       onChange={(e) => onUpdateNode(selectedNode.id, { paddingX: (e.target.value || undefined) as TokenType })}
                       style={{ marginBottom: 0, flex: 1 }}
                     >
-                      <option value="">H</option>
+                      <option value="">None</option>
                       <option value="xs">4</option>
                       <option value="sm">8</option>
                       <option value="md">16</option>
@@ -545,7 +545,7 @@ export default function PropertiesPopup({
                       onChange={(e) => onUpdateNode(selectedNode.id, { paddingY: (e.target.value || undefined) as TokenType })}
                       style={{ marginBottom: 0, flex: 1 }}
                     >
-                      <option value="">V</option>
+                      <option value="">None</option>
                       <option value="xs">4</option>
                       <option value="sm">8</option>
                       <option value="md">16</option>
@@ -561,7 +561,7 @@ export default function PropertiesPopup({
                       onChange={(e) => onUpdateNode(selectedNode.id, { marginX: (e.target.value || undefined) as TokenType })}
                       style={{ marginBottom: 0, flex: 1 }}
                     >
-                      <option value="">H</option>
+                      <option value="">None</option>
                       <option value="xs">4</option>
                       <option value="sm">8</option>
                       <option value="md">16</option>
@@ -572,10 +572,10 @@ export default function PropertiesPopup({
                       onChange={(e) => onUpdateNode(selectedNode.id, { marginY: (e.target.value || undefined) as TokenType })}
                       style={{ marginBottom: 0, flex: 1 }}
                     >
-                      <option value="">V</option>
+                      <option value="">None</option>
                       <option value="xs">4</option>
                       <option value="sm">8</option>
-                      <option value="md" >16</option>
+                      <option value="md">16</option>
                       <option value="lg">24</option>
                     </select>
                   </div>
@@ -688,7 +688,7 @@ export default function PropertiesPopup({
 
         {selectedNode.type === "container" && activeTab === "config" && (
           <div className="prop-group" style={{ borderTop: "none", marginTop: 0 }}>
-            <div style={{ color: "var(--text-secondary)", fontSize: "12px", textAlign: "center", padding: "20px 0" }}>
+            <div style={{ color: "var(--tb-text-secondary)", fontSize: "12px", textAlign: "center", padding: "20px 0" }}>
               No configuration properties for this component.
             </div>
           </div>
@@ -1089,7 +1089,7 @@ export default function PropertiesPopup({
                     border: "none",
                     cursor: "pointer",
                     fontSize: "12px",
-                    color: "var(--primary-color)",
+                    color: "var(--tb-primary-color)",
                     fontWeight: "bold",
                     display: "flex",
                     alignItems: "center",
@@ -1115,7 +1115,7 @@ export default function PropertiesPopup({
                   fontSize: "12px",
                   fontFamily: "monospace",
                   borderRadius: "4px",
-                  border: "1px solid var(--border-color)",
+                  border: "1px solid var(--tb-border-color)",
                   background: "white",
                   resize: "vertical",
                 }}
@@ -1127,8 +1127,8 @@ export default function PropertiesPopup({
                     position: "absolute",
                     top: "100%",
                     right: 0,
-                    background: "var(--bg-panel)",
-                    border: "1px solid var(--border-color)",
+                    background: "var(--tb-bg-panel)",
+                    border: "1px solid var(--tb-border-color)",
                     borderRadius: "4px",
                     boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1)",
                     zIndex: 101,
@@ -1150,8 +1150,8 @@ export default function PropertiesPopup({
                         padding: "8px 12px",
                         fontSize: "11px",
                         cursor: "pointer",
-                        borderBottom: "1px solid var(--border-color)",
-                        color: "var(--text-primary)",
+                        borderBottom: "1px solid var(--tb-border-color)",
+                        color: "var(--tb-text-primary)",
                       }}
                       className="dynamic-tag-item"
                     >
@@ -1775,7 +1775,7 @@ export default function PropertiesPopup({
 
         {/* Header Properties */}
         {selectedNode.type === "header" && activeTab === "design" && (
-           <div style={{ textAlign: "center", padding: "20px", opacity: 0.5, color: "var(--text-secondary)"}}>
+           <div style={{ textAlign: "center", padding: "20px", opacity: 0.5, color: "var(--tb-text-secondary)"}}>
              Header uses system-defined layout
            </div>
         )}
@@ -1826,7 +1826,7 @@ export default function PropertiesPopup({
                     onUpdateNode(selectedNode.id, { menuItems: items });
                   }}
                   style={{
-                    background: "var(--primary-color)",
+                    background: "var(--tb-primary-color)",
                     color: "#fff",
                     border: "none",
                     borderRadius: "4px",
@@ -1846,10 +1846,10 @@ export default function PropertiesPopup({
                   <div
                      key={idx}
                      style={{
-                       border: "1px solid var(--border-color)",
+                       border: "1px solid var(--tb-border-color)",
                        borderRadius: "6px",
                        marginBottom: "8px",
-                       background: "var(--bg-panel)",
+                       background: "var(--tb-bg-panel)",
                        overflow: "hidden"
                      }}
                   >
@@ -1892,7 +1892,7 @@ export default function PropertiesPopup({
                     </div>
 
                     {isExpanded && (
-                      <div style={{ padding: "8px", display: "flex", flexDirection: "column", gap: "6px", borderTop: "1px solid var(--border-color)" }}>
+                      <div style={{ padding: "8px", display: "flex", flexDirection: "column", gap: "6px", borderTop: "1px solid var(--tb-border-color)" }}>
                         <div style={{ display: "grid", gridTemplateColumns: "80px 1fr", gap: "8px" }}>
                           <div>
                             <label style={{ fontSize: "10px", margin: 0, opacity: 0.7 }}>Ícone</label>

@@ -37,10 +37,22 @@ function templateToApi(template: TemplateBuilderTemplate): TemplateAPIPayload {
 interface APITheme {
   primaryColor?: string;
   secondaryColor?: string;
+  colors?: Record<string, string>;
+  spacing?: Record<string, string>;
+  borderRadius?: Record<string, string>;
+  typography?: Record<string, string>;
 }
 
 function apiThemeToTheme(apiTheme: APITheme | null | undefined): Theme {
   if (!apiTheme) return defaultTheme;
+  if (apiTheme.colors) {
+    return {
+      colors: { ...defaultTheme.colors, ...apiTheme.colors },
+      spacing: { ...defaultTheme.spacing, ...apiTheme.spacing },
+      borderRadius: { ...defaultTheme.borderRadius, ...apiTheme.borderRadius },
+      typography: { ...defaultTheme.typography, ...apiTheme.typography },
+    };
+  }
   return {
     ...defaultTheme,
     colors: {
@@ -62,8 +74,10 @@ export async function getGlobalTheme(): Promise<Theme> {
 
 function themeToApiTheme(theme: Theme): APITheme {
   return {
-    primaryColor: theme.colors.primary,
-    secondaryColor: theme.colors.secondary,
+    colors: theme.colors,
+    spacing: theme.spacing,
+    borderRadius: theme.borderRadius,
+    typography: theme.typography,
   };
 }
 
@@ -79,9 +93,16 @@ export async function getTemplates(): Promise<TemplateBuilderTemplate[]> {
 }
 
 export async function getTemplateById(id: string): Promise<TemplateBuilderTemplate | undefined> {
-  const response = await getTemplateClient().get(`/templates/${id}`);
-  const data: TemplateAPIPayload = response.data?.data ?? response.data;
-  return data ? apiToTemplate(data) : undefined;
+  try {
+    const response = await getTemplateClient().get(`/templates/${id}`);
+    const data: TemplateAPIPayload = response.data?.data ?? response.data;
+    return data ? apiToTemplate(data) : undefined;
+  } catch (error: unknown) {
+    if ((error as { response?: { status?: number } })?.response?.status === 404) {
+      return undefined;
+    }
+    throw error;
+  }
 }
 
 export async function createTemplate(template: TemplateBuilderTemplate): Promise<void> {

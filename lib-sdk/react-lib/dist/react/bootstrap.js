@@ -2,6 +2,14 @@ import { DEFAULT_THEME, mergeWithDefaultTheme } from "./defaultTheme.js";
 function apiThemeToTheme(apiTheme) {
     if (!apiTheme)
         return DEFAULT_THEME;
+    if (apiTheme.colors) {
+        return {
+            colors: { ...DEFAULT_THEME.colors, ...apiTheme.colors },
+            spacing: { ...DEFAULT_THEME.spacing, ...apiTheme.spacing },
+            borderRadius: { ...DEFAULT_THEME.borderRadius, ...apiTheme.borderRadius },
+            typography: { ...DEFAULT_THEME.typography, ...apiTheme.typography },
+        };
+    }
     return mergeWithDefaultTheme({
         colors: {
             ...(apiTheme.primaryColor && { primary: apiTheme.primaryColor }),
