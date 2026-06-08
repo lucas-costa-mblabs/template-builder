@@ -1,0 +1,116 @@
+import { jsx as _jsx } from "react/jsx-runtime";
+import { describe, expect, it, vi } from "vitest";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { TemplateProvider } from "./TemplateProvider.js";
+import { HeaderNode } from "./nodes/HeaderNode.js";
+describe("Report Dialog", () => {
+    const mockTheme = {
+        colors: { primary: "#0d63d6" },
+        spacing: { md: "16px" },
+        borderRadius: { md: "8px" },
+        typography: {},
+    };
+    const mockConfig = {
+        accountId: "acc_123",
+        apiKey: "api_456",
+        customerId: "cust_789",
+    };
+    it("should open report dialog from header menu and submit data", async () => {
+        const onReportSubmit = vi.fn();
+        render(_jsx(TemplateProvider, { theme: mockTheme, config: mockConfig, onReportSubmit: onReportSubmit, children: _jsx(HeaderNode, { node: {
+                    id: "header-1",
+                    type: "header",
+                    imageUrl: "{{post.profile.iconUrl}}",
+                    title: "{{post.profile.accountName}}",
+                    menuItems: [
+                        {
+                            icon: "report",
+                            text: "Denunciar anúncio",
+                            action: {
+                                type: "UI_ACTION",
+                                payload: { actionName: "report" },
+                            },
+                        },
+                    ],
+                }, dataContext: {
+                    post: {
+                        contentId: "content_1",
+                        campaignId: "campaign_1",
+                        title: "Raquete de Tênis Babolat Pure Aero",
+                        profile: {
+                            accountName: "Super Zeus",
+                            iconUrl: "https://example.com/avatar.png",
+                        },
+                    },
+                } }) }));
+        fireEvent.click(screen.getByRole("button", { name: /abrir opções/i }));
+        fireEvent.click(screen.getByText("Denunciar anúncio"));
+        expect(screen.getByRole("dialog", { name: "Denunciar anúncio" })).toBeInTheDocument();
+        fireEvent.click(screen.getByLabelText("Outro motivo"));
+        fireEvent.change(screen.getByPlaceholderText("Descreva o motivo da denúncia..."), {
+            target: { value: "Conteúdo suspeito" },
+        });
+        fireEvent.click(screen.getByRole("button", { name: "Enviar denúncia" }));
+        expect(onReportSubmit).toHaveBeenCalledWith(expect.objectContaining({
+            reasonId: "other_reason",
+            reasonLabel: "Outro motivo",
+            details: "Conteúdo suspeito",
+            contentId: "content_1",
+            campaignId: "campaign_1",
+            title: "Raquete de Tênis Babolat Pure Aero",
+        }), expect.objectContaining({
+            report: expect.objectContaining({
+                reasonId: "other_reason",
+                details: "Conteúdo suspeito",
+            }),
+        }));
+    });
+    it("should toggle follow label in header menu", async () => {
+        const tracker = {
+            trackEvent: vi.fn().mockResolvedValue(undefined),
+            trackImpression: vi.fn().mockResolvedValue(undefined),
+            trackViewTime: vi.fn().mockResolvedValue(undefined),
+            toggleLike: vi.fn().mockResolvedValue(undefined),
+            followAccount: vi.fn().mockResolvedValue(undefined),
+            unfollowAccount: vi.fn().mockResolvedValue(undefined),
+            toggleFollowAccount: vi.fn().mockResolvedValue(undefined),
+            addFavorite: vi.fn().mockResolvedValue(undefined),
+            removeFavorite: vi.fn().mockResolvedValue(undefined),
+            toggleFavorite: vi.fn().mockResolvedValue(undefined),
+            reportContent: vi.fn().mockResolvedValue(undefined),
+            shareContent: vi.fn().mockResolvedValue(undefined),
+        };
+        render(_jsx(TemplateProvider, { theme: mockTheme, config: mockConfig, tracker: tracker, children: _jsx(HeaderNode, { node: {
+                    id: "header-follow",
+                    type: "header",
+                    imageUrl: "{{post.profile.iconUrl}}",
+                    title: "{{post.profile.accountName}}",
+                    menuItems: [
+                        {
+                            icon: "user",
+                            text: "Seguir",
+                            action: {
+                                type: "UI_ACTION",
+                                payload: { actionName: "follow" },
+                            },
+                        },
+                    ],
+                }, dataContext: {
+                    post: {
+                        accountId: "profile_1",
+                        profile: {
+                            accountName: "Super Zeus",
+                            iconUrl: "https://example.com/avatar.png",
+                        },
+                    },
+                } }) }));
+        fireEvent.click(screen.getByRole("button", { name: /abrir opções/i }));
+        fireEvent.click(screen.getByText("Seguir"));
+        await waitFor(() => {
+            expect(tracker.toggleFollowAccount).toHaveBeenCalledWith("profile_1", false);
+        });
+        fireEvent.click(screen.getByRole("button", { name: /abrir opções/i }));
+        expect(screen.getByText("Deixar de seguir")).toBeInTheDocument();
+    });
+});
+//# sourceMappingURL=ReportDialog.test.js.map

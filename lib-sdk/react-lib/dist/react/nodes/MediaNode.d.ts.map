@@ -1,0 +1,1 @@
+{"version":3,"file":"MediaNode.d.ts","sourceRoot":"","sources":["../../../src/react/nodes/MediaNode.tsx"],"names":[],"mappings":"AAEA,OAAO,KAAK,EAAE,aAAa,EAAE,MAAM,qBAAqB,CAAC;AAYzD,UAAU,cAAc;IACtB,IAAI,EAAE,aAAa,CAAC;IACpB,WAAW,CAAC,EAAE,MAAM,CAAC,MAAM,EAAE,OAAO,CAAC,CAAC;CACvC;AAED,wBAAgB,SAAS,CAAC,EAAE,IAAI,EAAE,WAAW,EAAE,EAAE,cAAc,kDA0T9D"}
