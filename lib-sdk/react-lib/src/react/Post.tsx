@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import type {
   Post as PostType,
   ComponentNode,
@@ -118,16 +118,19 @@ export function Post({ post, template: providedTemplate }: PostProps) {
 
   const blocks = template.data as ComponentNode[];
   const customVars = (post as any).customVariables || {};
-  const dataContext: Record<string, unknown> = {
-    post: {
-      ...post,
-      profile: (post as any).profile || customVars.profile || {},
-      shop: post.shop || {
-        name: customVars.profile?.accountName || "",
-        avatar: customVars.profile?.iconUrl || "",
+  const dataContext: Record<string, unknown> = useMemo(
+    () => ({
+      post: {
+        ...post,
+        profile: (post as any).profile || customVars.profile || {},
+        shop: post.shop || {
+          name: customVars.profile?.accountName || "",
+          avatar: customVars.profile?.iconUrl || "",
+        },
       },
-    },
-  };
+    }),
+    [post],
+  );
 
   return (
     <div

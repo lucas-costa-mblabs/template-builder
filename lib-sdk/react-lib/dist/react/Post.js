@@ -1,5 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTemplateContext } from "./context.js";
 import { JSONRenderer } from "./JSONRenderer.js";
 import { useImpressionObserver } from "./hooks/useImpressionObserver.js";
@@ -79,7 +79,7 @@ export function Post({ post, template: providedTemplate }) {
     }
     const blocks = template.data;
     const customVars = post.customVariables || {};
-    const dataContext = {
+    const dataContext = useMemo(() => ({
         post: {
             ...post,
             profile: post.profile || customVars.profile || {},
@@ -88,7 +88,7 @@ export function Post({ post, template: providedTemplate }) {
                 avatar: customVars.profile?.iconUrl || "",
             },
         },
-    };
+    }), [post]);
     return (_jsx("div", { ref: elementRef, style: {
             width: "100%",
             display: "flex",
